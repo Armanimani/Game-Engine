@@ -44,6 +44,26 @@ void Debug::print(const InputEvent & event)
 	std::cout << std::endl;
 }
 
+void Debug::print(const USIVec2& vec)
+{
+	std::cout << "X = " << vec.x << "     " << "Y = " << vec.y << std::endl;
+}
+
+void Debug::print(const std::shared_ptr<USIVec2>& vec)
+{
+	std::cout << "X = " << vec->x << "     " << "Y = " << vec->y << std::endl;
+}
+
+void Debug::print(const FVec2& vec)
+{
+	std::cout << "X = " << vec.x << "     " << "Y = " << vec.y << std::endl;
+}
+
+void Debug::print(const std::shared_ptr<FVec2>& vec)
+{
+	std::cout << "X = " << vec->x << "     " << "Y = " << vec->y << std::endl;
+}
+
 void Debug::createKeyMap()
 {
 	keyMap.insert(std::make_pair(KeyCode::NO_CODE, "NO_CODE"));
@@ -176,12 +196,8 @@ void Debug::createInputEventTypeMap()
 	eventTypeMap.insert(std::make_pair(InputEventType::KEY_DOWN, "KEY_DOWN"));
 	eventTypeMap.insert(std::make_pair(InputEventType::KEY_UP, "KEY_UP"));
 
-	eventTypeMap.insert(std::make_pair(InputEventType::MOUSEL_DOWN, "MOUSEL_DOWN"));
-	eventTypeMap.insert(std::make_pair(InputEventType::MOUSEL_UP, "MOUSEL_UP"));
-	eventTypeMap.insert(std::make_pair(InputEventType::MOUSER_DOWN, "MOUSER_DOWN"));
-	eventTypeMap.insert(std::make_pair(InputEventType::MOUSER_UP, "MOUSER_UP"));
-	eventTypeMap.insert(std::make_pair(InputEventType::MOUSEM_DOWN, "MOUSEM_DOWN"));
-	eventTypeMap.insert(std::make_pair(InputEventType::MOUSEM_UP, "MOUSEM_UP"));
+	eventTypeMap.insert(std::make_pair(InputEventType::MOUSE_DOWN, "MOUSE_DOWN"));
+	eventTypeMap.insert(std::make_pair(InputEventType::MOUSE_UP, "MOUSE_UP"));
 }
 
 std::string Debug::keyCode_toString(KeyCode c)

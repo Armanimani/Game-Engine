@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "debug\Debug.h"
+#include <conio.h>
 Engine::Engine()
 {
 	window = std::make_unique<Win32Window>();
@@ -10,13 +11,13 @@ void Engine::init()
 	initConsole();
 
 	window->init();
+	window->createWindow();
+	window->showWindow();
+	window->setInputMapper(inMapper);
 }
 
 void Engine::run()
 {
-	window->createWindow();
-	window->showWindow();
-
 	MSG msg;
 
 	while (true)
@@ -30,12 +31,22 @@ void Engine::run()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+		//Sleep(100);
+		//Debug::print(window->getMousePosition());
 	}
 }
 
 void Engine::shutDown()
 {
 	window->killWinodw();
+}
+
+void Engine::registerScene(Scene& s)
+{
+	// TODO for now! 
+	scene = &s;
+	scene->setWindowHandle(window->getWindowHandle());
+	inMapper.registerScene(s);
 }
 
 void Engine::initConsole()

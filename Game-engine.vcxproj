@@ -148,17 +148,22 @@
   <ItemGroup>
     <ClCompile Include="src\engine\debug\Debug.cpp" />
     <ClCompile Include="src\engine\Engine.cpp" />
-    <ClCompile Include="src\engine\userInput\rawInput\win32\Win32RawInput.cpp" />
+    <ClCompile Include="src\engine\scene\Scene.cpp" />
+    <ClCompile Include="src\engine\userInput\inputMapper\InputMapper.cpp" />
     <ClCompile Include="src\engine\window\win32\Win32Window.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\debug\Debug.h" />
     <ClInclude Include="src\engine\Engine.h" />
+    <ClInclude Include="src\engine\scene\Scene.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEventType.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEvent.h" />
+    <ClInclude Include="src\engine\userInput\inputEvent\InputHandlerCode.h" />
+    <ClInclude Include="src\engine\userInput\inputMapper\InputMapper.h" />
     <ClInclude Include="src\engine\userInput\keyCode\KeyCode.h" />
-    <ClInclude Include="src\engine\userInput\rawInput\win32\Win32RawInput.h" />
+    <ClInclude Include="src\engine\util\vector\FVec2.h" />
+    <ClInclude Include="src\engine\util\vector\USIVec2.h" />
     <ClInclude Include="src\engine\window\win32\Win32Window.h" />
     <ClInclude Include="src\engine\window\Window.h" />
     <ClInclude Include="src\engine\window\WindowSettings.h" />
