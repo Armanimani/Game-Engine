@@ -12,11 +12,11 @@ class Window
 public:
 	virtual void init() = 0;
 
-	inline void setInputMapper(InputMapper& mapper);
+	inline void setInputMapper(std::shared_ptr<InputMapper> mapper);
 
 	virtual void createWindow() = 0;
 	virtual void showWindow() = 0;
-	virtual void killWinodw() = 0;
+	virtual void killWindow() = 0;
 
 	virtual void setWindowTitle(const std::string& title) = 0;
 	inline virtual const std::string& getWindowTitle() const;
@@ -43,12 +43,12 @@ public:
 
 protected:
 	WindowSettings settings;
-	static InputMapper* inMapper;
+	static std::shared_ptr<InputMapper> inMapper;
 };
 
-void Window::setInputMapper(InputMapper& mapper)
+void Window::setInputMapper(std::shared_ptr<InputMapper> mapper)
 {
-	inMapper = &mapper;
+	inMapper = mapper;
 }
 
 const std::string& Window::getWindowTitle() const

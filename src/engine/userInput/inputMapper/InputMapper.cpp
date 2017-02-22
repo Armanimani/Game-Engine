@@ -4,7 +4,6 @@
 void InputMapper::registerScene(Scene& scene)
 {
 	scenes.push_back(&scene);
-	Debug::print("done");
 }
 
 const int InputMapper::registerEvent(const InputEvent& event, const InputHandlerCode& code)

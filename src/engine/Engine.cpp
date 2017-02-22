@@ -1,9 +1,12 @@
 #include "Engine.h"
 #include "debug\Debug.h"
 #include <conio.h>
+
 Engine::Engine()
 {
 	window = std::make_unique<Win32Window>();
+	settings = std::make_unique<EngineSettings>();
+	inMapper = std::make_shared<InputMapper>();
 }
 
 void Engine::init()
@@ -14,11 +17,18 @@ void Engine::init()
 	window->createWindow();
 	window->showWindow();
 	window->setInputMapper(inMapper);
+	
+	Clock::init();
+	if (settings->max_FPS != -1)
+	{
+		renderInterval = 1.0 / settings->max_FPS;
+	}
 }
 
 void Engine::run()
 {
 	MSG msg;
+	Clock::prevRenderTime = Clock::getTime();
 
 	while (true)
 	{
@@ -31,14 +41,20 @@ void Engine::run()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		//Sleep(100);
-		//Debug::print(window->getMousePosition());
+		
+		Clock::getTime();
+		if ( Clock::deltaTime >= renderInterval)
+		{
+			FPS = 1 / Clock::deltaTime;
+			Clock::prevRenderTime = Clock::time;
+			Debug::print(window->getGLMousePosition());
+		}
 	}
 }
 
 void Engine::shutDown()
 {
-	window->killWinodw();
+	window->killWindow();
 }
 
 void Engine::registerScene(Scene& s)
@@ -46,7 +62,7 @@ void Engine::registerScene(Scene& s)
 	// TODO for now! 
 	scene = &s;
 	scene->setWindowHandle(window->getWindowHandle());
-	inMapper.registerScene(s);
+	inMapper->registerScene(s);
 }
 
 void Engine::initConsole()

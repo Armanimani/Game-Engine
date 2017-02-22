@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\clock\Cock.cpp" />
     <ClCompile Include="src\engine\debug\Debug.cpp" />
     <ClCompile Include="src\engine\Engine.cpp" />
     <ClCompile Include="src\engine\scene\Scene.cpp" />
@@ -154,9 +155,11 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\clock\Cock.h" />
     <ClInclude Include="src\engine\debug\Debug.h" />
     <ClInclude Include="src\engine\Engine.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
+    <ClInclude Include="src\engine\settings\EngineSettings.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEventType.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEvent.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputHandlerCode.h" />

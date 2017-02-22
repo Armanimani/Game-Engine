@@ -8,7 +8,7 @@ public:
 	void init() override;
 	void createWindow() override;
 	void showWindow() override;
-	void killWinodw() override;
+	void killWindow() override;
 
 	inline const HWND& getWindowHandle();
 
@@ -22,8 +22,8 @@ public:
 	const std::shared_ptr<USIVec2> getMonitorResolution() const override;
 
 	void setFullscreen(const bool state = true) override;
-	void setFocus(const bool& state = true);
-	const bool isFocused();
+	void setFocus(const bool& state = true) override;
+	const bool isFocused() override;
 
 	static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 

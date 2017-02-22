@@ -6,7 +6,7 @@
 
 bool Win32Window::initialized = false;
 HINSTANCE Win32Window::hInstance = nullptr;
-InputMapper* Window::inMapper;
+std::shared_ptr<InputMapper> Window::inMapper;
 
 void Win32Window::init()
 {
@@ -24,10 +24,29 @@ void Win32Window::createWindow()
 #endif
 	LPTSTR titleStr = (LPTSTR(s.c_str()));
 
-	RECT rect {0, 0, settings.windowResolution.x, settings.windowResolution.y};
-	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+	DWORD dwStyle;
+	DWORD dwExStyle;
 
-	hWnd = CreateWindow(TEXT("Win32WindowClass"), titleStr, WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU, settings.windowPosition.x, settings.windowPosition.y, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr);
+	if (settings.fullscreen)
+	{
+		dwExStyle = WS_EX_APPWINDOW;
+		dwStyle = WS_POPUP;
+	}
+	else
+	{
+		dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+		dwStyle = WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME;
+	}
+
+	RECT rect {0, 0, settings.windowResolution.x, settings.windowResolution.y};
+	AdjustWindowRectEx(&rect, dwStyle, FALSE, dwExStyle);
+	
+	if (!(hWnd = CreateWindowEx(dwExStyle, TEXT("Win32WindowClass"), titleStr, dwStyle | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, settings.windowPosition.x, settings.windowPosition.y, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr)))
+	{
+		killWindow();
+		MessageBox(NULL, TEXT("Window creation failed."), TEXT("Error"), MB_OK | MB_ICONEXCLAMATION);
+		return;
+	}
 }
 
 void Win32Window::showWindow()
@@ -40,7 +59,7 @@ void Win32Window::showWindow()
 	}
 }
 
-void Win32Window::killWinodw()
+void Win32Window::killWindow()
 {
 	shown = false;
 	if (!UnregisterClass(TEXT("Win32WindowClass"), hInstance))
@@ -101,9 +120,23 @@ void Win32Window::setWindowResolution(const unsigned short int & resX, unsigned 
 {
 	settings.windowResolution.x = resX;
 	settings.windowResolution.y = resY;
+	
+	DWORD dwStyle;
+	DWORD dwExStyle;
+
+	if (settings.fullscreen)
+	{
+		dwExStyle = WS_EX_APPWINDOW;
+		dwStyle = WS_POPUP;
+	}
+	else
+	{
+		dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+		dwStyle = WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME;
+	}
 
 	RECT rect {0, 0, settings.windowResolution.x, settings.windowResolution.y};
-	AdjustWindowRect(&rect, WS_OVERLAPPED, false);
+	AdjustWindowRectEx(&rect, dwStyle, FALSE, dwExStyle);
 	SetWindowPos(hWnd, 0, settings.windowPosition.x, settings.windowPosition.y, rect.right - rect.left, rect.bottom - rect.top, 0);
 
 }
@@ -116,8 +149,8 @@ const std::shared_ptr<USIVec2> Win32Window::getMonitorResolution() const
 
 void Win32Window::setFullscreen(const bool state)
 {
-	//TODO
 	settings.fullscreen = true;
+
 }
 
 void Win32Window::setFocus(const bool & state)
