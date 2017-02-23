@@ -2,6 +2,8 @@
 #include "debug\Debug.h"
 #include <conio.h>
 
+#include <glew\GL\glew.h>
+
 Engine::Engine()
 {
 	window = std::make_unique<Win32Window>();
@@ -12,17 +14,9 @@ Engine::Engine()
 void Engine::init()
 {
 	initConsole();
-
-	window->init();
-	window->createWindow();
-	window->showWindow();
-	window->setInputMapper(inMapper);
-	
-	Clock::init();
-	if (settings->max_FPS != -1)
-	{
-		renderInterval = 1.0 / settings->max_FPS;
-	}
+	initWindow();
+	initGL();
+	initClock();
 }
 
 void Engine::run()
@@ -45,9 +39,10 @@ void Engine::run()
 		Clock::getTime();
 		if ( Clock::deltaTime >= renderInterval)
 		{
-			FPS = 1 / Clock::deltaTime;
-			Clock::prevRenderTime = Clock::time;
-			Debug::print(window->getGLMousePosition());
+			renderGL();
+
+			calculateFPS();
+			//Debug::print(window->getGLMousePosition());
 		}
 	}
 }
@@ -65,6 +60,13 @@ void Engine::registerScene(Scene& s)
 	inMapper->registerScene(s);
 }
 
+void Engine::initGL()
+{
+	glewInit();
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
 void Engine::initConsole()
 {
 #if _DEBUG
@@ -75,4 +77,52 @@ void Engine::initConsole()
 #endif
 
 	Debug::init();
+}
+
+void Engine::initWindow()
+{
+	window->init();
+	window->createWindow();
+	hdc = &window->getHDC();
+	window->showWindow();
+	window->setInputMapper(inMapper);
+}
+
+void Engine::initClock()
+{
+	Clock::init();
+	if (settings->max_FPS != -1)
+	{
+		renderInterval = 1.0f / settings->max_FPS;
+	}
+}
+
+void Engine::renderGL()
+{
+	GLfloat verts[] =
+	{
+		+0.0f, +1.0f,
+		-1.0f, -1.0f,
+		+1.0f, -1.0f
+	};
+	GLuint myBufferID;
+	glGenBuffers(1, &myBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, myBufferID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	SwapBuffers(*hdc);
+}
+
+void Engine::calculateFPS()
+{
+	FPS = 1.0f / Clock::deltaTime;
+	Clock::prevRenderTime = Clock::time;
 }

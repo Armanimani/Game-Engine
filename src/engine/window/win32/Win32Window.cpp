@@ -1,5 +1,6 @@
 #include "Win32Window.h"
 #include <windowsx.h>
+#include <Windows.h>
 
 #include "../../debug/Debug.h"
 #include "../../userInput/inputEvent/InputHandlerCode.h"
@@ -10,24 +11,40 @@ std::shared_ptr<InputMapper> Window::inMapper;
 
 void Win32Window::init()
 {
-	staticInit();
 	hInstance = GetModuleHandle(nullptr);
+	staticInit();
 }
 
 void Win32Window::createWindow()
 {
-#ifdef _UNICODE
-	std::wstring s;
-	s.assign(settings.title.begin(), settings.title.end());
-#else
-	std::string s = title;
-#endif
-	LPTSTR titleStr = (LPTSTR(s.c_str()));
-
 	DWORD dwStyle;
 	DWORD dwExStyle;
 
-	if (settings.fullscreen)
+	if (settings->fullscreen)
+	{
+		DEVMODE dmScreenSettings;
+		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
+		dmScreenSettings.dmSize = sizeof(dmScreenSettings);
+		dmScreenSettings.dmPelsWidth = settings->windowResolution.x;
+		dmScreenSettings.dmPelsHeight = settings->windowResolution.y;
+		dmScreenSettings.dmBitsPerPel = settings->colorBits;
+		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+
+		if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
+		{
+			if (MessageBox(NULL, TEXT("The requested fullscreen mode is not supported by your video card. Use windowed mode instead?"), TEXT("Fullscreen Error"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES)
+			{
+				settings->fullscreen = false;
+			}
+			else
+			{
+				MessageBox(NULL, TEXT("Program will now close"), TEXT("Error"), MB_OK | MB_ICONSTOP);
+				return;
+			}
+		}
+	}
+
+	if (settings->fullscreen)
 	{
 		dwExStyle = WS_EX_APPWINDOW;
 		dwStyle = WS_POPUP;
@@ -38,13 +55,76 @@ void Win32Window::createWindow()
 		dwStyle = WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME;
 	}
 
-	RECT rect {0, 0, settings.windowResolution.x, settings.windowResolution.y};
+	RECT rect {0, 0, settings->windowResolution.x, settings->windowResolution.y};
 	AdjustWindowRectEx(&rect, dwStyle, FALSE, dwExStyle);
 	
-	if (!(hWnd = CreateWindowEx(dwExStyle, TEXT("Win32WindowClass"), titleStr, dwStyle | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, settings.windowPosition.x, settings.windowPosition.y, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr)))
+#ifdef _UNICODE
+	std::wstring s;
+	s.assign(settings->title.begin(), settings->title.end());
+#else
+	std::string s = title;
+#endif
+	LPTSTR titleStr = (LPTSTR(s.c_str()));
+
+	if (!(hWnd = CreateWindowEx(dwExStyle, TEXT("Win32WindowClass"), titleStr, dwStyle | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, settings->windowPosition.x, settings->windowPosition.y, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr)))
 	{
 		killWindow();
 		MessageBox(NULL, TEXT("Window creation failed."), TEXT("Error"), MB_OK | MB_ICONEXCLAMATION);
+		return;
+	}
+
+	PIXELFORMATDESCRIPTOR pfd =
+	{
+		sizeof(PIXELFORMATDESCRIPTOR),
+		1,
+		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+		PFD_TYPE_RGBA,
+		settings->colorBits,
+		0, 0, 0, 0, 0, 0,
+		settings->alphaBuffer,
+		settings->shiftBit,
+		settings->accumulationBuffer,
+		0, 0, 0, 0,
+		settings->depthBufferBits,
+		settings->stencilBuffer,
+		settings->auxiliaryBuffer,
+		PFD_MAIN_PLANE,
+		0,
+		0, 0, 0
+	};
+
+	if (!(hDC = GetDC(hWnd)))
+	{
+		killWindow();
+		MessageBox(NULL, TEXT("Unable to create a GL device context."), TEXT("Error"), MB_OK | MB_ICONEXCLAMATION);
+		return;
+	}
+
+	if (!(pixelFormat = ChoosePixelFormat(hDC, &pfd)))
+	{
+		killWindow();
+		MessageBox(NULL, TEXT("Unable to find a suitable pixel format."), TEXT("Error"), MB_OK | MB_ICONEXCLAMATION);
+		return;
+	}
+
+	if (!SetPixelFormat(hDC, pixelFormat, &pfd))
+	{
+		killWindow();
+		MessageBox(NULL, TEXT("Unable to set the pixel format."), TEXT("Error"), MB_OK | MB_ICONEXCLAMATION);
+		return;
+	}
+
+	if (!(hRC = wglCreateContext(hDC)))
+	{
+		killWindow();
+		MessageBox(NULL, TEXT("Unable to create a GL rendering context."), TEXT("Error"), MB_OK | MB_ICONEXCLAMATION);
+		return;
+	}
+
+	if (!wglMakeCurrent(hDC, hRC))
+	{
+		killWindow();
+		MessageBox(NULL, TEXT("Unable to activate the GL rendering context."), TEXT("Error"), MB_OK | MB_ICONEXCLAMATION);
 		return;
 	}
 }
@@ -54,6 +134,7 @@ void Win32Window::showWindow()
 	if (!shown)
 	{
 		ShowWindow(hWnd, SW_SHOW);
+		SetForegroundWindow(hWnd);
 		UpdateWindow(hWnd);
 		shown = true;
 	}
@@ -62,20 +143,52 @@ void Win32Window::showWindow()
 void Win32Window::killWindow()
 {
 	shown = false;
+	if (settings->fullscreen)
+	{
+		ChangeDisplaySettings(NULL, 0);
+		ShowCursor(TRUE);
+	}
+
+	if (hRC)
+	{
+		if (!wglMakeCurrent(NULL, NULL))
+		{
+			MessageBox(NULL, TEXT("Unable to relesae HRC and DC."), TEXT("Shutdown Error"), MB_OK | MB_ICONINFORMATION);
+		}
+		if (!wglDeleteContext(hRC))
+		{
+			MessageBox(NULL, TEXT("Unable to release rendering context."), TEXT("Shutdown Error"), MB_OK | MB_ICONINFORMATION);
+		}
+		hRC = NULL;
+	}
+
+	if (hDC && !ReleaseDC(hWnd, hDC))
+	{
+		MessageBox(NULL, TEXT("Unable to release device context"), TEXT("Shutdown Error"), MB_OK | MB_ICONINFORMATION);
+		hDC = NULL;
+	}
+
+	if (hWnd && !DestroyWindow(hWnd))
+	{
+		MessageBox(NULL, TEXT("Unable to release window handle."), TEXT("Shutdown Error"), MB_OK | MB_ICONINFORMATION);
+		hWnd = NULL;
+	}
+
 	if (!UnregisterClass(TEXT("Win32WindowClass"), hInstance))
 	{
 		MessageBox(NULL, TEXT("Unable not unregister the window class."), TEXT("Shutdown Error"), MB_OK | MB_ICONINFORMATION);
 		hInstance = NULL;
 	}
+
 }
 
 void Win32Window::setWindowTitle(const std::string & title)
 {
-	settings.title = title;
+	settings->title = title;
 
 #ifdef _UNICODE
 	std::wstring s;
-	s.assign(settings.title.begin(), settings.title.end());
+	s.assign(settings->title.begin(), settings->title.end());
 #else
 	std::string s = title;
 #endif
@@ -91,8 +204,8 @@ const std::shared_ptr<USIVec2> Win32Window::getMousePosition() const
 	ScreenToClient(hWnd, &pos);
 
 	std::shared_ptr<USIVec2> ret;
-	if (pos.x >= 0 && pos.x <= settings.windowResolution.x &&
-		pos.y >= 0 && pos.y <= settings.windowResolution.y)
+	if (pos.x >= 0 && pos.x <= settings->windowResolution.x &&
+		pos.y >= 0 && pos.y <= settings->windowResolution.y)
 	{
 		ret = std::make_shared<USIVec2>((unsigned short)pos.x,(unsigned short)pos.y);
 	}
@@ -107,24 +220,25 @@ const std::shared_ptr<USIVec2> Win32Window::getMousePosition() const
 void Win32Window::showMouse(const bool & state)
 {
 	ShowCursor(state);
-	settings.mouseVisible = state;
+	settings->mouseVisible = state;
 }
 
 void Win32Window::lockMouse(const bool & state)
 {
-	lockMouse(state);
-	settings.mouseLocked = state;
+	// TODO NYI
+	//cursorlock
+	settings->mouseLocked = state;
 }
 
 void Win32Window::setWindowResolution(const unsigned short int & resX, unsigned short int & resY)
 {
-	settings.windowResolution.x = resX;
-	settings.windowResolution.y = resY;
+	settings->windowResolution.x = resX;
+	settings->windowResolution.y = resY;
 	
 	DWORD dwStyle;
 	DWORD dwExStyle;
 
-	if (settings.fullscreen)
+	if (settings->fullscreen)
 	{
 		dwExStyle = WS_EX_APPWINDOW;
 		dwStyle = WS_POPUP;
@@ -135,21 +249,24 @@ void Win32Window::setWindowResolution(const unsigned short int & resX, unsigned 
 		dwStyle = WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME;
 	}
 
-	RECT rect {0, 0, settings.windowResolution.x, settings.windowResolution.y};
+	RECT rect {0, 0, settings->windowResolution.x, settings->windowResolution.y};
 	AdjustWindowRectEx(&rect, dwStyle, FALSE, dwExStyle);
-	SetWindowPos(hWnd, 0, settings.windowPosition.x, settings.windowPosition.y, rect.right - rect.left, rect.bottom - rect.top, 0);
+	SetWindowPos(hWnd, 0, settings->windowPosition.x, settings->windowPosition.y, rect.right - rect.left, rect.bottom - rect.top, 0);
 
 }
 
-const std::shared_ptr<USIVec2> Win32Window::getMonitorResolution() const
+const std::shared_ptr<USIVec2> Win32Window::getMonitorResolution()
 {
-	// TODO + update the monitor status in windowsettings just in case
-	return std::shared_ptr<USIVec2>();
+	std::shared_ptr<USIVec2> ret;
+	settings->monitorResolution.x = GetSystemMetrics(SM_CXSCREEN);
+	settings->monitorResolution.y = GetSystemMetrics(SM_CYSCREEN);
+	ret = std::make_shared<USIVec2>(settings->monitorResolution.x, settings->monitorResolution.y);
+	return ret;
 }
 
 void Win32Window::setFullscreen(const bool state)
 {
-	settings.fullscreen = true;
+	settings->fullscreen = true;
 
 }
 
@@ -234,9 +351,16 @@ LRESULT CALLBACK Win32Window::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPA
 		inMapper->registerEvent(event, InputHandlerCode::onKey_up);
 		return 0;
 	}
-	case WM_DESTROY:
+	case WM_CLOSE:
+	{
 		PostQuitMessage(0);
-		break;
+		return 0;
+	}
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+		return 0;
+	}
 	}
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
@@ -274,14 +398,14 @@ void Win32Window::staticInit()
 
 	WNDCLASS wc {0};
 
-	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wc.lpfnWndProc = Win32Window::windowProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
 	wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
+	wc.hbrBackground = NULL;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = TEXT("Win32WindowClass");
 

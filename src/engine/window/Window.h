@@ -10,6 +10,7 @@
 class Window
 {
 public:
+	Window(){ settings = std::make_shared<WindowSettings> (); }
 	virtual void init() = 0;
 
 	inline void setInputMapper(std::shared_ptr<InputMapper> mapper);
@@ -31,7 +32,7 @@ public:
 	virtual void setWindowResolution(const unsigned short int& resX, unsigned short int& resY) = 0;
 	inline virtual const std::shared_ptr<USIVec2> getWindowResolution() const;
 
-	virtual const std::shared_ptr<USIVec2> getMonitorResolution() const = 0;
+	virtual const std::shared_ptr<USIVec2> getMonitorResolution() = 0;
 
 	virtual void setFullscreen(const bool state = true) = 0;
 	inline virtual const bool isFullscreen() const;
@@ -39,10 +40,10 @@ public:
 	virtual void setFocus(const bool& state = true) = 0;
 	virtual const bool isFocused() = 0;
 
-	inline const WindowSettings& getSettings() const;
+	inline const std::shared_ptr<WindowSettings> getSettings() const;
 
 protected:
-	WindowSettings settings;
+	std::shared_ptr<WindowSettings> settings;
 	static std::shared_ptr<InputMapper> inMapper;
 };
 
@@ -53,7 +54,7 @@ void Window::setInputMapper(std::shared_ptr<InputMapper> mapper)
 
 const std::string& Window::getWindowTitle() const
 {
-	return settings.title;
+	return settings->title;
 }
 
 const std::shared_ptr<FVec2> Window::getGLMousePosition() const
@@ -67,27 +68,27 @@ const std::shared_ptr<FVec2> Window::getGLMousePosition() const
 
 const bool Window::mouseIsLocked() const
 {
-	return settings.mouseLocked;
+	return settings->mouseLocked;
 }
 
 const bool Window::mouseIsVisible() const
 {
-	return settings.mouseVisible;
+	return settings->mouseVisible;
 }
 
 const std::shared_ptr<USIVec2> Window::getWindowResolution() const
 {
-	std::shared_ptr<USIVec2> ret = std::make_shared<USIVec2>(settings.windowResolution.x, settings.windowResolution.y);
+	std::shared_ptr<USIVec2> ret = std::make_shared<USIVec2>(settings->windowResolution.x, settings->windowResolution.y);
 	//TODO look for optimized version
 	return ret;
 }
 
 const bool Window::isFullscreen() const
 {
-	return settings.fullscreen;
+	return settings->fullscreen;
 }
 
-const WindowSettings& Window::getSettings() const
+const std::shared_ptr<WindowSettings> Window::getSettings() const
 {
 	return settings;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glew\GL\glew.h>
+
 #include <memory>
 #include "window\win32\Win32Window.h"
 #include "userInput\inputMapper\InputMapper.h"
@@ -26,5 +28,14 @@ protected:
 	float renderInterval = 0;
 	unsigned short int FPS = 0;
 
+	const HDC* hdc;
+
+	void initGL();
 	void initConsole();
+	void initWindow();
+	void initClock();
+	
+	void renderGL();
+
+	void calculateFPS();
 };

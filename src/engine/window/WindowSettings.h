@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "../util/vector/USIVec2.h"
+#include <Windows.h>
 
 struct WindowSettings
 {	
@@ -11,5 +12,13 @@ struct WindowSettings
 	
 	bool fullscreen = false;
 	bool mouseLocked = false;
-	bool mouseVisible = false;
+	bool mouseVisible = true;
+
+	BYTE colorBits = 32;
+	BYTE depthBufferBits = 16;
+	BYTE alphaBuffer = 0;
+	BYTE shiftBit = 0;
+	BYTE accumulationBuffer = 0;
+	BYTE stencilBuffer = 0;
+	BYTE auxiliaryBuffer = 0;
 };

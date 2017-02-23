@@ -2,5 +2,5 @@
 
 struct EngineSettings
 {
-	short unsigned int max_FPS = 60;
+	short unsigned int max_FPS = -1;
 };

@@ -1,10 +1,13 @@
 #pragma once
+
+#include <glew\GL\glew.h>
 #include "../Window.h"
 #include "../../userInput/inputEvent/InputEvent.h"
 
 class Win32Window : public Window
 {
 public:
+	Win32Window() : Window() {}
 	void init() override;
 	void createWindow() override;
 	void showWindow() override;
@@ -19,11 +22,13 @@ public:
 	void lockMouse(const bool& state = true) override;
 
 	void setWindowResolution(const unsigned short int& resX, unsigned short int& resY) override;
-	const std::shared_ptr<USIVec2> getMonitorResolution() const override;
+	const std::shared_ptr<USIVec2> getMonitorResolution() override;
 
 	void setFullscreen(const bool state = true) override;
 	void setFocus(const bool& state = true) override;
 	const bool isFocused() override;
+
+	inline const HDC& getHDC();
 
 	static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
@@ -34,7 +39,11 @@ protected:
 	static void createMouseInputEvent(InputEvent& event, HWND hwnd, WPARAM wparam, LPARAM lparam);
 
 	bool shown = false;
-	HWND hWnd;
+
+	HWND hWnd = NULL;
+	HGLRC hRC = NULL;
+	HDC hDC = NULL;
+	GLuint pixelFormat;
 
 	static void staticInit();
 };
@@ -42,4 +51,9 @@ protected:
 const HWND& Win32Window::getWindowHandle()
 {
 	return hWnd;
+}
+
+const HDC& Win32Window::getHDC()
+{
+	return hDC;
 }
