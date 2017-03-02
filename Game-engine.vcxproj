@@ -155,7 +155,13 @@
     <ClCompile Include="src\engine\clock\Cock.cpp" />
     <ClCompile Include="src\engine\debug\Debug.cpp" />
     <ClCompile Include="src\engine\Engine.cpp" />
+    <ClCompile Include="src\engine\entity\Entity.cpp" />
+    <ClCompile Include="src\engine\mesh\Mesh.cpp" />
     <ClCompile Include="src\engine\scene\Scene.cpp" />
+    <ClCompile Include="src\engine\shader\BasicShader.cpp" />
+    <ClCompile Include="src\engine\shader\Shader.cpp" />
+    <ClCompile Include="src\engine\shader\SimpleColorShader.cpp" />
+    <ClCompile Include="src\engine\shader\SimplePositionShader.cpp" />
     <ClCompile Include="src\engine\userInput\inputMapper\InputMapper.cpp" />
     <ClCompile Include="src\engine\window\win32\Win32Window.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -164,9 +170,17 @@
     <ClInclude Include="src\engine\clock\Cock.h" />
     <ClInclude Include="src\engine\debug\Debug.h" />
     <ClInclude Include="src\engine\Engine.h" />
+    <ClInclude Include="src\engine\entity\Entity.h" />
+    <ClInclude Include="src\engine\material\Material.h" />
+    <ClInclude Include="src\engine\mesh\Mesh.h" />
+    <ClInclude Include="src\engine\mesh\MeshAttribute.h" />
+    <ClInclude Include="src\engine\model\Model.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
     <ClInclude Include="src\engine\settings\EngineSettings.h" />
     <ClInclude Include="src\engine\shader\BasicShader.h" />
+    <ClInclude Include="src\engine\shader\ShaderType.h" />
+    <ClInclude Include="src\engine\shader\SimpleColorShader.h" />
+    <ClInclude Include="src\engine\shader\SimplePositionShader.h" />
     <ClInclude Include="src\engine\shader\Shader.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEventType.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEvent.h" />
@@ -178,6 +192,14 @@
     <ClInclude Include="src\engine\window\win32\Win32Window.h" />
     <ClInclude Include="src\engine\window\Window.h" />
     <ClInclude Include="src\engine\window\WindowSettings.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\engine\shader\glsl\BasicFragmentShader.glsl" />
+    <None Include="src\engine\shader\glsl\BasicVertexShader.glsl" />
+    <None Include="src\engine\shader\glsl\SimpleColorFS.glsl" />
+    <None Include="src\engine\shader\glsl\SimpleColorVS.glsl" />
+    <None Include="src\engine\shader\glsl\SimplePositionFS.glsl" />
+    <None Include="src\engine\shader\glsl\SimplePositionVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

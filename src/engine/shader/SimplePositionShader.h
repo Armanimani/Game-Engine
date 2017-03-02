@@ -1,11 +1,10 @@
 #pragma once
 #include "Shader.h"
 
-
-class BasicShader : public Shader
+class SimplePositionShader : public Shader
 {
 public:
-	BasicShader();
+	SimplePositionShader();
 
 	virtual void render(const std::shared_ptr<Mesh> mesh) override;
 };
