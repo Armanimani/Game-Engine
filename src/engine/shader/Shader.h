@@ -3,7 +3,7 @@
 #include <glew\GL\glew.h>
 #include <glm\glm.hpp>
 #include <string>
-#include "../mesh/Mesh.h"
+#include "../model/Model.h"
 #include <memory>
 #include "ShaderType.h"
 
@@ -17,7 +17,7 @@ public:
 	void stop();
 	void cleanUp();
 
-	virtual void render(const std::shared_ptr<Mesh> mesh) = 0;
+	virtual void render(const std::shared_ptr<Model> model) = 0;
 	
 	inline const std::string& getName() { return shaderName; }
 	inline const ShaderType& getType() { return shaderType; }

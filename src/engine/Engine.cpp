@@ -16,6 +16,7 @@ Engine::Engine()
 	settings = std::make_unique<EngineSettings>();
 	inMapper = std::make_shared<InputMapper>();
 	shaderManager = std::make_shared<ShaderManager>();
+	sceneManager = std::make_unique<SceneManager>();
 }
 
 void Engine::init()
@@ -59,6 +60,7 @@ void Engine::run()
 void Engine::shutDown()
 {
 	shaderManager->cleanUp();
+	sceneManager->cleanUp();
 	window->killWindow();
 }
 
@@ -147,12 +149,20 @@ void Engine::initRender()
 	};
 	std::vector<MeshAttribute> attribs {MeshAttribute::position, MeshAttribute::color};
 	std::vector<MeshAttribute> attribs2 {MeshAttribute::position};
-	std::shared_ptr<Mesh> mesh1 = std::make_shared<Mesh>("test", verts, indices, attribs);
-	std::shared_ptr<Mesh> mesh2 = std::make_shared<Mesh>("test", verts2, indices2, attribs2);
-	std::shared_ptr<Material> mat1 = std::make_shared<Material>(shaderManager->getShader(ShaderType::SimplePositionShader));
-	std::shared_ptr<Material> mat2 = std::make_shared<Material>(shaderManager->getShader(ShaderType::SimpleColorShader));
-	std::shared_ptr<Model> model1 = std::make_shared<Model>(mesh1, mat2);
-	std::shared_ptr<Model> model2 = std::make_shared<Model>(mesh2, mat2);
+	std::shared_ptr<Mesh> mesh1 = std::make_shared<Mesh>("mesh1", verts, indices, attribs);
+	std::shared_ptr<Mesh> mesh2 = std::make_shared<Mesh>("mesh2", verts2, indices2, attribs2);
+	sceneManager->addMesh(mesh1);
+	sceneManager->addMesh(mesh2);
+	std::shared_ptr<Material> mat1 = std::make_shared<Material>("mat1", ShaderType::SimplePositionShader);
+	std::shared_ptr<Material> mat2 = std::make_shared<Material>("mat2", ShaderType::SimpleColorShader);
+	sceneManager->addMaterial(mat1);
+	sceneManager->addMaterial(mat2);
+	std::shared_ptr<Model> model1 = std::make_shared<Model>(sceneManager->getMesh("mesh1"), sceneManager->getMaterial("mat1"));
+	std::shared_ptr<Model> model2 = std::make_shared<Model>(sceneManager->getMesh("mesh1"), sceneManager->getMaterial("mat2"));
+	sceneManager->addModel(model1);
+	sceneManager->addModel(model2);
+	//TODO
+
 	entity = Entity(model1, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 
 	entity.load();

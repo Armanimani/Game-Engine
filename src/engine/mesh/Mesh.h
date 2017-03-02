@@ -20,6 +20,8 @@ public:
 	inline const GLuint& getVBOID() const { return vertexBufferObjectID; }
 	inline const GLuint& getIBOID() const { return indexBufferObjectID; }
 
+	inline const std::string& getName() const { return name; }
+
 protected:
 	std::string name;
 

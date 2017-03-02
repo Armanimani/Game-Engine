@@ -6,5 +6,5 @@ class SimpleColorShader : public Shader
 public:
 	SimpleColorShader();
 
-	virtual void render(const std::shared_ptr<Mesh> mesh) override;
+	virtual void render(const std::shared_ptr<Model> model) override;
 };

@@ -21,6 +21,7 @@ void Shader::install()
 	{
 		Debug::print(shaderName);
 		Debug::print("failed to compile vertex shader");
+		Debug::print(" ");
 		return;
 	}
 	glCompileShader(fragmentShaderID);
@@ -28,6 +29,7 @@ void Shader::install()
 	{
 		Debug::print(shaderName);
 		Debug::print("failed to compile fragment shader");
+		Debug::print(" ");
 		return;
 	}
 
@@ -41,6 +43,7 @@ void Shader::install()
 	{
 		Debug::print(shaderName);
 		Debug::print("failed to link the program");
+		Debug::print(" ");
 		return;
 	}
 }
@@ -74,6 +77,7 @@ std::string Shader::readShadercode(const std::string& file)
 		Debug::print(shaderName);
 		Debug::print(file);
 		Debug::print("File failed to load");
+		Debug::print(" ");
 	}
 	return std::string(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
 }

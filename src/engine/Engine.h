@@ -9,6 +9,7 @@
 #include "clock\Cock.h"
 #include "settings\EngineSettings.h"
 #include "shader\ShaderManager.h"
+#include "scene\SceneManager.h"
 
 class Engine
 {
@@ -24,6 +25,7 @@ protected:
 	std::unique_ptr<Win32Window> window;
 	std::shared_ptr<InputMapper> inMapper;
 	std::shared_ptr<ShaderManager> shaderManager;
+	std::unique_ptr<SceneManager> sceneManager;
 
 	Scene* scene;
 	std::unique_ptr<EngineSettings> settings;

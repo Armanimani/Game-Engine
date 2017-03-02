@@ -8,15 +8,15 @@ SimpleColorShader::SimpleColorShader()
 	fragmentShader = "../src/engine/shader/glsl/SimpleColorFS.glsl";
 }
 
-void SimpleColorShader::render(const std::shared_ptr<Mesh> mesh)
+void SimpleColorShader::render(const std::shared_ptr<Model> model)
 {
 	start();
 
-	glBindVertexArray(mesh->getVAOID());
+	glBindVertexArray(model->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(3);
 
-	glDrawElements(GL_TRIANGLES, mesh->getIndices().size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, model->getMesh()->getIndices().size(), GL_UNSIGNED_INT, 0);
 
 	glDisableVertexAttribArray(0);
 	glEnableVertexAttribArray(3);

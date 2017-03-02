@@ -7,5 +7,5 @@ void Entity::load()
 
 void Entity::render()
 {
-	model->getMaterial()->getShader()->render(model->getMesh());
+	model->getMaterial->getShader()->render(model);
 }
