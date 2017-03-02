@@ -166,6 +166,8 @@
     <ClInclude Include="src\engine\Engine.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
     <ClInclude Include="src\engine\settings\EngineSettings.h" />
+    <ClInclude Include="src\engine\shader\BasicShader.h" />
+    <ClInclude Include="src\engine\shader\Shader.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEventType.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEvent.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputHandlerCode.h" />
