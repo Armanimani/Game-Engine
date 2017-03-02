@@ -3,6 +3,7 @@
 bool Debug::initialized = false;
 std::unordered_map<KeyCode, std::string> Debug::keyMap;
 std::unordered_map<InputEventType, std::string> Debug::eventTypeMap;
+std::unordered_map<ShaderType, std::string> Debug::shaderTypeMap;
 
 void Debug::init()
 {
@@ -15,6 +16,7 @@ void Debug::init()
 
 	createKeyMap();
 	createInputEventTypeMap();
+	createShaderTypeMap();
 
 	std::cout << "========== Debug Mode ==========" << std::endl;
 }
@@ -62,6 +64,11 @@ void Debug::print(const FVec2& vec)
 void Debug::print(const std::shared_ptr<FVec2>& vec)
 {
 	std::cout << "X = " << vec->x << "     " << "Y = " << vec->y << std::endl;
+}
+
+void Debug::print(const ShaderType & type)
+{
+	std::cout << shaderType_toString(type) << std::endl;
 }
 
 void Debug::createKeyMap()
@@ -200,7 +207,14 @@ void Debug::createInputEventTypeMap()
 	eventTypeMap.insert(std::make_pair(InputEventType::MOUSE_UP, "MOUSE_UP"));
 }
 
-std::string Debug::keyCode_toString(KeyCode c)
+void Debug::createShaderTypeMap()
+{
+	shaderTypeMap.insert(std::make_pair(ShaderType::BasicShader, "Basic Shader"));
+	shaderTypeMap.insert(std::make_pair(ShaderType::SimplePositionShader, "Simple Position Shader"));
+	shaderTypeMap.insert(std::make_pair(ShaderType::SimpleColorShader, "Simple Color Shader"));
+}
+
+std::string Debug::keyCode_toString(const KeyCode& c)
 {
 	auto it = keyMap.find(c);
 	
@@ -211,7 +225,7 @@ std::string Debug::keyCode_toString(KeyCode c)
 	return "No Key";
 }
 
-std::string Debug::inputEventType_toString(InputEventType e)
+std::string Debug::inputEventType_toString(const InputEventType& e)
 {
 	auto it = eventTypeMap.find(e);
 
@@ -220,4 +234,15 @@ std::string Debug::inputEventType_toString(InputEventType e)
 		return it->second;
 	}
 	return "No Event";
+}
+
+std::string Debug::shaderType_toString(const ShaderType & type)
+{
+	auto it = shaderTypeMap.find(type);
+
+	if (it != shaderTypeMap.end())
+	{
+		return it->second;
+	}
+	return "No Shader Type";
 }

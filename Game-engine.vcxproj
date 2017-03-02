@@ -160,6 +160,7 @@
     <ClCompile Include="src\engine\scene\Scene.cpp" />
     <ClCompile Include="src\engine\shader\BasicShader.cpp" />
     <ClCompile Include="src\engine\shader\Shader.cpp" />
+    <ClCompile Include="src\engine\shader\ShaderManager.cpp" />
     <ClCompile Include="src\engine\shader\SimpleColorShader.cpp" />
     <ClCompile Include="src\engine\shader\SimplePositionShader.cpp" />
     <ClCompile Include="src\engine\userInput\inputMapper\InputMapper.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="src\engine\scene\Scene.h" />
     <ClInclude Include="src\engine\settings\EngineSettings.h" />
     <ClInclude Include="src\engine\shader\BasicShader.h" />
+    <ClInclude Include="src\engine\shader\ShaderManager.h" />
     <ClInclude Include="src\engine\shader\ShaderType.h" />
     <ClInclude Include="src\engine\shader\SimpleColorShader.h" />
     <ClInclude Include="src\engine\shader\SimplePositionShader.h" />
