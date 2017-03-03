@@ -8,29 +8,35 @@
 
 #include <glew\GL\glew.h>
 
-Entity entity;
+#include "fileController\MaterialFileController.h"
 
 Engine::Engine()
 {
 	window = std::make_unique<Win32Window>();
 	settings = std::make_unique<EngineSettings>();
 	inMapper = std::make_shared<InputMapper>();
-	shaderManager = std::make_shared<ShaderManager>();
-	sceneManager = std::make_unique<SceneManager>();
+	renderer = std::make_unique<Renderer>();
+	sceneManager = std::make_shared<SceneManager>();
+	loader = std::make_shared<Loader>();
+
+	init();
+
+	std::shared_ptr<Material> mat = MaterialFileController::readFile("C:/Users/Arman/Documents/test.mat");
+	MaterialFileController::writeFile("C:/Users/Arman/Documents/test2.mat", mat);
 }
 
-void Engine::init()
+void Engine::registerGame(const std::shared_ptr<Game> _game)
 {
-	initConsole();
-	initWindow();
-	initGL();
-	initClock();
-	initShaderManager();
-	initRender();
+	game = _game;
+	registerScene(game->getScene("begin"));
+
 }
+
 
 void Engine::run()
 {
+	load();
+
 	MSG msg;
 	Clock::prevRenderTime = Clock::getTime();
 
@@ -55,19 +61,33 @@ void Engine::run()
 			//Debug::print(window->getGLMousePosition());
 		}
 	}
+
+	shutdown();
 }
 
-void Engine::shutDown()
+void Engine::init()
 {
-	shaderManager->cleanUp();
+	initConsole();
+	initWindow();
+	initGL();
+	initClock();
+	initRenderer();
+	initLoader();
+	initRender();
+}
+
+void Engine::shutdown()
+{
+	Debug::print("Shutting Down...");
+	renderer->cleanUp();
 	sceneManager->cleanUp();
 	window->killWindow();
 }
 
-void Engine::registerScene(Scene& s)
+void Engine::registerScene(std::shared_ptr<Scene> s)
 {
 	// TODO for now! 
-	scene = &s;
+	scene = s;
 	scene->setWindowHandle(window->getWindowHandle());
 	inMapper->registerScene(s);
 }
@@ -115,10 +135,15 @@ void Engine::initClock()
 	}
 }
 
-void Engine::initShaderManager()
+void Engine::initRenderer()
 {
-	shaderManager->init();
-	shaderManager->installShaders();
+	renderer->init(sceneManager);
+	renderer->installShaders();
+}
+
+void Engine::initLoader()
+{
+	loader->init(sceneManager);
 }
 
 void Engine::initRender()
@@ -151,24 +176,28 @@ void Engine::initRender()
 	std::vector<MeshAttribute> attribs2 {MeshAttribute::position};
 	std::shared_ptr<Mesh> mesh1 = std::make_shared<Mesh>("mesh1", verts, indices, attribs);
 	std::shared_ptr<Mesh> mesh2 = std::make_shared<Mesh>("mesh2", verts2, indices2, attribs2);
-	sceneManager->addMesh(mesh1);
-	sceneManager->addMesh(mesh2);
+	sceneManager->meshMap.addItem(mesh1);
+	sceneManager->meshMap.addItem(mesh2);
 	std::shared_ptr<Material> mat1 = std::make_shared<Material>("mat1", ShaderType::SimplePositionShader);
 	std::shared_ptr<Material> mat2 = std::make_shared<Material>("mat2", ShaderType::SimpleColorShader);
-	sceneManager->addMaterial(mat1);
-	sceneManager->addMaterial(mat2);
-	std::shared_ptr<Model> model1 = std::make_shared<Model>(sceneManager->getMesh("mesh1"), sceneManager->getMaterial("mat1"));
-	std::shared_ptr<Model> model2 = std::make_shared<Model>(sceneManager->getMesh("mesh1"), sceneManager->getMaterial("mat2"));
-	sceneManager->addModel(model1);
-	sceneManager->addModel(model2);
+	sceneManager->materialMap.addItem(mat1);
+	sceneManager->materialMap.addItem(mat2);
+	std::shared_ptr<Model> model1 = std::make_shared<Model>("model", sceneManager->meshMap.getItem("mesh1"), sceneManager->materialMap.getItem("mat2"));
+	std::shared_ptr<Model> model2 = std::make_shared<Model>("model2", sceneManager->meshMap.getItem("mesh1"), sceneManager->materialMap.getItem("mat2"));
+	sceneManager->modelMap.addItem(model1);
+	sceneManager->modelMap.addItem(model2);
 	//TODO
 
-	entity = Entity(model1, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-
-	entity.load();
+	std::shared_ptr<Entity> entity = std::make_shared<Entity>("test", model1, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	sceneManager->entityMap.addItem(entity);
 
 
 	//
+}
+
+void Engine::load()
+{
+	loader->load();
 }
 
 void Engine::renderGL()
@@ -176,7 +205,7 @@ void Engine::renderGL()
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	entity.render();
+	renderer->render();
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }

@@ -8,26 +8,30 @@
 #include "scene\Scene.h"
 #include "clock\Cock.h"
 #include "settings\EngineSettings.h"
-#include "shader\ShaderManager.h"
+#include "renderer\Renderer.h"
 #include "scene\SceneManager.h"
+#include "loader\Loader.h"
+#include "game\Game.h"
 
 class Engine
 {
 public:
 	Engine();
-	void init();
+	void registerGame(const std::shared_ptr<Game> game);
 	void run();
-	void shutDown();
 
-	void registerScene(Scene& s);
 
 protected:
+	void init();
+	void shutdown();
 	std::unique_ptr<Win32Window> window;
 	std::shared_ptr<InputMapper> inMapper;
-	std::shared_ptr<ShaderManager> shaderManager;
-	std::unique_ptr<SceneManager> sceneManager;
+	std::unique_ptr<Renderer> renderer;
+	std::shared_ptr<SceneManager> sceneManager;
+	std::shared_ptr<Loader> loader;
 
-	Scene* scene;
+	std::shared_ptr<Game> game;
+	std::shared_ptr<Scene> scene;
 	std::unique_ptr<EngineSettings> settings;
 	
 	float renderInterval = 0;
@@ -39,10 +43,15 @@ protected:
 	void initConsole();
 	void initWindow();
 	void initClock();
-	void initShaderManager();
+	void initRenderer();
+	void initLoader();
 	void initRender();
 	
+	void load();
+
 	void renderGL();
 
 	void calculateFPS();
+
+	void registerScene(std::shared_ptr<Scene> s);
 };

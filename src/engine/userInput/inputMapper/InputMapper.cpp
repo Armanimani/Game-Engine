@@ -1,9 +1,14 @@
 #include "InputMapper.h"
 #include "../../debug/Debug.h"
 
-void InputMapper::registerScene(Scene& scene)
+void InputMapper::registerScene(std::shared_ptr<Scene> scene)
 {
-	scenes.push_back(&scene);
+	scenes.push_back(scene);
+}
+
+void InputMapper::clearScenes()
+{
+	scenes.clear();
 }
 
 const int InputMapper::registerEvent(const InputEvent& event, const InputHandlerCode& code)

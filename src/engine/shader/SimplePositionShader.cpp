@@ -8,14 +8,14 @@ SimplePositionShader::SimplePositionShader()
 	fragmentShader = "../src/engine/shader/glsl/SimplePositionFS.glsl";
 }
 
-void SimplePositionShader::render(const std::shared_ptr<Model> model)
+void SimplePositionShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
 
-	glBindVertexArray(model->getMesh()->getVAOID());
+	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);
 
-	glDrawElements(GL_TRIANGLES, model->getMesh()->getIndices().size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, entity->getModel()->getMesh()->getIndices().size(), GL_UNSIGNED_INT, 0);
 
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);

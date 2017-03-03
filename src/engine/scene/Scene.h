@@ -3,18 +3,26 @@
 #include "../userInput/inputEvent/InputEvent.h"
 #include "../userInput/inputEvent/InputHandlerCode.h"
 #include <vector>
-#include "../model/Model.h"
+#include "../settings/SceneSettings.h"
 
 class Scene
 {
 public:
+	Scene(const std::string& name) : name(name) {}
+
 	inline void setWindowHandle(const HWND& hwnd);
-	void handleInputEvent(const InputEvent& event, const InputHandlerCode& code);
 	inline const HWND& getWindowHandle() const;
 
+	inline const std::string& getName() { return name; }
+
+	void handleInputEvent(const InputEvent& event, const InputHandlerCode& code);
+
+	inline const std::string& getDataFile() { return settings.dataFile; }
+
 protected:
+	std::string name;
 	const HWND* hWnd;
-	std::vector<Model> models;
+	SceneSettings settings;
 };
 
 const HWND& Scene::getWindowHandle() const

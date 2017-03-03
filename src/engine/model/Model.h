@@ -2,7 +2,6 @@
 #include <memory>
 #include "../material/Material.h"
 #include "../mesh/Mesh.h"
-#include<string>
 
 class Model
 {

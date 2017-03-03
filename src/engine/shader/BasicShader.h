@@ -7,5 +7,5 @@ class BasicShader : public Shader
 public:
 	BasicShader();
 
-	virtual void render(const std::shared_ptr<Model> model) override;
+	virtual void render(const std::shared_ptr<Entity> entity) override;
 };

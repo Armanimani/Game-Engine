@@ -209,9 +209,9 @@ void Debug::createInputEventTypeMap()
 
 void Debug::createShaderTypeMap()
 {
-	shaderTypeMap.insert(std::make_pair(ShaderType::BasicShader, "Basic Shader"));
-	shaderTypeMap.insert(std::make_pair(ShaderType::SimplePositionShader, "Simple Position Shader"));
-	shaderTypeMap.insert(std::make_pair(ShaderType::SimpleColorShader, "Simple Color Shader"));
+	shaderTypeMap.insert(std::make_pair(ShaderType::BasicShader, "BasicShader"));
+	shaderTypeMap.insert(std::make_pair(ShaderType::SimplePositionShader, "SimplePositionShader"));
+	shaderTypeMap.insert(std::make_pair(ShaderType::SimpleColorShader, "SimpleColorShader"));
 }
 
 std::string Debug::keyCode_toString(const KeyCode& c)

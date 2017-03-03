@@ -1,7 +1,8 @@
 #pragma once
 #include "../shader/ShaderType.h"
-#include "../shader/Shader.h"
+#include <string>
 #include <memory>
+#include "MaterialProperties.h"
 
 
 class Material
@@ -11,10 +12,11 @@ public:
 
 	inline const ShaderType& getShaderType() { return shaderType; }
 	inline const std::string& getName() { return name; }
-	inline const std::shared_ptr<Shader> getShader() { return shader; }
+	inline const MaterialProperties& getProperties() { return properties; }
+	inline void setProperties(const MaterialProperties& props) { properties = props; }
 
 protected:
 	std::string name;
 	ShaderType shaderType;
-	std::shared_ptr<Shader> shader;
+	MaterialProperties properties;
 };

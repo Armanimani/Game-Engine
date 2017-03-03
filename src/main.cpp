@@ -1,18 +1,19 @@
 #include <Windows.h>
 #include <iostream>
 #include "engine\Engine.h"
-#include "engine\scene\Scene.h"
+#include "game-test\GameTest.h"
 
 #ifdef WIN32
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR szCmdLine, int CmdShow)
 {
+
 	Engine engine;
-	Scene s;
-	engine.init();
-	engine.registerScene(s);
+	std::shared_ptr<GameTest> game = std::make_shared<GameTest>();
+
+	engine.registerGame(game);
 	engine.run();
-	engine.shutDown();
+
 
 	return 0;
 }

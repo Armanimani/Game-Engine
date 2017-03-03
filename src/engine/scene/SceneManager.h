@@ -3,29 +3,20 @@
 #include <memory>
 #include <unordered_map>
 #include "../model/Model.h"
-#include "../mesh/Mesh.h"
-#include "../material/Material.h"
+#include "../entity/Entity.h"
+#include "../util/maps/UMap.h"
+
 class SceneManager
 {
 public:
 	SceneManager();
 
-	void addMesh(const std::shared_ptr<Mesh> mesh);
-	const std::shared_ptr<Mesh> getMesh(const std::string& name);
-	void clearMesh();
-
-	void addMaterial(const std::shared_ptr<Material> mat);
-	const std::shared_ptr<Material> getMaterial(const std::string& name);
-	void clearMaterial();
-
-	void addModel(const std::shared_ptr<Model> model);
-	const std::shared_ptr<Model> getModel(const std::string& name);
-	void clearModel();
+	UMap<Material> materialMap;
+	UMap<Mesh> meshMap;
+	UMap<Model> modelMap;
+	UMap<Entity> entityMap;
 
 	void cleanUp();
 
 protected:
-	std::unordered_map<std::string, std::shared_ptr<Mesh>> meshMap;
-	std::unordered_map<std::string, std::shared_ptr<Material>> materialMap;
-	std::unordered_map<std::string, std::shared_ptr<Model>> modelMap;
 };
