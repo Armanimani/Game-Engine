@@ -4,5 +4,6 @@ enum class ShaderType
 {
 	BasicShader,
 	SimpleColorShader,
-	SimplePositionShader
+	SimplePositionShader,
+	noType
 };

@@ -1,0 +1,20 @@
+name = 2DColorTriangle;
+verts =
+{
+	-0.8f, -0.8f, +0.0f,
+	+1.0f, +0.0f, +0.0f,
+	+0.8f, -0.8f, +0.0f,
+	+0.0f, +1.0f, +0.0f,
+	+0.0f, +0.8f, +0.0f,
+	+0.0f, +0.0f, +1.0f
+};
+
+indices =
+{
+	0, 1, 2
+};
+
+attributes =
+{
+	position, color
+};

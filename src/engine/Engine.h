@@ -34,7 +34,7 @@ protected:
 	std::shared_ptr<Scene> scene;
 	std::unique_ptr<EngineSettings> settings;
 	
-	float renderInterval = 0;
+	float renderInterval = 0.0f;
 	unsigned short int FPS = 0;
 
 	const HDC* hdc;

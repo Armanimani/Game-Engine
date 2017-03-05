@@ -2,11 +2,11 @@
 #include "FileController.h"
 #include <sstream>
 #include <algorithm>
+#include "../database/TypeDatabase.h"
 
 std::shared_ptr<Material> MaterialFileController::readFile(const std::string & path)
 {
-	auto it = path.find('.');
-	if (path.substr(it + 1, 3) != "mat")
+	if (path.substr(path.length() - 3, path.length()) != "mat")
 	{
 		Debug::print(path);
 		Debug::print("not a material File!");
@@ -29,7 +29,6 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 	while (std::getline(file, line, ';'))
 	{
 		line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
-		std::stringstream stream(line);
 		auto it = line.find('=');
 		key = std::string(line.begin(), line.begin() + it);
 		value = std::string(line.begin() + it + 1, line.end());
@@ -41,27 +40,7 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 
 		if (key == "shaderType")
 		{
-			if (value == "BasicShader")
-			{
-				shaderType = ShaderType::BasicShader;
-			}
-			else if (value == "SimplePositionShader")
-			{
-				shaderType = ShaderType::SimplePositionShader;
-			}
-			else if (value == "SimpleColorShader")
-			{
-				shaderType = ShaderType::SimpleColorShader;
-			}
-			else
-			{
-				Debug::print(path);
-				Debug::print(value);
-				Debug::print("undefined Shader class");
-				Debug::print(" ");
-				FileController::closeFile(file, path);
-				return nullptr;
-			}
+			shaderType = TypeDatabase::getShaderType(value);
 		}
 	}
 
@@ -72,8 +51,7 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 
 void MaterialFileController::writeFile(const std::string & path, const std::shared_ptr<Material> mat)
 {
-	auto it = path.find('.');
-	if (path.substr(it + 1, 3) != "mat")
+	if (path.substr(path.length() - 3, path.length()) != "mat")
 	{
 		Debug::print(path);
 		Debug::print("not a material File!");
@@ -89,27 +67,7 @@ void MaterialFileController::writeFile(const std::string & path, const std::shar
 
 	file << "name = " << mat->getName() << ";\n";
 
-	if (mat->getShaderType() == ShaderType::BasicShader)
-	{
-		file << "shaderType = " << "BasicShader" << ";\n";
-	}
-	else if (mat->getShaderType() == ShaderType::SimplePositionShader)
-	{
-		file << "shaderType = " << "SimplePositionShader" << ";\n";
-	}
-	else if (mat->getShaderType() == ShaderType::SimpleColorShader)
-	{
-		file << "shaderType = " << "SimpleColorShader" << ";\n";
-	}
-	else
-	{
-		Debug::print(path);
-		Debug::print(mat->getName());
-		Debug::print("undefined Shader class");
-		Debug::print(" ");
-		FileController::closeFile(file, path);
-		return;
-	}
+	TypeDatabase::getShaderTypeName(mat->getShaderType());
 
 	FileController::closeFile(file, path);
 }

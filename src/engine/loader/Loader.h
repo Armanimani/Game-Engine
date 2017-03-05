@@ -6,7 +6,7 @@ class Loader
 {
 public:
 	void init(std::shared_ptr<SceneManager> manager);
-	void load();
+	void load(); //TODO: only laod the used models
 
 protected:
 	std::shared_ptr<SceneManager> sceneManager;

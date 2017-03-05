@@ -7,7 +7,8 @@ GameTest::GameTest()
 
 void GameTest::createScenes()
 {
-	std::shared_ptr<Scene> scene1 = std::make_shared<Scene>("begin");
-	scenes.addItem(scene1);
+	std::shared_ptr<Scene> scene = std::make_shared<Scene>("begin");
+	scene->setDataFile("../res/scene/test.xml");
+	scenes.addItem(scene);
 }
 

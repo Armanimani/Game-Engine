@@ -5,5 +5,6 @@ enum class MeshAttribute
 	position,
 	color,
 	normal,
-	texture
+	texture,
+	noType
 };

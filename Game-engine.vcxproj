@@ -153,10 +153,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\clock\Cock.cpp" />
+    <ClCompile Include="src\engine\database\TypeDatabase.cpp" />
     <ClCompile Include="src\engine\debug\Debug.cpp" />
     <ClCompile Include="src\engine\Engine.cpp" />
     <ClCompile Include="src\engine\fileController\FileController.cpp" />
+    <ClCompile Include="src\engine\fileController\FileReaderHelper.cpp" />
     <ClCompile Include="src\engine\fileController\MaterialFileController.cpp" />
+    <ClCompile Include="src\engine\fileController\MeshFileController.cpp" />
+    <ClCompile Include="src\engine\fileController\SceneFileController.cpp" />
     <ClCompile Include="src\engine\game\Game.cpp" />
     <ClCompile Include="src\engine\loader\Loader.cpp" />
     <ClCompile Include="src\engine\mesh\Mesh.cpp" />
@@ -174,11 +178,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\clock\Cock.h" />
+    <ClInclude Include="src\engine\database\TypeDatabase.h" />
     <ClInclude Include="src\engine\debug\Debug.h" />
     <ClInclude Include="src\engine\Engine.h" />
     <ClInclude Include="src\engine\entity\Entity.h" />
     <ClInclude Include="src\engine\fileController\FileController.h" />
+    <ClInclude Include="src\engine\fileController\FileReaderHelper.h" />
     <ClInclude Include="src\engine\fileController\MaterialFileController.h" />
+    <ClInclude Include="src\engine\fileController\MeshFileController.h" />
+    <ClInclude Include="src\engine\fileController\SceneFileController.h" />
     <ClInclude Include="src\engine\game\Game.h" />
     <ClInclude Include="src\engine\loader\Loader.h" />
     <ClInclude Include="src\engine\material\Material.h" />
@@ -210,6 +218,11 @@
     <ClInclude Include="src\game-test\GameTest.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\material\simpleColor.mat" />
+    <None Include="res\material\simplePosition.mat" />
+    <None Include="res\mesh\2DColorTriangle.msh" />
+    <None Include="res\mesh\2DRectangle.msh" />
+    <None Include="res\scene\test.xml" />
     <None Include="src\engine\shader\glsl\BasicFragmentShader.glsl" />
     <None Include="src\engine\shader\glsl\BasicVertexShader.glsl" />
     <None Include="src\engine\shader\glsl\SimpleColorFS.glsl" />

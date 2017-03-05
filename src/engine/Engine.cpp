@@ -8,7 +8,16 @@
 
 #include <glew\GL\glew.h>
 
-#include "fileController\MaterialFileController.h"
+#include "fileController\SceneFileController.h"
+
+void test()
+{
+	
+	//for (rapidxml::xml_node<> *pNode = pRoot->first_node(); pNode; pNode = pNode->next_sibling())
+	//{
+	//	std::cout << pNode->value() << std::endl;
+	//}
+}
 
 Engine::Engine()
 {
@@ -21,8 +30,6 @@ Engine::Engine()
 
 	init();
 
-	std::shared_ptr<Material> mat = MaterialFileController::readFile("C:/Users/Arman/Documents/test.mat");
-	MaterialFileController::writeFile("C:/Users/Arman/Documents/test2.mat", mat);
 }
 
 void Engine::registerGame(const std::shared_ptr<Game> _game)
@@ -129,7 +136,7 @@ void Engine::initWindow()
 void Engine::initClock()
 {
 	Clock::init();
-	if (settings->max_FPS != -1)
+	if (settings->max_FPS != 0)
 	{
 		renderInterval = 1.0f / settings->max_FPS;
 	}
@@ -149,54 +156,15 @@ void Engine::initLoader()
 void Engine::initRender()
 {
 	//
-	std::vector<GLfloat> verts
-	{
-		-0.8f, -0.8f, +0.0f,
-		+1.0f, +0.0f, +0.0f,
-		+0.8f, -0.8f, +0.0f,
-		+0.0f, +1.0f, +0.0f,
-		+0.0f, +0.8f, +0.0f,
-		+0.0f, +0.0f, +1.0f};
 
-	std::vector<GLfloat> verts2
-	{
-		-0.5f, +0.5f, +0.0f,
-		-0.5f, -0.5f, +0.0f,
-		+0.5f, -0.5f, +0.0f,
-		+0.5f, +0.5f, +0.0f
-	};
-
-	std::vector<GLuint> indices {0, 1, 2};
-	std::vector<GLuint> indices2
-	{
-		0, 1, 3,
-		3, 1, 2
-	};
-	std::vector<MeshAttribute> attribs {MeshAttribute::position, MeshAttribute::color};
-	std::vector<MeshAttribute> attribs2 {MeshAttribute::position};
-	std::shared_ptr<Mesh> mesh1 = std::make_shared<Mesh>("mesh1", verts, indices, attribs);
-	std::shared_ptr<Mesh> mesh2 = std::make_shared<Mesh>("mesh2", verts2, indices2, attribs2);
-	sceneManager->meshMap.addItem(mesh1);
-	sceneManager->meshMap.addItem(mesh2);
-	std::shared_ptr<Material> mat1 = std::make_shared<Material>("mat1", ShaderType::SimplePositionShader);
-	std::shared_ptr<Material> mat2 = std::make_shared<Material>("mat2", ShaderType::SimpleColorShader);
-	sceneManager->materialMap.addItem(mat1);
-	sceneManager->materialMap.addItem(mat2);
-	std::shared_ptr<Model> model1 = std::make_shared<Model>("model", sceneManager->meshMap.getItem("mesh1"), sceneManager->materialMap.getItem("mat2"));
-	std::shared_ptr<Model> model2 = std::make_shared<Model>("model2", sceneManager->meshMap.getItem("mesh1"), sceneManager->materialMap.getItem("mat2"));
-	sceneManager->modelMap.addItem(model1);
-	sceneManager->modelMap.addItem(model2);
-	//TODO
-
-	std::shared_ptr<Entity> entity = std::make_shared<Entity>("test", model1, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-	sceneManager->entityMap.addItem(entity);
-
+	
 
 	//
 }
 
 void Engine::load()
 {
+	SceneFileController::readSceneDataFile(sceneManager, scene->getDataFile());
 	loader->load();
 }
 
@@ -214,4 +182,5 @@ void Engine::calculateFPS()
 {
 	FPS = 1.0f / Clock::deltaTime;
 	Clock::prevRenderTime = Clock::time;
+	//Debug::print(std::to_string(FPS));
 }

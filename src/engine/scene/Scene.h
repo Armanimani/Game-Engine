@@ -18,6 +18,7 @@ public:
 	void handleInputEvent(const InputEvent& event, const InputHandlerCode& code);
 
 	inline const std::string& getDataFile() { return settings.dataFile; }
+	inline void setDataFile(const std::string& path) { settings.dataFile = path; };
 
 protected:
 	std::string name;

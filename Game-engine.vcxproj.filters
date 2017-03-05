@@ -66,10 +66,22 @@
     <ClCompile Include="src\engine\game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\fileController\MaterialFileController.cpp">
+    <ClCompile Include="src\engine\fileController\FileController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\fileController\FileController.cpp">
+    <ClCompile Include="src\engine\fileController\FileReaderHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\database\TypeDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\fileController\MeshFileController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\fileController\SceneFileController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\fileController\MaterialFileController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -173,10 +185,22 @@
     <ClInclude Include="src\game-test\GameTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\fileController\FileController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\fileController\FileReaderHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\database\TypeDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\engine\fileController\MaterialFileController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\fileController\FileController.h">
+    <ClInclude Include="src\engine\fileController\MeshFileController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\fileController\SceneFileController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -187,5 +211,10 @@
     <None Include="src\engine\shader\glsl\SimplePositionFS.glsl" />
     <None Include="src\engine\shader\glsl\SimpleColorFS.glsl" />
     <None Include="src\engine\shader\glsl\SimpleColorVS.glsl" />
+    <None Include="res\mesh\2DColorTriangle.msh" />
+    <None Include="res\mesh\2DRectangle.msh" />
+    <None Include="res\scene\test.xml" />
+    <None Include="res\material\simpleColor.mat" />
+    <None Include="res\material\simplePosition.mat" />
   </ItemGroup>
 </Project>
