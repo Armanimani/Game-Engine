@@ -217,4 +217,7 @@
     <None Include="res\material\simpleColor.mat" />
     <None Include="res\material\simplePosition.mat" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="res\scene\finalState.xml" />
+  </ItemGroup>
 </Project>

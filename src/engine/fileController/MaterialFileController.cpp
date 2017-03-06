@@ -45,8 +45,9 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 	}
 
 	FileController::closeFile(file, path);
-
-	return std::make_shared<Material>(name, shaderType);
+	std::shared_ptr<Material> ret = std::make_shared<Material>(name, shaderType);
+	ret->setPath(path);
+	return ret;
 }
 
 void MaterialFileController::writeFile(const std::string & path, const std::shared_ptr<Material> mat)

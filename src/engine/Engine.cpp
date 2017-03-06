@@ -86,6 +86,7 @@ void Engine::init()
 void Engine::shutdown()
 {
 	Debug::print("Shutting Down...");
+	SceneFileController::writeSceneDataFile(sceneManager, "../res/scene/finalState.xml");
 	renderer->cleanUp();
 	sceneManager->cleanUp();
 	window->killWindow();

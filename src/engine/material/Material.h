@@ -15,8 +15,12 @@ public:
 	inline const MaterialProperties& getProperties() { return properties; }
 	inline void setProperties(const MaterialProperties& props) { properties = props; }
 
+	inline const std::string& getPath() const { return path; }
+	inline void setPath(const std::string& path) { this->path = path; }
+
 protected:
 	std::string name;
+	std::string path;
 	ShaderType shaderType;
 	MaterialProperties properties;
 };

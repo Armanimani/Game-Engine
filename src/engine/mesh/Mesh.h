@@ -22,8 +22,12 @@ public:
 
 	inline const std::string& getName() const { return name; }
 
+	inline const std::string& getPath() const { return path; }
+	inline void setPath(const std::string& path) { this->path = path; }
+
 protected:
 	std::string name;
+	std::string path;
 
 	GLuint vertexArrayObjectID;
 	GLuint vertexBufferObjectID;

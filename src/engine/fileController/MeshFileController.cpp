@@ -60,13 +60,17 @@ std::shared_ptr<Mesh> MeshFileController::readFile(const std::string & path)
 			}
 		}
 
-		return std::make_shared<Mesh>(name, verts, indices, attribs);
+		std::shared_ptr<Mesh> ret = std::make_shared<Mesh>(name, verts, indices, attribs);
+		ret->setPath(path);
+		return ret;
 	}
 	else if (extension == "obj")
 	{
 		Debug::print("obj file extension not yet implemented"); // TODO
 		return nullptr;
 	}
+
+	FileController::closeFile(file, path);
 
 	return nullptr;
 }
