@@ -5,3 +5,4 @@ void Scene::handleInputEvent(const InputEvent& event, const InputHandlerCode& co
 {
 	Debug::print(event);
 }
+

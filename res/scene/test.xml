@@ -1,35 +1,29 @@
 <scene>
-  
-  <mesh>
-    ../res/mesh/2DColorTriangle.msh,
-    ../res/mesh/2DRectangle.msh
-  </mesh>
-
-  <material>
-    ../res/material/simplePosition.mat,
-    ../res/material/simpleColor.mat
-  </material>
-
+  <meshes>
+    <mesh>../res/mesh/2DColorTriangle.msh</mesh>
+    <mesh>../res/mesh/2DRectangle.msh</mesh>
+   </meshes>
+  <materials>
+    <material>../res/material/simplePosition.mat</material>
+    <material>../res/material/simpleColor.mat</material>
+  </materials>
   <models>
     <model>
       <name>colorTriangle</name>
       <mesh>2DColorTriangle</mesh>
       <material>simpleColorMaterial</material>
     </model>
-
     <model>
       <name>positionTriangle</name>
       <mesh>2DColorTriangle</mesh>
       <material>simplePositionMaterial</material>
     </model>
-
     <model>
       <name>positionRectangular</name>
       <mesh>2DRectangle</mesh>
       <material>simplePositionMaterial</material>
     </model>
   </models>
-
   <entities>
     <entity>
       <name>test</name>

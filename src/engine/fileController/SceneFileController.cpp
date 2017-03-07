@@ -9,7 +9,9 @@
 #include "FileController.h"
 
 const std::string SCENE("scene");
+const std::string MESHES("meshes");
 const std::string MESH("mesh");
+const std::string MATERIALS("materials");
 const std::string MATERIAL("material");
 const std::string MODELS("models");
 const std::string MODEL("model");
@@ -37,42 +39,20 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 	for (rapidxml::xml_node<> *cat = root->first_node(); cat; cat = cat->next_sibling())
 	{
 
-		if (cat->name() == MESH)
+		if (cat->name() == MESHES)
 		{
-			std::string value = cat->value();
-			value.erase(std::remove_if(value.begin(), value.end(), isspace), value.end());
-			
-			while (true)
+			for (rapidxml::xml_node<> *m = cat->first_node(); m; m = m->next_sibling())
 			{
-				auto pos = value.find(',');
-
-				if (pos == std::string::npos)
-				{
-					manager->meshMap.addItem(MeshFileController::readFile(value));
-					break;
-				}
-				temp = value.substr(0, pos);
-				manager->meshMap.addItem(MeshFileController::readFile(temp));
-				value.erase(value.cbegin(), value.cbegin() + pos + 1);
+				std::string value = m->value();
+				manager->meshMap.addItem(MeshFileController::readFile(value));
 			}
 		}
-		else if (cat->name() == MATERIAL)
+		else if (cat->name() == MATERIALS)
 		{
-			std::string value = cat->value();
-			value.erase(std::remove_if(value.begin(), value.end(), isspace), value.end());
-
-			while (true)
+			for (rapidxml::xml_node<> *m = cat->first_node(); m; m = m->next_sibling())
 			{
-				auto pos = value.find(',');
-
-				if (pos == std::string::npos)
-				{
-					manager->materialMap.addItem(MaterialFileController::readFile(value));
-					break;
-				}
-				temp = value.substr(0, pos);
-				manager->materialMap.addItem(MaterialFileController::readFile(temp));
-				value.erase(value.cbegin(), value.cbegin() + pos + 1);
+				std::string value = m->value();
+				manager->materialMap.addItem(MaterialFileController::readFile(value));
 			}
 		}
 		else if (cat->name() == MODELS)
@@ -142,29 +122,23 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 	rapidxml::xml_node<>* models = doc.allocate_node(rapidxml::node_element, MODELS.c_str());
 	rapidxml::xml_node<>* entities = doc.allocate_node(rapidxml::node_element, ENTITIES.c_str());
 
-	std::string value;
 	const std::unordered_map<std::string, std::shared_ptr<Mesh>>* mapMesh = &(manager->meshMap.getMap());
+	rapidxml::xml_node<>* meshes = doc.allocate_node(rapidxml::node_element, MESHES.c_str());
 	for (auto i = mapMesh->cbegin(); i != mapMesh->cend(); ++i)
 	{
-		std::shared_ptr<Mesh> mesh = (*i).second;
-		value.append(mesh->getPath());
-		value.append(",");
+		rapidxml::xml_node<>* mesh = doc.allocate_node(rapidxml::node_element,MESH.c_str(),(*i).second->getPath().c_str());
+		meshes->append_node(mesh);
 	}
-	value.erase(value.end() - 1, value.end());
-	rapidxml::xml_node<>* mesh = doc.allocate_node(rapidxml::node_element,MESH.c_str(),value.c_str());
-	root->append_node(mesh);
+	root->append_node(meshes);
 
-	std::string value2;
 	const std::unordered_map<std::string, std::shared_ptr<Material>>* mapMaterial = &(manager->materialMap.getMap());
+	rapidxml::xml_node<>* materials = doc.allocate_node(rapidxml::node_element, MATERIALS.c_str());
 	for (auto i = mapMaterial->cbegin(); i != mapMaterial->cend(); ++i)
 	{
-		std::shared_ptr<Material> mat = (*i).second;
-		value2.append(mat->getPath());
-		value2.append(",");
+		rapidxml::xml_node<>* material = doc.allocate_node(rapidxml::node_element, MATERIAL.c_str(), (*i).second->getPath().c_str());
+		materials->append_node(material);
 	}
-	value2.erase(value2.end() - 1, value2.end());
-	rapidxml::xml_node<>* material = doc.allocate_node(rapidxml::node_element, MATERIAL.c_str(), value2.c_str());
-	root->append_node(material);
+	root->append_node(materials);
 
 
 	const std::unordered_map<std::string, std::shared_ptr<Model>>* mapModel = &(manager->modelMap.getMap());

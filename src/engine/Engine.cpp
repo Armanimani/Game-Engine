@@ -47,7 +47,7 @@ void Engine::run()
 	MSG msg;
 	Clock::prevRenderTime = Clock::getTime();
 
-	while (true)
+	while (isRunning)
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
@@ -58,7 +58,7 @@ void Engine::run()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		
+		handleEvents();
 		Clock::getTime();
 		if ( Clock::deltaTime >= renderInterval)
 		{
@@ -80,7 +80,6 @@ void Engine::init()
 	initClock();
 	initRenderer();
 	initLoader();
-	initRender();
 }
 
 void Engine::shutdown()
@@ -97,6 +96,7 @@ void Engine::registerScene(std::shared_ptr<Scene> s)
 	// TODO for now! 
 	scene = s;
 	scene->setWindowHandle(window->getWindowHandle());
+	scene->setEngineEventList(eventList);
 	inMapper->registerScene(s);
 }
 
@@ -109,7 +109,7 @@ void Engine::initGL()
 		Debug::print("glew Initialization failed!");
 	}
 
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(settings->backgroundColor.r, settings->backgroundColor.g, settings->backgroundColor.b, settings->backgroundColor.a);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -154,15 +154,6 @@ void Engine::initLoader()
 	loader->init(sceneManager);
 }
 
-void Engine::initRender()
-{
-	//
-
-	
-
-	//
-}
-
 void Engine::load()
 {
 	SceneFileController::readSceneDataFile(sceneManager, scene->getDataFile());
@@ -171,7 +162,7 @@ void Engine::load()
 
 void Engine::renderGL()
 {
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(settings->backgroundColor.r, settings->backgroundColor.g, settings->backgroundColor.b, settings->backgroundColor.a);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	renderer->render();
@@ -184,4 +175,29 @@ void Engine::calculateFPS()
 	FPS = 1.0f / Clock::deltaTime;
 	Clock::prevRenderTime = Clock::time;
 	//Debug::print(std::to_string(FPS));
+}
+
+
+void Engine::handleEvents()
+{
+	while (eventList.size() != 0)
+	{
+		std::shared_ptr<EngineEvent> event = eventList.front();
+
+		switch (eventList.front()->code)
+		{
+		case(EngineEventCode::shutdown):
+		{
+			isRunning = false;
+			break;
+		}
+		case(EngineEventCode::changeBackground):
+		{
+			settings->backgroundColor = event->vec4Data;
+			break;
+		}
+		}
+		eventList.pop();
+	}
+
 }

@@ -1,6 +1,12 @@
 <scene>
-	<mesh>../res/mesh/2DColorTriangle.msh,../res/mesh/2DRectangle.msh</mesh>
-	<material>../res/material/simplePosition.mat,../res/material/simpleColor.mat</material>
+	<meshes>
+		<mesh>../res/mesh/2DColorTriangle.msh</mesh>
+		<mesh>../res/mesh/2DRectangle.msh</mesh>
+	</meshes>
+	<materials>
+		<material>../res/material/simplePosition.mat</material>
+		<material>../res/material/simpleColor.mat</material>
+	</materials>
 	<models>
 		<model>
 			<name>colorTriangle</name>

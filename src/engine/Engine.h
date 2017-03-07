@@ -12,6 +12,8 @@
 #include "scene\SceneManager.h"
 #include "loader\Loader.h"
 #include "game\Game.h"
+#include <queue>
+#include "event\EngineEvent.h"
 
 class Engine
 {
@@ -24,6 +26,7 @@ public:
 protected:
 	void init();
 	void shutdown();
+	bool isRunning = true;
 	std::unique_ptr<Win32Window> window;
 	std::shared_ptr<InputMapper> inMapper;
 	std::unique_ptr<Renderer> renderer;
@@ -33,6 +36,8 @@ protected:
 	std::shared_ptr<Game> game;
 	std::shared_ptr<Scene> scene;
 	std::unique_ptr<EngineSettings> settings;
+
+	std::queue<std::shared_ptr<EngineEvent>> eventList;
 	
 	float renderInterval = 0.0f;
 	unsigned short int FPS = 0;
@@ -45,7 +50,6 @@ protected:
 	void initClock();
 	void initRenderer();
 	void initLoader();
-	void initRender();
 	
 	void load();
 
@@ -54,4 +58,5 @@ protected:
 	void calculateFPS();
 
 	void registerScene(std::shared_ptr<Scene> s);
+	void handleEvents();
 };
