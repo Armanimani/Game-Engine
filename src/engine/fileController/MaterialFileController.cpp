@@ -3,6 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include "../database/TypeDatabase.h"
+#include "../fileController/FileReaderHelper.h"
 
 std::shared_ptr<Material> MaterialFileController::readFile(const std::string & path)
 {
@@ -26,6 +27,7 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 	std::string line;
 	std::string key;
 	std::string value;
+	MaterialProperties props;
 	while (std::getline(file, line, ';'))
 	{
 		line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
@@ -38,15 +40,23 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 			name = value;
 		}
 
-		if (key == "shaderType")
+		if (key == "shader")
 		{
 			shaderType = TypeDatabase::getShaderType(value);
+		}
+
+		if (key == "diffuseColor")
+		{
+			glm::vec3 color;
+			FileReaderHelper::readValues(color, value);
+			props.diffuseColor = color;
 		}
 	}
 
 	FileController::closeFile(file, path);
 	std::shared_ptr<Material> ret = std::make_shared<Material>(name, shaderType);
 	ret->setPath(path);
+	ret->setProperties(props);
 	return ret;
 }
 

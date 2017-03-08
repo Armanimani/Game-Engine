@@ -1,2 +1,2 @@
 name = simpleColorMaterial;
-shaderType = SimpleColorShader;
+shader = SimpleColorShader;

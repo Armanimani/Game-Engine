@@ -2,10 +2,21 @@
 #include "EngineEventCode.h"
 #include "glm\glm.hpp"
 
-struct EngineEvent
-{
-	EngineEvent(const EngineEventCode& code) : code(code) {}
-	EngineEvent(const EngineEventCode& code, glm::vec4 data) : code(code), vec4Data(data) {}
-	EngineEventCode code = EngineEventCode::noCode;
-	glm::vec4 vec4Data;
-};
+namespace engine{
+	struct Event
+	{
+		Event(const EventCode& code) : code(code) {}
+		EventCode code = EventCode::noCode;
+	};
+
+	struct ShutdownEvent : public Event
+	{
+		ShutdownEvent() : Event(EventCode::shutdown) {}
+	};
+
+	struct ChangeBackgroundEvent : public Event
+	{
+		ChangeBackgroundEvent(const glm::vec4& data) : Event(EventCode::changeBackground), data(data) {}
+		glm::vec4 data;
+	};
+}

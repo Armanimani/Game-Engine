@@ -1,9 +1,12 @@
 #pragma once
 
-
-enum class EngineEventCode
+namespace engine
 {
-	noCode,
-	shutdown,
-	changeBackground
-};
+	enum class EventCode
+	{
+		noCode,
+		shutdown,
+		changeBackground
+	};
+}
+

@@ -9,7 +9,7 @@ public:
 	static float getTime();
 	
 	static float time;
-	static float prevRenderTime;
+	static float prevTime;
 
 	static float deltaTime;
 

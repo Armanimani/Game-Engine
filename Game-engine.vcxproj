@@ -170,6 +170,7 @@
     <ClCompile Include="src\engine\shader\BasicShader.cpp" />
     <ClCompile Include="src\engine\shader\Shader.cpp" />
     <ClCompile Include="src\engine\shader\SimpleColorShader.cpp" />
+    <ClCompile Include="src\engine\shader\SimpleDiffuseColorShader.cpp" />
     <ClCompile Include="src\engine\shader\SimplePositionShader.cpp" />
     <ClCompile Include="src\engine\userInput\inputMapper\InputMapper.cpp" />
     <ClCompile Include="src\engine\window\win32\Win32Window.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="src\engine\debug\Debug.h" />
     <ClInclude Include="src\engine\Engine.h" />
     <ClInclude Include="src\engine\entity\Entity.h" />
+    <ClInclude Include="src\engine\event\DelayedEngineEvent.h" />
     <ClInclude Include="src\engine\event\EngineEvent.h" />
     <ClInclude Include="src\engine\event\EngineEventCode.h" />
     <ClInclude Include="src\engine\fileController\FileController.h" />
@@ -205,6 +207,7 @@
     <ClInclude Include="src\engine\shader\BasicShader.h" />
     <ClInclude Include="src\engine\shader\ShaderType.h" />
     <ClInclude Include="src\engine\shader\SimpleColorShader.h" />
+    <ClInclude Include="src\engine\shader\SimpleDiffuseColorShader.h" />
     <ClInclude Include="src\engine\shader\SimplePositionShader.h" />
     <ClInclude Include="src\engine\shader\Shader.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEventType.h" />
@@ -222,20 +225,26 @@
     <ClInclude Include="src\game-test\scenes\Scene1.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\material\diffuseColor\simpleDiffuseBlue.mat" />
     <None Include="res\material\simpleColor.mat" />
     <None Include="res\material\simplePosition.mat" />
     <None Include="res\mesh\2DColorTriangle.msh" />
     <None Include="res\mesh\2DRectangle.msh" />
+    <None Include="res\mesh\2D\2DRectangle.msh" />
+    <None Include="res\mesh\2D\2DTriangle.msh" />
     <None Include="res\scene\test.xml" />
     <None Include="src\engine\shader\glsl\BasicFragmentShader.glsl" />
     <None Include="src\engine\shader\glsl\BasicVertexShader.glsl" />
     <None Include="src\engine\shader\glsl\SimpleColorFS.glsl" />
     <None Include="src\engine\shader\glsl\SimpleColorVS.glsl" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseColorFS.glsl" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseColorVS.glsl" />
     <None Include="src\engine\shader\glsl\SimplePositionFS.glsl" />
     <None Include="src\engine\shader\glsl\SimplePositionVS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\finalState.xml" />
+    <Xml Include="res\scene\test2.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -56,3 +56,20 @@ void FileReaderHelper::readValues(std::vector<MeshAttribute>& vec, std::string &
 	}
 }
 
+void FileReaderHelper::readValues(glm::vec3 & vec, std::string & value)
+{
+	std::vector<GLfloat> temp;
+	while (true)
+	{
+		auto pos = value.find(',');
+		if (pos == std::string::npos)
+		{
+			temp.push_back(std::stof(value));
+			break;
+		}
+		temp.push_back(std::stof(value.substr(0, pos)));
+		value.erase(value.cbegin(), value.cbegin() + pos + 1);
+	}
+	vec = glm::vec3(temp[0], temp[1], temp[2]);
+}
+

@@ -87,6 +87,9 @@
     <ClCompile Include="src\game-test\scenes\Scene1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\shader\SimpleDiffuseColorShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -215,6 +218,12 @@
     <ClInclude Include="src\engine\event\EngineEventCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\event\DelayedEngineEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleDiffuseColorShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\engine\shader\glsl\BasicVertexShader.glsl" />
@@ -228,8 +237,14 @@
     <None Include="res\scene\test.xml" />
     <None Include="res\material\simpleColor.mat" />
     <None Include="res\material\simplePosition.mat" />
+    <None Include="res\mesh\2D\2DRectangle.msh" />
+    <None Include="res\mesh\2D\2DTriangle.msh" />
+    <None Include="res\material\diffuseColor\simpleDiffuseBlue.mat" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseColorFS.glsl" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseColorVS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\finalState.xml" />
+    <Xml Include="res\scene\test2.xml" />
   </ItemGroup>
 </Project>

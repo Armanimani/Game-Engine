@@ -46,6 +46,7 @@ void Shader::install()
 		Debug::print(" ");
 		return;
 	}
+	getAllUniformLocations();
 }
 
 void Shader::start()

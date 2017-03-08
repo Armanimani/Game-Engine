@@ -5,19 +5,11 @@
 #include "shader\SimplePositionShader.h"
 #include "mesh\Mesh.h"
 #include "entity\Entity.h"
+#include <algorithm>
 
 #include <glew\GL\glew.h>
 
 #include "fileController\SceneFileController.h"
-
-void test()
-{
-	
-	//for (rapidxml::xml_node<> *pNode = pRoot->first_node(); pNode; pNode = pNode->next_sibling())
-	//{
-	//	std::cout << pNode->value() << std::endl;
-	//}
-}
 
 Engine::Engine()
 {
@@ -36,16 +28,16 @@ void Engine::registerGame(const std::shared_ptr<Game> _game)
 {
 	game = _game;
 	registerScene(game->getScene("begin"));
-
 }
-
 
 void Engine::run()
 {
 	load();
 
+	unsigned short int FPSCounter = 0;
+
 	MSG msg;
-	Clock::prevRenderTime = Clock::getTime();
+	Clock::prevTime = Clock::getTime();
 
 	while (isRunning)
 	{
@@ -58,17 +50,20 @@ void Engine::run()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		handleEvents();
 		Clock::getTime();
-		if ( Clock::deltaTime >= renderInterval)
+		if ( Clock::deltaTime >= logicInterval)
 		{
-			renderGL();
-			SwapBuffers(*hdc);
-			calculateFPS();
+			Clock::prevTime = Clock::time;
+			calculateFPS(FPSCounter);
+			scene->update();
+			handleEngineEvents();
 			//Debug::print(window->getGLMousePosition());
 		}
+		renderGL();
+		SwapBuffers(*hdc);
+		
+		FPSCounter++;
 	}
-
 	shutdown();
 }
 
@@ -97,6 +92,7 @@ void Engine::registerScene(std::shared_ptr<Scene> s)
 	scene = s;
 	scene->setWindowHandle(window->getWindowHandle());
 	scene->setEngineEventList(eventList);
+	scene->setDelayedEngineEventList(delayedEventList);
 	inMapper->registerScene(s);
 }
 
@@ -137,9 +133,9 @@ void Engine::initWindow()
 void Engine::initClock()
 {
 	Clock::init();
-	if (settings->max_FPS != 0)
+	if (settings->logicFreq != 0)
 	{
-		renderInterval = 1.0f / settings->max_FPS;
+		logicInterval = 1.0f / settings->logicFreq;
 	}
 }
 
@@ -170,34 +166,69 @@ void Engine::renderGL()
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-void Engine::calculateFPS()
+void Engine::calculateFPS(unsigned short int& FPSCounter)
 {
-	FPS = 1.0f / Clock::deltaTime;
-	Clock::prevRenderTime = Clock::time;
+	FPS = static_cast<unsigned short int> (FPSCounter / Clock::deltaTime);
+	FPSCounter = 0;
 	//Debug::print(std::to_string(FPS));
 }
 
+
+void Engine::handleEngineEvents()
+{
+	handleEvents();
+	handleDelayedEvents();
+}
 
 void Engine::handleEvents()
 {
 	while (eventList.size() != 0)
 	{
-		std::shared_ptr<EngineEvent> event = eventList.front();
+		std::shared_ptr<engine::Event> event = eventList.front();
 
 		switch (eventList.front()->code)
 		{
-		case(EngineEventCode::shutdown):
+		case(engine::EventCode::shutdown):
 		{
 			isRunning = false;
 			break;
 		}
-		case(EngineEventCode::changeBackground):
+		case(engine::EventCode::changeBackground):
 		{
-			settings->backgroundColor = event->vec4Data;
+			std::shared_ptr<engine::ChangeBackgroundEvent> e = std::static_pointer_cast<engine::ChangeBackgroundEvent> (event);
+			settings->backgroundColor = e->data;
 			break;
 		}
 		}
 		eventList.pop();
+	}
+
+}
+
+void Engine::handleDelayedEvents()
+{
+	double time = Clock::time;
+	for (auto i = delayedEventList.begin(); i != delayedEventList.end(); ++i)
+	{
+		if ((*i)->execTime <= time)
+		{
+			switch ((*i)->code)
+			{
+			case (engine::EventCode::shutdown):
+			{
+				isRunning = false;
+				break;
+			}
+			case (engine::EventCode::changeBackground):
+			{
+				std::shared_ptr<engine::DelayedChangeBackgroundEvent> e = std::static_pointer_cast<engine::DelayedChangeBackgroundEvent> (*(i));
+				settings->backgroundColor = e->color;
+				break;
+			}
+			}
+			i = delayedEventList.erase(i);
+			if (i == delayedEventList.cend()) break;
+		}
 	}
 
 }

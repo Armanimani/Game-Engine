@@ -3,7 +3,7 @@
 LARGE_INTEGER Clock::timeFrequency;
 LARGE_INTEGER Clock::startingTime;
 float Clock::time;
-float Clock::prevRenderTime;
+float Clock::prevTime;
 float Clock::deltaTime;
 
 void Clock::init()
@@ -18,6 +18,6 @@ float Clock::getTime()
 	QueryPerformanceCounter(&newTime);
 	time = (float)(newTime.QuadPart - startingTime.QuadPart) / (timeFrequency.QuadPart);
 	
-	deltaTime = time - prevRenderTime;
+	deltaTime = time - prevTime;
 	return time;
 }

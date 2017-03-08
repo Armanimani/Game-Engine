@@ -7,6 +7,8 @@
 #include <queue>
 #include "../event/EngineEvent.h"
 #include <memory>
+#include <unordered_set>
+#include "../event/DelayedEngineEvent.h"
 
 class Scene
 {
@@ -23,13 +25,20 @@ public:
 	inline const std::string& getDataFile() { return settings.dataFile; }
 	inline void setDataFile(const std::string& path) { settings.dataFile = path; };
 
-	inline void setEngineEventList(std::queue<std::shared_ptr<EngineEvent>>& list) {engineEventList = &list;}
+	inline void setEngineEventList(std::queue<std::shared_ptr<engine::Event>>& list) {engineEventList = &list;}
+	inline void setDelayedEngineEventList(std::unordered_set<std::shared_ptr<engine::DelayedEvent>>& list) {delayedEngineEventList = &list;};
+	inline void registerEngineEvent(const std::shared_ptr<engine::Event>& e) { engineEventList->push(e); }
+	inline void registerDelayedEngineEvent(const std::shared_ptr<engine::DelayedEvent>& e) { delayedEngineEventList->insert(e); }
+
+	virtual void update() {};
 
 protected:
 	std::string name;
 	const HWND* hWnd;
 	SceneSettings settings;
-	std::queue<std::shared_ptr<EngineEvent>>* engineEventList;
+
+	std::queue<std::shared_ptr<engine::Event>>* engineEventList;
+	std::unordered_set<std::shared_ptr<engine::DelayedEvent>>* delayedEngineEventList;
 };
 
 const HWND& Scene::getWindowHandle() const

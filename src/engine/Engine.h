@@ -14,6 +14,8 @@
 #include "game\Game.h"
 #include <queue>
 #include "event\EngineEvent.h"
+#include <unordered_set>
+#include "event\DelayedEngineEvent.h"
 
 class Engine
 {
@@ -37,10 +39,11 @@ protected:
 	std::shared_ptr<Scene> scene;
 	std::unique_ptr<EngineSettings> settings;
 
-	std::queue<std::shared_ptr<EngineEvent>> eventList;
+	std::queue<std::shared_ptr<engine::Event>> eventList;
+	std::unordered_set<std::shared_ptr<engine::DelayedEvent>> delayedEventList;
 	
-	float renderInterval = 0.0f;
-	unsigned short int FPS = 0;
+	float logicInterval = 0.0f;
+	unsigned short int FPS;
 
 	const HDC* hdc;
 
@@ -55,8 +58,10 @@ protected:
 
 	void renderGL();
 
-	void calculateFPS();
+	void calculateFPS(unsigned short int& FPS);
 
 	void registerScene(std::shared_ptr<Scene> s);
+	void handleEngineEvents();
 	void handleEvents();
+	void handleDelayedEvents();
 };

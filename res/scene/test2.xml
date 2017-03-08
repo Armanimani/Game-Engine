@@ -1,0 +1,43 @@
+<scene>
+  <meshes>
+    <mesh>../res/mesh/2D/2DTriangle.msh</mesh>
+    <mesh>../res/mesh/2D/2DRectangle.msh</mesh>
+   </meshes>
+  <materials>
+    <material>../res/material/simplePosition.mat</material>
+    <material>../res/material/simpleColor.mat</material>
+    <material>../res/material/diffuseColor/simpleDiffuseBlue.mat</material>
+  </materials>
+  <models>
+    <model>
+      <name>colorTriangle</name>
+      <mesh>2DTriangle</mesh>
+      <material>simpleColorMaterial</material>
+    </model>
+    <model>
+      <name>positionTriangle</name>
+      <mesh>2DTriangle</mesh>
+      <material>simplePositionMaterial</material>
+    </model>
+    <model>
+      <name>positionRectangle</name>
+      <mesh>2DRectangle</mesh>
+      <material>simplePositionMaterial</material>
+    </model>
+    <model>
+      <name>diffuseRectangle</name>
+      <mesh>2DRectangle</mesh>
+      <material>simpleDiffuseBlue</material>
+    </model>
+  </models>
+  <entities>
+    <entity>
+      <name>test</name>
+      <model>diffuseRectangle</model>
+      <position x ="0.0f" y ="0.0f" z="0.0f"/>
+      <rotation x ="0.0f" y ="0.0f" z="0.0f"/>
+      <scale x ="0.0f" y ="0.0f" z="0.0f"/>
+    </entity>
+  </entities>
+
+</scene>

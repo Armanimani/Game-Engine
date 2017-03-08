@@ -3,6 +3,7 @@
 #include "../shader/BasicShader.h"
 #include "../shader/SimplePositionShader.h"
 #include "../shader/SimpleColorShader.h"
+#include "../shader/SimpleDiffuseColorShader.h"
 #include "../debug/Debug.h"
 
 void Renderer::init(const std::shared_ptr<SceneManager> manager)
@@ -11,6 +12,7 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	shaderMap.insert(std::make_pair(ShaderType::BasicShader, std::make_shared<BasicShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimplePositionShader, std::make_shared<SimplePositionShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleColorShader, std::make_shared<SimpleColorShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleDiffuseColorShader, std::make_shared<SimpleDiffuseColorShader>()));
 }
 
 void Renderer::render()

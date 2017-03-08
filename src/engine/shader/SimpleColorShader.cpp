@@ -22,4 +22,5 @@ void SimpleColorShader::render(const std::shared_ptr<Entity> entity)
 	glEnableVertexAttribArray(3);
 	glBindVertexArray(0);
 
+	stop();
 }

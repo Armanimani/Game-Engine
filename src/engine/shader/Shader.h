@@ -42,11 +42,11 @@ protected:
 	virtual void getAllUniformLocations() {};
 	GLint getUniformLocation(const std::string& uniformName);
 
-	inline void loadToUniform(GLuint &location, GLboolean &data) { glUniform1f(location, data); }
-	inline void loadToUniform(GLuint &location, GLfloat &data) { glUniform1f(location, data); }
-	inline void loadToUniform(GLuint &location, glm::vec2 &data) { glUniform2fv(location, 1, &data[0]); }
-	inline void loadToUniform(GLuint &location, glm::vec3 &data) { glUniform3fv(location, 1, &data[0]); }
-	inline void loadToUniform(GLuint &location, glm::vec4 &data) { glUniform3fv(location, 1, &data[0]); }
-	inline void loadToUniform(GLuint &location, glm::mat3 &data) { glUniformMatrix3fv(location, 1, GL_FALSE, &data[0][0]); }
-	inline void loadToUniform(GLuint &location, glm::mat4 &data) { glUniformMatrix4fv(location, 1, GL_FALSE, &data[0][0]); }
+	inline void loadToUniform(const GLuint &location, const GLboolean &data) { glUniform1f(location, data); }
+	inline void loadToUniform(const GLuint &location, const GLfloat &data) { glUniform1f(location, data); }
+	inline void loadToUniform(const GLuint &location, const glm::vec2 &data) { glUniform2fv(location, 1, &data[0]); }
+	inline void loadToUniform(const GLuint &location, const glm::vec3 &data) { glUniform3fv(location, 1, &data[0]); }
+	inline void loadToUniform(const GLuint &location, const glm::vec4 &data) { glUniform3fv(location, 1, &data[0]); }
+	inline void loadToUniform(const GLuint &location, const glm::mat3 &data) { glUniformMatrix3fv(location, 1, GL_FALSE, &data[0][0]); }
+	inline void loadToUniform(const GLuint &location, const glm::mat4 &data) { glUniformMatrix4fv(location, 1, GL_FALSE, &data[0][0]); }
 };
