@@ -1,13 +1,5 @@
 #include "SimpleColorShader.h"
 
-SimpleColorShader::SimpleColorShader()
-{
-	shaderType = ShaderType::SimpleColorShader;
-	shaderName = "Simple Color Shader";
-	vertexShader = "../src/engine/shader/glsl/SimpleColorVS.glsl";
-	fragmentShader = "../src/engine/shader/glsl/SimpleColorFS.glsl";
-}
-
 void SimpleColorShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
@@ -25,12 +17,4 @@ void SimpleColorShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
-}
-
-void SimpleColorShader::getAllUniformLocations()
-{
-	std::string temp;
-	
-	temp = "transformationMatrix";
-	location_transformationMatrix = getUniformLocation(temp);
 }

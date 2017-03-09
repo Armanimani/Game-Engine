@@ -1,13 +1,5 @@
 #include "BasicShader.h"
 
-BasicShader::BasicShader()
-{
-	shaderType = ShaderType::BasicShader;
-	shaderName = "Basic Shader";
-	vertexShader = "../src/engine/shader/glsl/BasicShaderVS.glsl";
-	fragmentShader = "../src/engine/shader/glsl/BasicShaderFS.glsl";
-}
-
 void BasicShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
@@ -23,12 +15,4 @@ void BasicShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
-}
-
-void BasicShader::getAllUniformLocations()
-{
-	std::string temp;
-
-	temp = "transformationMatrix";
-	getUniformLocation(temp);
 }

@@ -162,7 +162,7 @@
     <ClCompile Include="src\engine\fileController\MeshFileController.cpp" />
     <ClCompile Include="src\engine\fileController\SceneFileController.cpp" />
     <ClCompile Include="src\engine\game\Game.cpp" />
-    <ClCompile Include="src\engine\GLMath\GLMath.cpp" />
+    <ClCompile Include="src\engine\math\GLMath.cpp" />
     <ClCompile Include="src\engine\loader\Loader.cpp" />
     <ClCompile Include="src\engine\mesh\Mesh.cpp" />
     <ClCompile Include="src\engine\renderer\Renderer.cpp" />
@@ -195,7 +195,7 @@
     <ClInclude Include="src\engine\fileController\MeshFileController.h" />
     <ClInclude Include="src\engine\fileController\SceneFileController.h" />
     <ClInclude Include="src\engine\game\Game.h" />
-    <ClInclude Include="src\engine\GLMath\GLMath.h" />
+    <ClInclude Include="src\engine\math\GLMath.h" />
     <ClInclude Include="src\engine\loader\Loader.h" />
     <ClInclude Include="src\engine\material\Material.h" />
     <ClInclude Include="src\engine\material\MaterialProperties.h" />
@@ -218,6 +218,7 @@
     <ClInclude Include="src\engine\userInput\inputEvent\InputHandlerCode.h" />
     <ClInclude Include="src\engine\userInput\inputMapper\InputMapper.h" />
     <ClInclude Include="src\engine\userInput\keyCode\KeyCode.h" />
+    <ClInclude Include="src\engine\util\maps\BiMap.h" />
     <ClInclude Include="src\engine\util\maps\UMap.h" />
     <ClInclude Include="src\engine\util\vector\FVec2.h" />
     <ClInclude Include="src\engine\util\vector\USIVec2.h" />
@@ -236,14 +237,14 @@
     <None Include="res\mesh\2D\2DRectangle.msh" />
     <None Include="res\mesh\2D\2DTriangle.msh" />
     <None Include="res\scene\test.xml" />
-    <None Include="src\engine\shader\glsl\BasicShaderFS.glsl" />
-    <None Include="src\engine\shader\glsl\BasicShaderVS.glsl" />
-    <None Include="src\engine\shader\glsl\SimpleColorFS.glsl" />
-    <None Include="src\engine\shader\glsl\SimpleColorVS.glsl" />
-    <None Include="src\engine\shader\glsl\SimpleDiffuseColorFS.glsl" />
-    <None Include="src\engine\shader\glsl\SimpleDiffuseColorVS.glsl" />
-    <None Include="src\engine\shader\glsl\SimplePositionFS.glsl" />
-    <None Include="src\engine\shader\glsl\SimplePositionVS.glsl" />
+    <None Include="src\engine\shader\glsl\Basic.frag" />
+    <None Include="src\engine\shader\glsl\Basic.vert" />
+    <None Include="src\engine\shader\glsl\SimpleColor.frag" />
+    <None Include="src\engine\shader\glsl\SimpleColor.vert" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseColor.frag" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseColor.vert" />
+    <None Include="src\engine\shader\glsl\SimplePosition.frag" />
+    <None Include="src\engine\shader\glsl\SimplePosition.vert" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\finalState.xml" />

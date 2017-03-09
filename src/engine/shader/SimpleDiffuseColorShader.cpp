@@ -1,13 +1,5 @@
 #include "SimpleDiffuseColorShader.h"
 
-SimpleDiffuseColorShader::SimpleDiffuseColorShader()
-{
-	shaderType = ShaderType::SimpleDiffuseColorShader;
-	shaderName = "Simple Diffuse Color Shader";
-	vertexShader = "../src/engine/shader/glsl/SimpleDiffuseColorVS.glsl";
-	fragmentShader = "../src/engine/shader/glsl/SimpleDiffuseColorFS.glsl";
-}
-
 void SimpleDiffuseColorShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
@@ -30,9 +22,8 @@ void SimpleDiffuseColorShader::getAllUniformLocations()
 {
 	std::string temp;
 
+	Shader::getAllUniformLocations();
+
 	temp = "uColor";
 	location_color = getUniformLocation(temp);
-
-	temp = "transformationMatrix";
-	location_transformationMatrix = getUniformLocation(temp);
 }

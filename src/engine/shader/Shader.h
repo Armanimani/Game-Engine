@@ -8,13 +8,13 @@
 #include "ShaderType.h"
 #include "../mesh/Mesh.h"
 #include "../entity/Entity.h"
-#include "../GLMath/GLMath.h"
+#include "../math/GLMath.h"
 
 class Shader
 {
 public:
 	Shader() {};
-	Shader(const std::string& vertexShader, const std::string& fragmentShader) : vertexShader(vertexShader), fragmentShader(fragmentShader) {}
+	Shader(const std::string& name, const ShaderType& type, const std::string& vertexShader, const std::string& fragmentShader) : name(name), type(type), vertexShader(vertexShader), fragmentShader(fragmentShader) {}
 	void install();
 	void start();
 	void stop();
@@ -22,12 +22,13 @@ public:
 
 	virtual void render(const std::shared_ptr<Entity> entity) = 0;
 	
-	inline const std::string& getName() { return shaderName; }
-	inline const ShaderType& getType() { return shaderType; }
+	inline const std::string& getName() { return name; }
+	inline const ShaderType& getType() { return type; }
 
 protected:
-	ShaderType shaderType;
-	std::string shaderName;
+	ShaderType type;
+	std::string name;
+
 	std::string vertexShader;
 	std::string fragmentShader;
 
@@ -42,7 +43,7 @@ protected:
 	bool checkShaderStatus(GLuint ShaderID);
 	bool checkProgramStatus(GLuint programID);
 
-	virtual void getAllUniformLocations() {};
+	virtual void getAllUniformLocations();
 	GLint getUniformLocation(const std::string& uniformName);
 
 	inline void loadToUniform(const GLuint &location, const GLboolean &data) { glUniform1f(location, data); }

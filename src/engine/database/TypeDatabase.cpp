@@ -1,6 +1,8 @@
 #include "TypeDatabase.h"
 #include "../debug/Debug.h"
 
+BiMap<ShaderType, std::string> TypeDatabase::shaderMap;
+
 MeshAttribute TypeDatabase::getMeshAttributeType(const std::string & value)
 {
 	if (value == "position") return MeshAttribute::position;
@@ -13,17 +15,6 @@ MeshAttribute TypeDatabase::getMeshAttributeType(const std::string & value)
 	return MeshAttribute::noType;
 }
 
-ShaderType TypeDatabase::getShaderType(const std::string & value)
-{
-	if (value == "BasicShader") return ShaderType::BasicShader;
-	if (value == "SimplePositionShader") return ShaderType::SimplePositionShader;
-	if (value == "SimpleColorShader") return ShaderType::SimpleColorShader;
-	if (value == "SimpleDiffuseColorShader") return ShaderType::SimpleDiffuseColorShader;
-
-	Debug::print(value);
-	Debug::print("unable to recongnize the shader Type!");
-	return ShaderType::noType;
-}
 
 std::string TypeDatabase::getMeshAttributeTypeName(const MeshAttribute & value)
 {
@@ -35,15 +26,3 @@ std::string TypeDatabase::getMeshAttributeTypeName(const MeshAttribute & value)
 	Debug::print("unable to recongnize the mesh attribute!");
 	return "noType";
 }
-
-std::string TypeDatabase::getShaderTypeName(const ShaderType & value)
-{
-	if (value == ShaderType::BasicShader) return "BasicShader";
-	if (value == ShaderType::SimplePositionShader) return "SimplePositionShader";
-	if (value == ShaderType::SimpleColorShader) return "SimpleColorShader";
-	if (value == ShaderType::SimpleDiffuseColorShader) return "SimpleDiffuseColorShader";
-
-	Debug::print("unable to recongnize the shader Type!");
-	return "noType";
-}
-

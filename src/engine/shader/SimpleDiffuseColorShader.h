@@ -4,7 +4,11 @@
 class SimpleDiffuseColorShader : public Shader
 {
 public:
-	SimpleDiffuseColorShader();
+	SimpleDiffuseColorShader() : Shader(
+		"SimpleDiffuseColorShader",
+		ShaderType::SimpleDiffuseColorShader,
+		"../src/engine/shader/glsl/SimpleDiffuseColor.vert",
+		"../src/engine/shader/glsl/SimpleDiffuseColor.frag") {}
 
 	virtual void render(const std::shared_ptr<Entity> entity) override;
 

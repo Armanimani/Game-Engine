@@ -4,10 +4,11 @@
 class SimpleColorShader : public Shader
 {
 public:
-	SimpleColorShader();
+	SimpleColorShader() : Shader(
+		"SimpleColorShader",
+		ShaderType::SimpleColorShader,
+		"../src/engine/shader/glsl/SimpleColor.vert",
+		"../src/engine/shader/glsl/SimpleColor.frag") {}
 
 	virtual void render(const std::shared_ptr<Entity> entity) override;
-
-protected:
-	virtual void getAllUniformLocations() override;
 };

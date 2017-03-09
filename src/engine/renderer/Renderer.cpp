@@ -5,6 +5,7 @@
 #include "../shader/SimpleColorShader.h"
 #include "../shader/SimpleDiffuseColorShader.h"
 #include "../debug/Debug.h"
+#include "../database/TypeDatabase.h"
 
 void Renderer::init(const std::shared_ptr<SceneManager> manager)
 {
@@ -13,6 +14,11 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	shaderMap.insert(std::make_pair(ShaderType::SimplePositionShader, std::make_shared<SimplePositionShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleColorShader, std::make_shared<SimpleColorShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleDiffuseColorShader, std::make_shared<SimpleDiffuseColorShader>()));
+
+	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
+	{
+		TypeDatabase::registerShaderType((*i).second);
+	}
 }
 
 void Renderer::render()

@@ -1,13 +1,5 @@
 #include "SimplePositionShader.h"
 
-SimplePositionShader::SimplePositionShader()
-{
-	shaderType = ShaderType::SimplePositionShader;
-	shaderName = "Simple Position Shader";
-	vertexShader = "../src/engine/shader/glsl/SimplePositionVS.glsl";
-	fragmentShader = "../src/engine/shader/glsl/SimplePositionFS.glsl";
-}
-
 void SimplePositionShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
@@ -23,12 +15,4 @@ void SimplePositionShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
-}
-
-void SimplePositionShader::getAllUniformLocations()
-{
-	std::string temp;
-
-	temp = "transformationMatrix";
-	location_transformationMatrix = getUniformLocation(temp);
 }

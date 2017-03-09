@@ -19,7 +19,7 @@ void Shader::install()
 	glCompileShader(vertexShaderID);
 	if (!checkShaderStatus(vertexShaderID))
 	{
-		Debug::print(shaderName);
+		Debug::print(name);
 		Debug::print("failed to compile vertex shader");
 		Debug::print(" ");
 		return;
@@ -27,7 +27,7 @@ void Shader::install()
 	glCompileShader(fragmentShaderID);
 	if (!checkShaderStatus(fragmentShaderID))
 	{
-		Debug::print(shaderName);
+		Debug::print(name);
 		Debug::print("failed to compile fragment shader");
 		Debug::print(" ");
 		return;
@@ -41,7 +41,7 @@ void Shader::install()
 
 	if (!checkProgramStatus(programID))
 	{
-		Debug::print(shaderName);
+		Debug::print(name);
 		Debug::print("failed to link the program");
 		Debug::print(" ");
 		return;
@@ -75,7 +75,7 @@ std::string Shader::readShadercode(const std::string& file)
 	std::ifstream input(file);
 	if (!input.good())
 	{
-		Debug::print(shaderName);
+		Debug::print(name);
 		Debug::print(file);
 		Debug::print("File failed to load");
 		Debug::print(" ");
@@ -112,6 +112,14 @@ bool Shader::checkShaderStatus(GLuint ShaderID)
 bool Shader::checkProgramStatus(GLuint programID)
 {
 	return checkStatus(programID, glGetProgramiv, glGetProgramInfoLog, GL_LINK_STATUS);
+}
+
+void Shader::getAllUniformLocations()
+{
+	std::string temp;
+
+	temp = "transformationMatrix";
+	location_transformationMatrix = getUniformLocation(temp);
 }
 
 GLint Shader::getUniformLocation(const std::string& uniformName)
