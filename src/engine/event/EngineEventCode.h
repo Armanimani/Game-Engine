@@ -6,7 +6,8 @@ namespace engine
 	{
 		noCode,
 		shutdown,
-		changeBackground
+		changeBackground,
+		changeMaterial
 	};
 }
 

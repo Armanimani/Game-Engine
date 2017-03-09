@@ -195,8 +195,14 @@ void Engine::handleEvents()
 		}
 		case(engine::EventCode::changeBackground):
 		{
-			std::shared_ptr<engine::ChangeBackgroundEvent> e = std::static_pointer_cast<engine::ChangeBackgroundEvent> (event);
+			std::shared_ptr<engine::ChangeBackgroundEvent> e = std::static_pointer_cast<engine::ChangeBackgroundEvent>(event);
 			settings->backgroundColor = e->data;
+			break;
+		}
+		case(engine::EventCode::changeMaterial):
+		{
+			std::shared_ptr<engine::ChangeMaterialEvent> e = std::static_pointer_cast<engine::ChangeMaterialEvent>(event);
+			(sceneManager->entityMap.getItem(e->entityName))->getModel()->setMaterial(sceneManager->materialMap.getItem(e->materialName));
 			break;
 		}
 		}
@@ -223,6 +229,12 @@ void Engine::handleDelayedEvents()
 			{
 				std::shared_ptr<engine::DelayedChangeBackgroundEvent> e = std::static_pointer_cast<engine::DelayedChangeBackgroundEvent> (*(i));
 				settings->backgroundColor = e->color;
+				break;
+			}
+			case (engine::EventCode::changeMaterial):
+			{
+				std::shared_ptr<engine::DelayedChangeMaterialEvent> e = std::static_pointer_cast<engine::DelayedChangeMaterialEvent> (*(i));
+				(sceneManager->entityMap.getItem(e->entityName))->getModel()->setMaterial(sceneManager->materialMap.getItem(e->materialName));
 				break;
 			}
 			}

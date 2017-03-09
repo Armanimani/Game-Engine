@@ -162,6 +162,7 @@
     <ClCompile Include="src\engine\fileController\MeshFileController.cpp" />
     <ClCompile Include="src\engine\fileController\SceneFileController.cpp" />
     <ClCompile Include="src\engine\game\Game.cpp" />
+    <ClCompile Include="src\engine\GLMath\GLMath.cpp" />
     <ClCompile Include="src\engine\loader\Loader.cpp" />
     <ClCompile Include="src\engine\mesh\Mesh.cpp" />
     <ClCompile Include="src\engine\renderer\Renderer.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="res\material\diffuseColor\simpleDiffuseRed.mat" />
     <ClInclude Include="src\engine\clock\Cock.h" />
     <ClInclude Include="src\engine\database\TypeDatabase.h" />
     <ClInclude Include="src\engine\debug\Debug.h" />
@@ -193,6 +195,7 @@
     <ClInclude Include="src\engine\fileController\MeshFileController.h" />
     <ClInclude Include="src\engine\fileController\SceneFileController.h" />
     <ClInclude Include="src\engine\game\Game.h" />
+    <ClInclude Include="src\engine\GLMath\GLMath.h" />
     <ClInclude Include="src\engine\loader\Loader.h" />
     <ClInclude Include="src\engine\material\Material.h" />
     <ClInclude Include="src\engine\material\MaterialProperties.h" />
@@ -233,8 +236,8 @@
     <None Include="res\mesh\2D\2DRectangle.msh" />
     <None Include="res\mesh\2D\2DTriangle.msh" />
     <None Include="res\scene\test.xml" />
-    <None Include="src\engine\shader\glsl\BasicFragmentShader.glsl" />
-    <None Include="src\engine\shader\glsl\BasicVertexShader.glsl" />
+    <None Include="src\engine\shader\glsl\BasicShaderFS.glsl" />
+    <None Include="src\engine\shader\glsl\BasicShaderVS.glsl" />
     <None Include="src\engine\shader\glsl\SimpleColorFS.glsl" />
     <None Include="src\engine\shader\glsl\SimpleColorVS.glsl" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseColorFS.glsl" />

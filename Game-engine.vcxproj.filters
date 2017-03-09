@@ -90,6 +90,9 @@
     <ClCompile Include="src\engine\shader\SimpleDiffuseColorShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\GLMath\GLMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -224,10 +227,14 @@
     <ClInclude Include="src\engine\shader\SimpleDiffuseColorShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="res\material\diffuseColor\simpleDiffuseRed.mat">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\GLMath\GLMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\engine\shader\glsl\BasicVertexShader.glsl" />
-    <None Include="src\engine\shader\glsl\BasicFragmentShader.glsl" />
     <None Include="src\engine\shader\glsl\SimplePositionVS.glsl" />
     <None Include="src\engine\shader\glsl\SimplePositionFS.glsl" />
     <None Include="src\engine\shader\glsl\SimpleColorFS.glsl" />
@@ -242,6 +249,8 @@
     <None Include="res\material\diffuseColor\simpleDiffuseBlue.mat" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseColorFS.glsl" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseColorVS.glsl" />
+    <None Include="src\engine\shader\glsl\BasicShaderVS.glsl" />
+    <None Include="src\engine\shader\glsl\BasicShaderFS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\finalState.xml" />

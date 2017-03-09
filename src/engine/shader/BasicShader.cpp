@@ -4,13 +4,15 @@ BasicShader::BasicShader()
 {
 	shaderType = ShaderType::BasicShader;
 	shaderName = "Basic Shader";
-	vertexShader = "../src/engine/shader/glsl/BasicVertexShader.glsl";
-	fragmentShader = "../src/engine/shader/glsl/BasicFragmentShader.glsl";
+	vertexShader = "../src/engine/shader/glsl/BasicShaderVS.glsl";
+	fragmentShader = "../src/engine/shader/glsl/BasicShaderFS.glsl";
 }
 
 void BasicShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
+
+	loadToUniform(location_transformationMatrix, GLMath::createTransformationMatrix(entity->getPosition(), entity->getRotation(), entity->getScale()));
 
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);
@@ -21,4 +23,12 @@ void BasicShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
+}
+
+void BasicShader::getAllUniformLocations()
+{
+	std::string temp;
+
+	temp = "transformationMatrix";
+	getUniformLocation(temp);
 }

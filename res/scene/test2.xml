@@ -7,6 +7,7 @@
     <material>../res/material/simplePosition.mat</material>
     <material>../res/material/simpleColor.mat</material>
     <material>../res/material/diffuseColor/simpleDiffuseBlue.mat</material>
+    <material>../res/material/diffuseColor/simpleDiffuseRed.mat</material>
   </materials>
   <models>
     <model>
@@ -27,7 +28,7 @@
     <model>
       <name>diffuseRectangle</name>
       <mesh>2DRectangle</mesh>
-      <material>simpleDiffuseBlue</material>
+      <material>simpleDiffuseRed</material>
     </model>
   </models>
   <entities>
@@ -36,7 +37,7 @@
       <model>diffuseRectangle</model>
       <position x ="0.0f" y ="0.0f" z="0.0f"/>
       <rotation x ="0.0f" y ="0.0f" z="0.0f"/>
-      <scale x ="0.0f" y ="0.0f" z="0.0f"/>
+      <scale x ="1.0f" y ="1.0f" z="1.0f"/>
     </entity>
   </entities>
 

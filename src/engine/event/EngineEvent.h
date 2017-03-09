@@ -1,6 +1,7 @@
 #pragma once
 #include "EngineEventCode.h"
 #include "glm\glm.hpp"
+#include <string>
 
 namespace engine{
 	struct Event
@@ -14,9 +15,16 @@ namespace engine{
 		ShutdownEvent() : Event(EventCode::shutdown) {}
 	};
 
-	struct ChangeBackgroundEvent : public Event
+	struct ChangeBackgroundEvent : Event
 	{
 		ChangeBackgroundEvent(const glm::vec4& data) : Event(EventCode::changeBackground), data(data) {}
 		glm::vec4 data;
+	};
+
+	struct ChangeMaterialEvent : Event
+	{
+		ChangeMaterialEvent(const std::string& entityName, const std::string& materialName) : Event(EventCode::changeMaterial), entityName(entityName), materialName(materialName) {}
+		std::string entityName;
+		std::string materialName;
 	};
 }

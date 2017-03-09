@@ -12,6 +12,8 @@ void SimpleColorShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
 
+	loadToUniform(location_transformationMatrix, GLMath::createTransformationMatrix(entity->getPosition(), entity->getRotation(), entity->getScale()));
+
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(3);
@@ -23,4 +25,12 @@ void SimpleColorShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
+}
+
+void SimpleColorShader::getAllUniformLocations()
+{
+	std::string temp;
+	
+	temp = "transformationMatrix";
+	location_transformationMatrix = getUniformLocation(temp);
 }

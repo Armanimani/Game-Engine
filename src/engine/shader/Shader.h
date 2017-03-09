@@ -8,6 +8,7 @@
 #include "ShaderType.h"
 #include "../mesh/Mesh.h"
 #include "../entity/Entity.h"
+#include "../GLMath/GLMath.h"
 
 class Shader
 {
@@ -33,6 +34,8 @@ protected:
 	GLuint programID;
 	GLuint vertexShaderID;
 	GLuint fragmentShaderID;
+
+	GLuint location_transformationMatrix;
 
 	std::string readShadercode(const std::string& file);
 	bool checkStatus(GLuint objectID, PFNGLGETSHADERIVPROC objectPropertyGetter, PFNGLGETSHADERINFOLOGPROC getInfoLogFun, GLenum statusType);

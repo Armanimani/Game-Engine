@@ -17,6 +17,10 @@ public:
 	inline glm::vec3 getRotation() { return rotation; }
 	inline glm::vec3 getScale() { return scale; }
 
+	inline void moveEntity(const glm::vec3& amount) { position += amount; }
+	inline void rotateEntity(const glm::vec3& amount) { rotation += amount; }
+	inline void scaleEntity (const glm::vec3& amount) { scale *= amount; }
+
 protected:
 	std::string name;
 	std::shared_ptr<Model> model;
