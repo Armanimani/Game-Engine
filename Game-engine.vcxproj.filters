@@ -93,6 +93,12 @@
     <ClCompile Include="src\engine\math\GLMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\camera\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\camera\AttachedCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -236,6 +242,12 @@
     <ClInclude Include="src\engine\util\maps\BiMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\camera\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\camera\AttachedCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -254,6 +266,8 @@
     <None Include="src\engine\shader\glsl\SimplePosition.vert" />
     <None Include="src\engine\shader\glsl\SimpleColor.frag" />
     <None Include="src\engine\shader\glsl\SimpleColor.vert" />
+    <None Include="res\mesh\2D\2DCircle18.msh" />
+    <None Include="res\mesh\3D\3DColorCube.msh" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\finalState.xml" />

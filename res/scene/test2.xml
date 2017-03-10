@@ -1,44 +1,55 @@
 <scene>
-  <meshes>
-    <mesh>../res/mesh/2D/2DTriangle.msh</mesh>
-    <mesh>../res/mesh/2D/2DRectangle.msh</mesh>
-   </meshes>
-  <materials>
-    <material>../res/material/simplePosition.mat</material>
-    <material>../res/material/simpleColor.mat</material>
-    <material>../res/material/diffuseColor/simpleDiffuseBlue.mat</material>
-    <material>../res/material/diffuseColor/simpleDiffuseRed.mat</material>
-  </materials>
-  <models>
-    <model>
-      <name>colorTriangle</name>
-      <mesh>2DTriangle</mesh>
-      <material>simpleColorMaterial</material>
-    </model>
-    <model>
-      <name>positionTriangle</name>
-      <mesh>2DTriangle</mesh>
-      <material>simplePositionMaterial</material>
-    </model>
-    <model>
-      <name>positionRectangle</name>
-      <mesh>2DRectangle</mesh>
-      <material>simplePositionMaterial</material>
-    </model>
-    <model>
-      <name>diffuseRectangle</name>
-      <mesh>2DRectangle</mesh>
-      <material>simpleDiffuseRed</material>
-    </model>
-  </models>
-  <entities>
-    <entity>
-      <name>test</name>
-      <model>diffuseRectangle</model>
-      <position x ="0.0f" y ="0.0f" z="0.0f"/>
-      <rotation x ="0.0f" y ="0.0f" z="0.0f"/>
-      <scale x ="1.0f" y ="1.0f" z="1.0f"/>
-    </entity>
-  </entities>
-
+	<meshes>
+		<mesh>../res/mesh/2D/2DTriangle.msh</mesh>
+		<mesh>../res/mesh/2D/2DRectangle.msh</mesh>
+		<mesh>../res/mesh/2D/2DCircle18.msh</mesh>
+		<mesh>../res/mesh/3D/3DColorCube.msh</mesh>
+	</meshes>
+	<materials>
+		<material>../res/material/simplePosition.mat</material>
+		<material>../res/material/simpleColor.mat</material>
+		<material>../res/material/diffuseColor/simpleDiffuseBlue.mat</material>
+		<material>../res/material/diffuseColor/simpleDiffuseRed.mat</material>
+	</materials>
+	<models>
+		<model>
+			<name>colorTriangle</name>
+			<mesh>2DTriangle</mesh>
+			<material>simpleColorMaterial</material>
+		</model>
+		<model>
+			<name>positionTriangle</name>
+			<mesh>2DTriangle</mesh>
+			<material>simplePositionMaterial</material>
+		</model>
+		<model>
+			<name>positionRectangle</name>
+			<mesh>2DRectangle</mesh>
+			<material>simplePositionMaterial</material>
+		</model>
+		<model>
+			<name>diffuseRectangle</name>
+			<mesh>2DRectangle</mesh>
+			<material>simpleDiffuseRed</material>
+		</model>
+		<model>
+			<name>diffuseCircle18</name>
+			<mesh>2DCircle18</mesh>
+			<material>simpleDiffuseRed</material>
+		</model>
+		<model>
+			<name>colorCube</name>
+			<mesh>3DColorCube</mesh>
+			<material>simpleColorMaterial</material>
+		</model>
+	</models>
+	<entities>
+		<entity>
+			<name>test</name>
+			<model>colorCube</model>
+			<position x ="0.0f" y ="0.0f" z="0.0f"/>
+			<rotation x ="0.0f" y ="0.0f" z="0.0f"/>
+			<scale x ="1.0" y ="1.0f" z="1.0f"/>
+		</entity>
+	</entities>
 </scene>

@@ -9,6 +9,7 @@
 #include <memory>
 #include <unordered_set>
 #include "../event/DelayedEngineEvent.h"
+#include "../scene/SceneManager.h"
 
 class Scene
 {
@@ -30,6 +31,8 @@ public:
 	inline void registerEngineEvent(const std::shared_ptr<engine::Event>& e) { engineEventList->push(e); }
 	inline void registerDelayedEngineEvent(const std::shared_ptr<engine::DelayedEvent>& e) { delayedEngineEventList->insert(e); }
 
+	inline void setSceneManager(const std::shared_ptr<SceneManager> manager) { this->manager = manager; }
+
 	virtual void update() {};
 
 protected:
@@ -39,6 +42,8 @@ protected:
 
 	std::queue<std::shared_ptr<engine::Event>>* engineEventList;
 	std::unordered_set<std::shared_ptr<engine::DelayedEvent>>* delayedEngineEventList;
+
+	std::shared_ptr<SceneManager> manager; //TODO: need to be removed later! need to only have a pointer of the materials set!
 };
 
 const HWND& Scene::getWindowHandle() const

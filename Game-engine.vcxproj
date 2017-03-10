@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -28,26 +28,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -152,6 +152,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\camera\AttachedCamera.cpp" />
+    <ClCompile Include="src\engine\camera\Camera.cpp" />
     <ClCompile Include="src\engine\clock\Cock.cpp" />
     <ClCompile Include="src\engine\database\TypeDatabase.cpp" />
     <ClCompile Include="src\engine\debug\Debug.cpp" />
@@ -181,6 +183,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res\material\diffuseColor\simpleDiffuseRed.mat" />
+    <ClInclude Include="src\engine\camera\AttachedCamera.h" />
+    <ClInclude Include="src\engine\camera\Camera.h" />
     <ClInclude Include="src\engine\clock\Cock.h" />
     <ClInclude Include="src\engine\database\TypeDatabase.h" />
     <ClInclude Include="src\engine\debug\Debug.h" />
@@ -234,8 +238,10 @@
     <None Include="res\material\simplePosition.mat" />
     <None Include="res\mesh\2DColorTriangle.msh" />
     <None Include="res\mesh\2DRectangle.msh" />
+    <None Include="res\mesh\2D\2DCircle18.msh" />
     <None Include="res\mesh\2D\2DRectangle.msh" />
     <None Include="res\mesh\2D\2DTriangle.msh" />
+    <None Include="res\mesh\3D\3DColorCube.msh" />
     <None Include="res\scene\test.xml" />
     <None Include="src\engine\shader\glsl\Basic.frag" />
     <None Include="src\engine\shader\glsl\Basic.vert" />

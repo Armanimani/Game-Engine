@@ -75,6 +75,9 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 			registerEngineEvent(std::make_shared<engine::ChangeMaterialEvent>("test", "simplePositionMaterial"));
 			break;
 		}
+		case (KeyCode::W):
+			manager->entityMap.getItem("test")->translateEntity(glm::vec3(0.0f, Clock::deltaTime * 0.5f, 0.0f));
+			break;
 		}
 	}
 	else if (event.type == InputEventType::KEY_UP)
@@ -100,5 +103,5 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 
 void Scene1::update()
 {
-
+	//manager->entityMap.getItem("test")->translateEntity(glm::vec3(0.0f, Clock::deltaTime * 0.1f, 0.0f));
 }

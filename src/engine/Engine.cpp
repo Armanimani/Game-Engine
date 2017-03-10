@@ -94,6 +94,7 @@ void Engine::registerScene(std::shared_ptr<Scene> s)
 	scene->setEngineEventList(eventList);
 	scene->setDelayedEngineEventList(delayedEventList);
 	inMapper->registerScene(s);
+	scene->setSceneManager(sceneManager); // for now ! 
 }
 
 void Engine::initGL()
@@ -159,11 +160,10 @@ void Engine::load()
 void Engine::renderGL()
 {
 	glClearColor(settings->backgroundColor.r, settings->backgroundColor.g, settings->backgroundColor.b, settings->backgroundColor.a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
 
 	renderer->render();
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 void Engine::calculateFPS(unsigned short int& FPSCounter)
