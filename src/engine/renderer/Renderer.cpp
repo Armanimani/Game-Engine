@@ -21,8 +21,16 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	}
 }
 
+void Renderer::prepare()
+{
+	glClearColor(engineSettings->backgroundColor.r, engineSettings->backgroundColor.g, engineSettings->backgroundColor.b, engineSettings->backgroundColor.a);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+}
+
 void Renderer::render()
 {
+	prepare();
 	for (auto it : sceneManager->entityMap.getMap())
 	{
 		std::shared_ptr<Entity> entity = it.second;

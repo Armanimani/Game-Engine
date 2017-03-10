@@ -14,7 +14,7 @@
 Engine::Engine()
 {
 	window = std::make_unique<Win32Window>();
-	settings = std::make_unique<EngineSettings>();
+	settings = std::make_shared<EngineSettings>();
 	inMapper = std::make_shared<InputMapper>();
 	renderer = std::make_unique<Renderer>();
 	sceneManager = std::make_shared<SceneManager>();
@@ -144,6 +144,8 @@ void Engine::initRenderer()
 {
 	renderer->init(sceneManager);
 	renderer->installShaders();
+	renderer->setEngineSettings(settings);
+	renderer->setWindowSettings(window->getSettings());
 }
 
 void Engine::initLoader()
@@ -159,10 +161,6 @@ void Engine::load()
 
 void Engine::renderGL()
 {
-	glClearColor(settings->backgroundColor.r, settings->backgroundColor.g, settings->backgroundColor.b, settings->backgroundColor.a);
-	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-
 	renderer->render();
 }
 

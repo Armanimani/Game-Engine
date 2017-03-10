@@ -248,6 +248,9 @@
     <ClInclude Include="src\engine\camera\AttachedCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\camera\CameraType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mesh\2DColorTriangle.msh" />

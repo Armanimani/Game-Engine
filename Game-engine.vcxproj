@@ -185,6 +185,7 @@
     <ClInclude Include="res\material\diffuseColor\simpleDiffuseRed.mat" />
     <ClInclude Include="src\engine\camera\AttachedCamera.h" />
     <ClInclude Include="src\engine\camera\Camera.h" />
+    <ClInclude Include="src\engine\camera\CameraType.h" />
     <ClInclude Include="src\engine\clock\Cock.h" />
     <ClInclude Include="src\engine\database\TypeDatabase.h" />
     <ClInclude Include="src\engine\debug\Debug.h" />

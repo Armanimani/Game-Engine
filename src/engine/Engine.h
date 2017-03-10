@@ -37,7 +37,7 @@ protected:
 
 	std::shared_ptr<Game> game;
 	std::shared_ptr<Scene> scene;
-	std::unique_ptr<EngineSettings> settings;
+	std::shared_ptr<EngineSettings> settings;
 
 	std::queue<std::shared_ptr<engine::Event>> eventList;
 	std::unordered_set<std::shared_ptr<engine::DelayedEvent>> delayedEventList;

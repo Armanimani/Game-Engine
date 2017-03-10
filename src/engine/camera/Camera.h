@@ -3,28 +3,27 @@
 #include "glew\GL\glew.h"
 #include <glm\gtx\transform.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include "CameraType.h"
 
 class Camera
 {
 public:
-	Camera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& upDirection) : position(position), target(target), upDirection(upDirection)
+	Camera(const CameraType& type, const glm::vec3& position) : type(type), position(position)
 	{
-
+		upVector
 	}
 
-	inline const glm::mat4 getViewMatrix() { return glm::lookAt(position, target, upDirection); }
+	inline const glm::mat4 getViewMatrix() { return glm::lookAt(position, target, upVector); }
 
 	inline const glm::vec3& getPosition() { return position; }
-	inline const glm::vec3& getTarget() { return target; }
-	inline const glm::vec3& getUpDirection() { return upDirection; }
-	inline const glm::vec3& getRightDirection() { return rightDirection; }
-	inline const glm::vec3& getViewDirection() { return viewDirection; }
+	inline const glm::vec3& getupVector() { return upVector; }
+	inline const glm::vec3& getrightVector() { return rightVector; }
+	inline const glm::vec3& getViewDirection() { return viewVector; }
 
 	inline void setPosition(const glm::vec3& pos) { position = pos; }
-	inline void setTraget(const glm::vec3& pos) { target = pos; }
-	inline void setUpDirection(const glm::vec3& dir) { upDirection = dir; }
-	inline void setRightDirection(const glm::vec3& dir) { rightDirection = dir; }
-	inline void setViewDirection(const glm::vec3& dir) { viewDirection = dir; }
+	inline void setUpVector(const glm::vec3& dir) { upVector = dir; }
+	inline void setRightVector(const glm::vec3& dir) { rightVector = dir; }
+	inline void setViewDirection(const glm::vec3& dir) { viewVector = dir; }
 
 	void translate(const glm::vec2& amount);
 	void zoom(const GLfloat& amount);
@@ -36,10 +35,9 @@ public:
 	virtual void update() {};
 
 protected:
+	CameraType type;
 	glm::vec3 position;
-	glm::vec3 upDirection;
-	glm::vec3 rightDirection;
-	glm::vec3 viewDirection;
-	glm::vec3 target;
-
+	glm::vec3 upVector;
+	glm::vec3 rightVector;
+	glm::vec3 viewVector;
 };
