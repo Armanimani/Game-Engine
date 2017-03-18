@@ -24,10 +24,10 @@ public:
 	void registerGame(const std::shared_ptr<Game> game);
 	void run();
 
-
 protected:
 	void init();
 	void shutdown();
+	void update();
 	bool isRunning = true;
 	std::unique_ptr<Win32Window> window;
 	std::shared_ptr<InputMapper> inMapper;

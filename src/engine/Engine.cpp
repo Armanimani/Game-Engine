@@ -57,6 +57,7 @@ void Engine::run()
 			calculateFPS(FPSCounter);
 			scene->update();
 			handleEngineEvents();
+			update();
 			//Debug::print(window->getGLMousePosition());
 		}
 		renderGL();
@@ -84,6 +85,11 @@ void Engine::shutdown()
 	renderer->cleanUp();
 	sceneManager->cleanUp();
 	window->killWindow();
+}
+
+void Engine::update()
+{
+	renderer->update();
 }
 
 void Engine::registerScene(std::shared_ptr<Scene> s)
@@ -155,7 +161,7 @@ void Engine::initLoader()
 
 void Engine::load()
 {
-	SceneFileController::readSceneDataFile(sceneManager, scene->getDataFile());
+	SceneFileController::readSceneDataFile(sceneManager, window->getSettings(), scene->getDataFile());
 	loader->load();
 }
 

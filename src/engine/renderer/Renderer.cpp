@@ -61,6 +61,17 @@ void Renderer::cleanUp()
 	clearShaders();
 }
 
+void Renderer::update()
+{
+	//NOTE: maybe only updating the cameraMatrix for the active camera is sufficient
+	sceneManager->cameraManager.updateMatrix();
+	glm::mat4 projectionMatrix = sceneManager->cameraManager.getActiveCamera()->getProjectionMatrix();
+	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
+	{
+		(*i).second->setProjectionMatrix(projectionMatrix);
+	}
+}
+
 std::shared_ptr<Shader> Renderer::getShader(const ShaderType & type)
 {
 	auto it = shaderMap.find(type);

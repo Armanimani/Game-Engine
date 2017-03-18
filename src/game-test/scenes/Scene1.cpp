@@ -96,9 +96,6 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 		}
 		}
 	}
-	{
-
-	}
 }
 
 void Scene1::update()

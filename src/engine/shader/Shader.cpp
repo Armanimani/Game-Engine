@@ -114,12 +114,21 @@ bool Shader::checkProgramStatus(GLuint programID)
 	return checkStatus(programID, glGetProgramiv, glGetProgramInfoLog, GL_LINK_STATUS);
 }
 
+void Shader::loadTransformationToUniform(std::shared_ptr<Entity> entity)
+{
+	loadToUniform(location_transformationMatrix, GLMath::createTransformationMatrix(entity->getPosition(), entity->getRotation(), entity->getScale()));
+	loadToUniform(location_projectionMatrix, projectionMatrix);
+}
+
 void Shader::getAllUniformLocations()
 {
 	std::string temp;
 
 	temp = "transformationMatrix";
 	location_transformationMatrix = getUniformLocation(temp);
+
+	temp = "projectionMatrix";
+	location_projectionMatrix = getUniformLocation(temp);
 }
 
 GLint Shader::getUniformLocation(const std::string& uniformName)

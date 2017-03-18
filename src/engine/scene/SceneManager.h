@@ -5,6 +5,7 @@
 #include "../model/Model.h"
 #include "../entity/Entity.h"
 #include "../util/maps/UMap.h"
+#include "../camera/CameraManager.h"
 
 class SceneManager
 {
@@ -16,6 +17,7 @@ public:
 	UMap<Model> modelMap;
 	UMap<Entity> entityMap;
 
+	CameraManager cameraManager;
 	void cleanUp();
 
 protected:

@@ -1,6 +1,6 @@
-#include "AttachedCamera.h"
-
-void AttachedCamera::update()
-{
-	//TODO
-}
+//#include "AttachedCamera.h"
+//
+//void AttachedCamera::update()
+//{
+//	//TODO
+//}

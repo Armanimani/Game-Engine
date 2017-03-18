@@ -18,6 +18,7 @@ public:
 	void installShaders();
 	void clearShaders();
 	void cleanUp();
+	void update();
 	std::shared_ptr<Shader> getShader(const ShaderType& type);
 
 protected:

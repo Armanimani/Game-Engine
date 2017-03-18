@@ -2,7 +2,8 @@
 
 enum class CameraType
 {
+	noType,
 	free,
-	orthogonal,
+	FPS,
 	arcBall
 };

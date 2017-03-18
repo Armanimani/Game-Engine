@@ -4,7 +4,7 @@ void BasicShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
 
-	loadToUniform(location_transformationMatrix, GLMath::createTransformationMatrix(entity->getPosition(), entity->getRotation(), entity->getScale()));
+	loadTransformationToUniform(entity);
 
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);

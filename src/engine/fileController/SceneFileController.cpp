@@ -7,6 +7,8 @@
 #include "MeshFileController.h"
 #include "MaterialFileController.h"
 #include "FileController.h"
+#include "../database/TypeDatabase.h"
+#include "../camera/FreeCamera.h"
 
 const std::string SCENE("scene");
 const std::string MESHES("meshes");
@@ -24,8 +26,19 @@ const std::string SCALE("scale");
 const std::string X("x");
 const std::string Y("y");
 const std::string Z("z");
+const std::string CAMERA("camera");
+const std::string CAMERAS("cameras");
+const std::string TYPE("type");
+const std::string ACTIVE("active");
+const std::string PROJECTION("projection");
+const std::string FOV("FOV");
+const std::string FAR_PLANE("farPlane");
+const std::string NEAR_PLANE("nearPlane");
+const std::string FRUSTUM("frustum");
+const std::string STRUE("true");
+const std::string SFALSE("false");
 
-void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manager, const std::string& file)
+void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manager, const std::shared_ptr<WindowSettings> windowSettings, const std::string& file)
 {
 	rapidxml::file<> xmlFile(file.c_str());
 	rapidxml::xml_document<> doc;
@@ -33,8 +46,6 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 	rapidxml::xml_node<> *root = doc.first_node();
 	
 	std::string temp;
-
-
 
 	for (rapidxml::xml_node<> *cat = root->first_node(); cat; cat = cat->next_sibling())
 	{
@@ -98,7 +109,45 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 					}
 				}
 				manager->entityMap.addItem(std::make_shared<Entity>(name, manager->modelMap.getItem(model), position, rotation, scale));
-				
+			}
+		}
+		else if (cat->name() == CAMERAS)
+		{
+			std::string name;
+			CameraType type;
+			CameraProjectionType projectionType;
+			glm::vec3 position;
+		GLboolean active;
+			CameraFrustum frustum;
+
+			for (rapidxml::xml_node<> *cams = cat->first_node(); cams; cams = cams->next_sibling())
+			{
+				for (rapidxml::xml_node<> *props = cams->first_node(); props; props = props->next_sibling())
+				{
+					if (props->name() == NAME) name = props->value();
+					else if (props->name() == TYPE) type = TypeDatabase::getCameraType(props->value());
+					else if (props->name() == PROJECTION) projectionType = TypeDatabase::getCameraProjectionType(props->value());
+					else if (props->name() == ACTIVE) 
+						props->value() == STRUE ? active = true : active = false;
+					else if (props->name() == POSITION)
+					{
+						position = glm::vec3(std::stof(props->first_attribute(X.c_str())->value()), std::stof(props->first_attribute(Y.c_str())->value()), std::stof(props->first_attribute(Z.c_str())->value()));
+					}
+					else if (props->name() == FRUSTUM)
+					{
+						frustum.FOV = std::stof(props->first_attribute(FOV.c_str())->value());
+						frustum.nearPlane = std::stof(props->first_attribute(NEAR_PLANE.c_str())->value());
+						frustum.farPlane = std::stof(props->first_attribute(FAR_PLANE.c_str())->value());
+					}
+				}
+				std::shared_ptr<Camera> cam;
+				frustum.viewportWidth = std::make_shared<unsigned short int>(windowSettings->windowResolution.x);
+				frustum.viewportHeight = std::make_shared<unsigned short int>(windowSettings->windowResolution.y);
+
+				if (type == CameraType::free) cam = std::make_shared<FreeCamera>(name, frustum, type, projectionType, position);
+				// NOTE: Other camera types
+				manager->cameraManager.addCamera(cam);
+				if (active) manager->cameraManager.activateCamera(name);
 			}
 		}
 
@@ -121,6 +170,7 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 	rapidxml::xml_node<>* root = doc.allocate_node(rapidxml::node_element, SCENE.c_str());
 	rapidxml::xml_node<>* models = doc.allocate_node(rapidxml::node_element, MODELS.c_str());
 	rapidxml::xml_node<>* entities = doc.allocate_node(rapidxml::node_element, ENTITIES.c_str());
+	rapidxml::xml_node<>* cameras = doc.allocate_node(rapidxml::node_element, CAMERAS.c_str());
 
 	const std::unordered_map<std::string, std::shared_ptr<Mesh>>* mapMesh = &(manager->meshMap.getMap());
 	rapidxml::xml_node<>* meshes = doc.allocate_node(rapidxml::node_element, MESHES.c_str());
@@ -214,6 +264,58 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 	}
 	root->append_node(entities);
 	
+	const std::unordered_map<std::string, std::shared_ptr<Camera>>* cameraMap = &(manager->cameraManager.getMap());
+	std::vector<std::string> stringvec2;
+	stringvec2.reserve(cameraMap->size() * 6);
+	std::vector<std::string> stringvec3;
+	stringvec3.reserve(cameraMap->size() * 2);
+	std::string valueTemp;
+	for (auto i = cameraMap->cbegin(); i != cameraMap->cend(); ++i)
+	{
+		rapidxml::xml_node<>* camera = doc.allocate_node(rapidxml::node_element, CAMERA.c_str());
+		std::shared_ptr<Camera> m = (*i).second;
+		rapidxml::xml_node<>* nameSub = doc.allocate_node(rapidxml::node_element, NAME.c_str(), m->getName().c_str());
+		stringvec3.push_back(TypeDatabase::getCameraTypeName(m->getCameraType()));
+		rapidxml::xml_node<>* typeSub = doc.allocate_node(rapidxml::node_element, TYPE.c_str(), stringvec3[stringvec3.size() - 1].c_str());
+		stringvec3.push_back(TypeDatabase::getCameraProjectionTypeName(m->getCameraProjectionType()));
+		rapidxml::xml_node<>* projectionSub = doc.allocate_node(rapidxml::node_element, PROJECTION.c_str(), stringvec3[stringvec3.size() - 1].c_str());
+		m->isActive() ? valueTemp = "true" : valueTemp = "false";
+		rapidxml::xml_node<>* activeSub = doc.allocate_node(rapidxml::node_element, ACTIVE.c_str(), valueTemp.c_str());
+
+		glm::vec3 pos = m->getPosition();
+		rapidxml::xml_node<>* posSub = doc.allocate_node(rapidxml::node_element, POSITION.c_str());
+		stringvec2.push_back(std::to_string(pos.x));
+		rapidxml::xml_attribute<> *posX = doc.allocate_attribute(X.c_str(), stringvec2[stringvec2.size() - 1].c_str());
+		stringvec2.push_back(std::to_string(pos.y));
+		rapidxml::xml_attribute<> *posY = doc.allocate_attribute(Y.c_str(), stringvec2[stringvec2.size() - 1].c_str());
+		stringvec2.push_back(std::to_string(pos.z));
+		rapidxml::xml_attribute<> *posZ = doc.allocate_attribute(Z.c_str(), stringvec2[stringvec2.size() - 1].c_str());
+		posSub->append_attribute(posX);
+		posSub->append_attribute(posY);
+		posSub->append_attribute(posZ);
+
+		rapidxml::xml_node<>* frustumSub = doc.allocate_node(rapidxml::node_element, FRUSTUM.c_str());
+		stringvec2.push_back(std::to_string(m->getFrostum().FOV));
+		rapidxml::xml_attribute<>* fov = doc.allocate_attribute(FOV.c_str(), stringvec2[stringvec2.size() - 1].c_str());
+		stringvec2.push_back(std::to_string(m->getFrostum().nearPlane));
+		rapidxml::xml_attribute<>* nearPlane = doc.allocate_attribute(NEAR_PLANE.c_str(), stringvec2[stringvec2.size() - 1].c_str());
+		stringvec2.push_back(std::to_string(m->getFrostum().farPlane));
+		rapidxml::xml_attribute<>* farPlane = doc.allocate_attribute(FAR_PLANE.c_str(), stringvec2[stringvec2.size() - 1].c_str());
+		frustumSub->append_attribute(fov);
+		frustumSub->append_attribute(nearPlane);
+		frustumSub->append_attribute(farPlane);
+
+		camera->append_node(nameSub);
+		camera->append_node(typeSub);
+		camera->append_node(projectionSub);
+		camera->append_node(activeSub);
+		camera->append_node(frustumSub);
+		camera->append_node(posSub);
+		cameras->append_node(camera);
+	}
+
+	root->append_node(cameras);
+
 	doc.append_node(root);
 
 	std::ofstream file;

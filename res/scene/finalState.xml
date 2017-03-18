@@ -35,7 +35,7 @@
 		<model>
 			<name>diffuseCircle18</name>
 			<mesh>2DCircle18</mesh>
-			<material>simpleDiffuseRed</material>
+			<material>simpleDiffuseBlue</material>
 		</model>
 		<model>
 			<name>colorCube</name>
@@ -48,9 +48,19 @@
 			<name>test</name>
 			<model>colorCube</model>
 			<position x="0.000000" y="0.000000" z="0.000000"/>
-			<rotation x="0.000000" y="0.000000" z="0.000000"/>
+			<rotation x="0.000000" y="30.000000" z="0.000000"/>
 			<scale x="1.000000" y="1.000000" z="1.000000"/>
 		</entity>
 	</entities>
+	<cameras>
+		<camera>
+			<name>mainCamera</name>
+			<type>free</type>
+			<projection>prespective</projection>
+			<active>true</active>
+			<frustum FOV="120.000000" nearPlane="0.100000" farPlane="10.000000"/>
+			<position x="0.000000" y="0.000000" z="0.000000"/>
+		</camera>
+	</cameras>
 </scene>
 

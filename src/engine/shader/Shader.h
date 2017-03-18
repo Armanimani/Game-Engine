@@ -25,9 +25,18 @@ public:
 	inline const std::string& getName() { return name; }
 	inline const ShaderType& getType() { return type; }
 
+	inline const glm::mat4& getViewMatrix() { return viewMatrix; }
+	inline void setViewMatrix(const glm::mat4& matrix) { viewMatrix = matrix; }
+
+	inline const glm::mat4& getProjectionMatrix() { return projectionMatrix; }
+	inline void setProjectionMatrix(const glm::mat4& matrix) { projectionMatrix = matrix; }
+
 protected:
 	ShaderType type;
 	std::string name;
+
+	glm::mat4 projectionMatrix;
+	glm::mat4 viewMatrix;
 
 	std::string vertexShader;
 	std::string fragmentShader;
@@ -37,11 +46,14 @@ protected:
 	GLuint fragmentShaderID;
 
 	GLuint location_transformationMatrix;
+	GLuint location_projectionMatrix;
 
 	std::string readShadercode(const std::string& file);
 	bool checkStatus(GLuint objectID, PFNGLGETSHADERIVPROC objectPropertyGetter, PFNGLGETSHADERINFOLOGPROC getInfoLogFun, GLenum statusType);
 	bool checkShaderStatus(GLuint ShaderID);
 	bool checkProgramStatus(GLuint programID);
+
+	void loadTransformationToUniform(const std::shared_ptr<Entity> entity);
 
 	virtual void getAllUniformLocations();
 	GLint getUniformLocation(const std::string& uniformName);

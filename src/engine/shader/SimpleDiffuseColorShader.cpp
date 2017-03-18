@@ -4,7 +4,8 @@ void SimpleDiffuseColorShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
 
-	loadToUniform(location_transformationMatrix, GLMath::createTransformationMatrix(entity->getPosition(), entity->getRotation(), entity->getScale()));
+	loadTransformationToUniform(entity);
+
 	loadToUniform(location_color, entity->getModel()->getMaterial()->getProperties().diffuseColor);
 
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
