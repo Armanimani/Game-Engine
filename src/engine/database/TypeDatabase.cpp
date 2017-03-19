@@ -20,22 +20,12 @@ CameraType TypeDatabase::getCameraType(const std::string & value)
 	if (value == "free") return CameraType::free;
 	if (value == "FPS") return CameraType::FPS;
 	if (value == "arcBall") return CameraType::arcBall;
+	if (value == "orthoFree") return CameraType::orthoFree;
 
 	Debug::print(value);
 	Debug::print("unable to recognize the camera Type!");
 	return CameraType::noType;
 }
-
-CameraProjectionType TypeDatabase::getCameraProjectionType(const std::string & value)
-{
-	if (value == "prespective") return CameraProjectionType::prespective;
-	if (value == "orthogonal") return CameraProjectionType::orthogonal;
-
-	Debug::print(value);
-	Debug::print("unable to recognize the camera projection type!");
-	return CameraProjectionType::noType;
-}
-
 
 std::string TypeDatabase::getMeshAttributeTypeName(const MeshAttribute & value)
 {
@@ -54,13 +44,6 @@ const std::string TypeDatabase::getCameraTypeName(const CameraType & value)
 	if (value == CameraType::free) return "free";
 	if (value == CameraType::FPS) return "FPS";
 	if (value == CameraType::arcBall) return "arcBall";
-	return "ERROR";
-}
-
-const std::string TypeDatabase::getCameraProjectionTypeName(const CameraProjectionType & value)
-{
-	if (value == CameraProjectionType::noType) return "noType";
-	if (value == CameraProjectionType::prespective) return "prespective";
-	if (value == CameraProjectionType::orthogonal) return "orthogonal";
+	if (value == CameraType::orthoFree) return "orthoFree";
 	return "ERROR";
 }

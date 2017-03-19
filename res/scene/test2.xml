@@ -4,6 +4,7 @@
 		<mesh>../res/mesh/2D/2DRectangle.msh</mesh>
 		<mesh>../res/mesh/2D/2DCircle18.msh</mesh>
 		<mesh>../res/mesh/3D/3DColorCube.msh</mesh>
+    <mesh>../res/mesh/3D/3DColorCube2.msh</mesh>
 	</meshes>
 	<materials>
 		<material>../res/material/simplePosition.mat</material>
@@ -42,11 +43,16 @@
 			<mesh>3DColorCube</mesh>
 			<material>simpleColorMaterial</material>
 		</model>
+    <model>
+      <name>colorCube2</name>
+      <mesh>3DColorCube2</mesh>
+      <material>simpleColorMaterial</material>
+    </model>
 	</models>
 	<entities>
 		<entity>
 			<name>test</name>
-			<model>colorCube</model>
+			<model>colorCube2</model>
 			<position x ="0.0f" y ="0.0f" z="0.0f"/>
 			<rotation x ="0.0f" y ="30.0f" z="0.0f"/>
 			<scale x ="1.0f" y ="1.0f" z="1.0f"/>
@@ -54,12 +60,21 @@
 	</entities>
   <cameras>
     <camera>
-      <name>mainCamera</name>
+      <name>orthoCam</name>
+      <type>orthoFree</type>
+      <active>false</active>
+      <frustum FOV ="60.0f" nearPlane="0.1f" farPlane="10.0f"/>
+      <position x="0.0f" y="0.0f" z="4.0f"/>
+      <direction x="0.0f" y="0.0f" z="-1.0f"/>
+      <view left="-2.0f" right="2.0f" top="2.0f" bottom="-2.0f" front="200.0f" back="-200.0f"/>
+    </camera>
+    <camera>
+      <name>presCam</name>
       <type>free</type>
-      <projection>prespective</projection>
       <active>true</active>
-      <frustum FOV ="120.0f" nearPlane="0.1f" farPlane="10.0f"/>
-      <position x="0.0f" y="0.0f" z="0.0f"/>
+      <frustum FOV="60.0f" nearPlane="0.1f" farPlane="10.0f"/>
+      <position x="0.0f" y="0.0f" z="4.0f"/>
+      <direction x="0.0f" y="0.0f" z="-1.0f"/>
     </camera>
   </cameras>
 </scene>

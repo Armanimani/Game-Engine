@@ -26,6 +26,7 @@ void Renderer::prepare()
 	glClearColor(engineSettings->backgroundColor.r, engineSettings->backgroundColor.g, engineSettings->backgroundColor.b, engineSettings->backgroundColor.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
 }
 
 void Renderer::render()
@@ -66,9 +67,11 @@ void Renderer::update()
 	//NOTE: maybe only updating the cameraMatrix for the active camera is sufficient
 	sceneManager->cameraManager.updateMatrix();
 	glm::mat4 projectionMatrix = sceneManager->cameraManager.getActiveCamera()->getProjectionMatrix();
+	glm::mat4 viewMatrix = sceneManager->cameraManager.getActiveCamera()->getViewMatrix();
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{
 		(*i).second->setProjectionMatrix(projectionMatrix);
+		(*i).second->setViewMatrix(viewMatrix);
 	}
 }
 

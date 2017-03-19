@@ -14,7 +14,10 @@
 class Scene
 {
 public:
-	Scene(const std::string& name) : name(name) {}
+	Scene(const std::string& name) : name(name) 
+	{
+		for (int i = 0; i != 256; ++i) keys[i] = false;
+	}
 
 	inline void setWindowHandle(const HWND& hwnd);
 	inline const HWND& getWindowHandle() const;
@@ -44,6 +47,8 @@ protected:
 	std::unordered_set<std::shared_ptr<engine::DelayedEvent>>* delayedEngineEventList;
 
 	std::shared_ptr<SceneManager> manager; //TODO: need to be removed later! need to only have a pointer of the materials set!
+	
+	bool keys[256];
 };
 
 const HWND& Scene::getWindowHandle() const

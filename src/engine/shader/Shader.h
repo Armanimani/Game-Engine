@@ -47,6 +47,7 @@ protected:
 
 	GLuint location_transformationMatrix;
 	GLuint location_projectionMatrix;
+	GLuint location_viewMatrix;
 
 	std::string readShadercode(const std::string& file);
 	bool checkStatus(GLuint objectID, PFNGLGETSHADERIVPROC objectPropertyGetter, PFNGLGETSHADERINFOLOGPROC getInfoLogFun, GLenum statusType);

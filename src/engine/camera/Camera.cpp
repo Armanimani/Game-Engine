@@ -60,25 +60,14 @@
 //	rotateY(amount.y);
 //}
 
-void Camera::setCameraProjectionType(const CameraProjectionType & t)
-{
-	projectionType = t;
-	updateProjectionMatrix();
-}
-
 void Camera::updateMatrix()
 {
 	updateProjectionMatrix();
+	updateViewMatrix();
 }
 
 void Camera::updateProjectionMatrix()
 {
-	if (projectionType == CameraProjectionType::prespective)
-	{
-		projectionMatrix = glm::perspective(glm::radians(frustum.FOV), static_cast<GLfloat>(*frustum.viewportWidth) / static_cast<GLfloat>(*frustum.viewportHeight) , frustum.nearPlane, frustum.farPlane);
-	}
-	else if (projectionType == CameraProjectionType::orthogonal)
-	{
-		projectionMatrix = glm::ortho(static_cast<unsigned short int>(0), *frustum.viewportWidth, static_cast<unsigned short int> (0), *frustum.viewportHeight);
-	}
+	projectionMatrix = glm::perspective(glm::radians(frustum.FOV), static_cast<GLfloat>(*frustum.viewportWidth) / static_cast<GLfloat>(*frustum.viewportHeight) , frustum.nearPlane, frustum.farPlane);
 }
+

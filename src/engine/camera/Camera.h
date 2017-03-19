@@ -8,12 +8,11 @@
 #include <memory>
 #include "../util/vector/USIVec2.h"
 #include <string>
-#include "CameraProjectionType.h"
 
 class Camera
 {
 public:
-	Camera(const std::string& name, CameraFrustum& frustum, const CameraType& type, const CameraProjectionType& pType, const glm::vec3& position) : name(name), frustum(frustum), type(type), projectionType(pType), position(position)
+	Camera(const std::string& name, CameraFrustum& frustum, const CameraType& type, const glm::vec3& position) : name(name), frustum(frustum), type(type), position(position)
 	{
 		updateProjectionMatrix();
 	}
@@ -22,17 +21,15 @@ public:
 	inline const std::string& getName() { return name; }
 
 	inline const CameraType& getCameraType() { return type; }
-
-	void setCameraProjectionType(const CameraProjectionType& t);
-	inline const CameraProjectionType& getCameraProjectionType() { return projectionType; }
 	
 	inline const glm::mat4& getProjectionMatrix() { return projectionMatrix; }
+	inline const glm::mat4& getViewMatrix() { return viewMatrix; }
 
 	inline void setActive(const GLboolean& state = true) { active = state; }
 	inline const GLboolean& isActive() { return active; }
 
 	inline const glm::vec3& getPosition() { return position; }
-	inline const CameraFrustum& getFrostum() { return frustum; }
+	inline const CameraFrustum& getFrustum() { return frustum; }
 	//inline const glm::vec3& getupVector() { return upVector; }
 	//inline const glm::vec3& getrightVector() { return rightVector; }
 	//inline const glm::vec3& getViewDirection() { return viewVector; }
@@ -61,12 +58,13 @@ protected:
 	std::string name;
 	CameraType type = CameraType::noType;
 	GLboolean active = false;
-	CameraProjectionType projectionType = CameraProjectionType::noType;
 	glm::vec3 position;
 	CameraFrustum frustum;
 	glm::mat4 projectionMatrix;
+	glm::mat4 viewMatrix;
 
-	void updateProjectionMatrix();
+	virtual void updateProjectionMatrix();
+	virtual void updateViewMatrix() {};
 
 	//glm::vec3 upVector;
 	//glm::vec3 rightVector;

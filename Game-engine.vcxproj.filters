@@ -96,10 +96,13 @@
     <ClCompile Include="src\engine\camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\camera\AttachedCamera.cpp">
+    <ClCompile Include="src\engine\camera\CameraManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\camera\CameraManager.cpp">
+    <ClCompile Include="src\engine\camera\FreeCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\camera\OrthoFreeCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -248,9 +251,6 @@
     <ClInclude Include="src\engine\camera\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\camera\AttachedCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\camera\CameraType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -260,10 +260,10 @@
     <ClInclude Include="src\engine\camera\CameraFrustum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\camera\CameraProjectionType.h">
+    <ClInclude Include="src\engine\camera\CameraManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\camera\CameraManager.h">
+    <ClInclude Include="src\engine\camera\OrthoFreeCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -286,6 +286,7 @@
     <None Include="src\engine\shader\glsl\SimpleColor.vert" />
     <None Include="res\mesh\2D\2DCircle18.msh" />
     <None Include="res\mesh\3D\3DColorCube.msh" />
+    <None Include="res\mesh\3D\3DColorCube2.msh" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\finalState.xml" />

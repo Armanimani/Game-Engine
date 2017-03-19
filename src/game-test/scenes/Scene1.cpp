@@ -1,10 +1,12 @@
 #include "Scene1.h"
 #include "../../engine/debug/Debug.h"
+#include "../../engine/camera/FreeCamera.h"
 
 void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode & code)
 {
 	if (event.type == InputEventType::KEY_DOWN)
 	{
+		keys[static_cast<int>(event.key)] = true;
 		switch (event.key)
 		{
 		case (KeyCode::F4):
@@ -76,12 +78,25 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 			break;
 		}
 		case (KeyCode::W):
-			manager->entityMap.getItem("test")->translateEntity(glm::vec3(0.0f, Clock::deltaTime * 0.5f, 0.0f));
+		{
+			//manager->entityMap.getItem("test")->translateEntity(glm::vec3(0.0f, Clock::deltaTime * 5.0f, 0.0f));
 			break;
+		}
+		case (KeyCode::P):
+		{
+			manager->cameraManager.activateCamera("presCam");
+			break;
+		}
+		case (KeyCode::O):
+		{
+			manager->cameraManager.activateCamera("orthoCam");
+			break;
+		}
 		}
 	}
 	else if (event.type == InputEventType::KEY_UP)
 	{
+		keys[static_cast<int>(event.key)] = false;
 		switch (event.key)
 		{
 		case (KeyCode::NUM8):
@@ -100,5 +115,35 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 
 void Scene1::update()
 {
-	//manager->entityMap.getItem("test")->translateEntity(glm::vec3(0.0f, Clock::deltaTime * 0.1f, 0.0f));
+	if (keys[static_cast<int>(KeyCode::W)] == true)
+	{
+		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
+		cam->moveForward(5.0f * Clock::deltaTime);
+	}
+	if (keys[static_cast<int>(KeyCode::S)] == true)
+	{
+		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
+		cam->moveForward(- 5.0f * Clock::deltaTime);
+	}
+	if (keys[static_cast<int>(KeyCode::A)] == true)
+	{
+		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
+		cam->moveRight(5.0f * Clock::deltaTime);
+	}
+	if (keys[static_cast<int>(KeyCode::D)] == true)
+	{
+		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
+		cam->moveRight(-5.0f * Clock::deltaTime);
+	}
+
+	if (keys[static_cast<int>(KeyCode::Q)] == true)
+	{
+		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
+		cam->moveUp(-5.0f * Clock::deltaTime);
+	}
+	if (keys[static_cast<int>(KeyCode::E)] == true)
+	{
+		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
+		cam->moveUp(5.0f * Clock::deltaTime);
+	}
 }
