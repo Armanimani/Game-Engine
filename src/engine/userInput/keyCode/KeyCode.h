@@ -8,6 +8,7 @@ enum class KeyCode : unsigned int
 	MOUSE_M = 0x04,
 	MOUSE_N1 = 0x05,
 	MOUSE_N2 = 0x06,
+	MOUSE_W = 0x07,
 
 
 	BACKSPACE = 0x08,

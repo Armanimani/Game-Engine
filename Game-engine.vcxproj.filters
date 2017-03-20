@@ -227,15 +227,6 @@
     <ClInclude Include="src\game-test\scenes\Scene1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\event\EngineEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\event\EngineEventCode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\event\DelayedEngineEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\shader\SimpleDiffuseColorShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -264,6 +255,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\camera\OrthoFreeCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\event\DelayedEngineEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\event\EngineEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\event\EngineEventCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\userInput\inputData\InputData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

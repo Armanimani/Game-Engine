@@ -337,6 +337,22 @@ LRESULT CALLBACK Win32Window::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPA
 		inMapper->registerEvent(event, InputHandlerCode::onMouse_up);
 		return 0;
 	}
+	case WM_MOUSEWHEEL:
+	{
+		event.type = InputEventType::MOUSE_WHEEL;
+		event.key = KeyCode::MOUSE_W;
+		createMouseInputEvent(event, hwnd, wparam, lparam);
+		inMapper->registerEvent(event, InputHandlerCode::onMouse_wheel);
+		return 0;
+	}
+	case WM_MOUSEMOVE:
+	{
+		event.type = InputEventType::NO_EVENT;
+		event.key = KeyCode::NO_CODE;
+		createMouseInputEvent(event, hwnd, wparam, lparam);
+		inMapper->registerEvent(event, InputHandlerCode::onMouse_move);
+		return 0;
+	}
 	case WM_KEYDOWN:
 	{
 		event.type = InputEventType::KEY_DOWN;
@@ -387,6 +403,7 @@ void Win32Window::createMouseInputEvent(InputEvent & event, HWND hwnd, WPARAM wp
 
 	event.posX = GET_X_LPARAM(lparam);
 	event.posY = GET_Y_LPARAM(lparam);
+	event.wheelDelta = GET_WHEEL_DELTA_WPARAM(wparam);
 }
 
 void Win32Window::staticInit()

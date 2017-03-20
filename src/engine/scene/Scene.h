@@ -10,17 +10,15 @@
 #include <unordered_set>
 #include "../event/DelayedEngineEvent.h"
 #include "../scene/SceneManager.h"
+#include "../userInput/inputData/InputData.h"
 
 class Scene
 {
 public:
-	Scene(const std::string& name) : name(name) 
-	{
-		for (int i = 0; i != 256; ++i) keys[i] = false;
-	}
+	Scene(const std::string& name) : name(name) {}
 
-	inline void setWindowHandle(const HWND& hwnd);
-	inline const HWND& getWindowHandle() const;
+	inline void setWindowHandle(const HWND& hwnd) { hWnd = &hwnd; }
+	inline const HWND& getWindowHandle() const { return *hWnd; }
 
 	inline const std::string& getName() { return name; }
 
@@ -43,19 +41,19 @@ protected:
 	const HWND* hWnd;
 	SceneSettings settings;
 
+	InputData inputData;
+
 	std::queue<std::shared_ptr<engine::Event>>* engineEventList;
 	std::unordered_set<std::shared_ptr<engine::DelayedEvent>>* delayedEngineEventList;
 
 	std::shared_ptr<SceneManager> manager; //TODO: need to be removed later! need to only have a pointer of the materials set!
-	
-	bool keys[256];
-};
 
-const HWND& Scene::getWindowHandle() const
-{
-	return *hWnd;
-}
-void Scene::setWindowHandle(const HWND& hwnd)
-{
-	hWnd = &hwnd;
-}
+	const bool& getKeyState(const KeyCode& code) { return inputData.keys[static_cast<int>(code)]; }
+	inline void setKeyState(const KeyCode& code, const bool& state = true) { inputData.keys[static_cast<int>(code)] = state; }
+
+	virtual void defaultInputEventHandle(const InputEvent& event);
+	virtual void handleInputKeys() {};
+
+	void defaultCameraInputHandler(const InputEvent& event, const InputHandlerCode& code);
+
+};

@@ -12,8 +12,11 @@
 class Camera
 {
 public:
-	Camera(const std::string& name, CameraFrustum& frustum, const CameraType& type, const glm::vec3& position) : name(name), frustum(frustum), type(type), position(position)
+	Camera(const std::string& name, CameraFrustum& frustum, const CameraType& type, const glm::vec3& position, const glm::vec3& direction = glm::vec3(0.0f, 0.0f, 1.0f)) : name(name), frustum(frustum), type(type), position(position), direction(direction)
 	{
+		up = glm::vec3(0.0f, 1.0f, 0.0f);
+		right = glm::normalize(glm::cross(direction, up));
+		up = glm::normalize(glm::cross(right, direction));
 		updateProjectionMatrix();
 	}
 
@@ -44,6 +47,15 @@ public:
 	inline void setNearPlane(const GLfloat& value) { frustum.nearPlane = value; }
 	inline void setFarPlane(const GLfloat& value) { frustum.farPlane = value; }
 
+	virtual void translate(const glm::vec2& value) {};
+	virtual void moveForward(const GLfloat& value) {};
+	virtual void moveRight(const GLfloat& value) {};
+	virtual void moveUp(const GLfloat& value) {};
+	virtual void rotateForward(const GLfloat& value) {};
+	virtual void rotateRight(const GLfloat& value) {};
+	virtual void rotateUp(const GLfloat& value) {};
+	virtual void orbit(const glm::vec2& value) {};
+
 	//void translate(const glm::vec2& amount);
 	//void zoom(const GLfloat& amount);
 	//void rotateX(const GLfloat& amount);
@@ -62,6 +74,10 @@ protected:
 	CameraFrustum frustum;
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
+
+	glm::vec3 direction;
+	glm::vec3 up;
+	glm::vec3 right;
 
 	virtual void updateProjectionMatrix();
 	virtual void updateViewMatrix() {};

@@ -4,9 +4,10 @@
 
 void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode & code)
 {
+	defaultInputEventHandle(event);
+	defaultCameraInputHandler(event, code);
 	if (event.type == InputEventType::KEY_DOWN)
 	{
-		keys[static_cast<int>(event.key)] = true;
 		switch (event.key)
 		{
 		case (KeyCode::F4):
@@ -96,7 +97,6 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 	}
 	else if (event.type == InputEventType::KEY_UP)
 	{
-		keys[static_cast<int>(event.key)] = false;
 		switch (event.key)
 		{
 		case (KeyCode::NUM8):
@@ -115,33 +115,39 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 
 void Scene1::update()
 {
-	if (keys[static_cast<int>(KeyCode::W)] == true)
+	handleInputKeys();
+}
+
+void Scene1::handleInputKeys()
+{
+	Scene::handleInputKeys();
+	if (inputData.keys[static_cast<int>(KeyCode::W)] == true)
 	{
 		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
 		cam->moveForward(5.0f * Clock::deltaTime);
 	}
-	if (keys[static_cast<int>(KeyCode::S)] == true)
+	if (inputData.keys[static_cast<int>(KeyCode::S)] == true)
 	{
 		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
-		cam->moveForward(- 5.0f * Clock::deltaTime);
+		cam->moveForward(-5.0f * Clock::deltaTime);
 	}
-	if (keys[static_cast<int>(KeyCode::A)] == true)
+	if (inputData.keys[static_cast<int>(KeyCode::A)] == true)
 	{
 		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
 		cam->moveRight(5.0f * Clock::deltaTime);
 	}
-	if (keys[static_cast<int>(KeyCode::D)] == true)
+	if (inputData.keys[static_cast<int>(KeyCode::D)] == true)
 	{
 		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
 		cam->moveRight(-5.0f * Clock::deltaTime);
 	}
 
-	if (keys[static_cast<int>(KeyCode::Q)] == true)
+	if (inputData.keys[static_cast<int>(KeyCode::Q)] == true)
 	{
 		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
 		cam->moveUp(-5.0f * Clock::deltaTime);
 	}
-	if (keys[static_cast<int>(KeyCode::E)] == true)
+	if (inputData.keys[static_cast<int>(KeyCode::E)] == true)
 	{
 		std::shared_ptr<FreeCamera> cam = std::static_pointer_cast<FreeCamera>(manager->cameraManager.getCamera("presCam"));
 		cam->moveUp(5.0f * Clock::deltaTime);

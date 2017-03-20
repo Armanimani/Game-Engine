@@ -79,6 +79,7 @@ void Debug::createKeyMap()
 	keyMap.insert(std::make_pair(KeyCode::MOUSE_M, "MOUSE_M"));
 	keyMap.insert(std::make_pair(KeyCode::MOUSE_N1, "MOUSE_N1"));
 	keyMap.insert(std::make_pair(KeyCode::MOUSE_N2, "MOUSE_N2"));
+	keyMap.insert(std::make_pair(KeyCode::MOUSE_W, "Mouse_W"));
 
 	keyMap.insert(std::make_pair(KeyCode::BACKSPACE, "BACKSPACE"));
 	keyMap.insert(std::make_pair(KeyCode::TAB, "TAB"));

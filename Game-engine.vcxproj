@@ -223,6 +223,7 @@
     <ClInclude Include="src\engine\shader\SimpleDiffuseColorShader.h" />
     <ClInclude Include="src\engine\shader\SimplePositionShader.h" />
     <ClInclude Include="src\engine\shader\Shader.h" />
+    <ClInclude Include="src\engine\userInput\inputData\InputData.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEventType.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEvent.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputHandlerCode.h" />

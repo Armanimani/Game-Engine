@@ -9,4 +9,7 @@ public:
 	virtual void handleInputEvent(const InputEvent& event, const InputHandlerCode& code) override;
 
 	virtual void update() override;
+	
+protected:
+	virtual void handleInputKeys() override;
 };
