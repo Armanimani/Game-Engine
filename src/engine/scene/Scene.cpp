@@ -61,7 +61,19 @@ void Scene::defaultCameraInputHandler(const InputEvent & event, const InputHandl
 		{
 			inputData.mouseDragR = glm::vec2(event.posX, event.posY) - inputData.mousePrevPosR;
 			inputData.mousePrevPosR = glm::vec2(event.posX, event.posY);
-			manager->cameraManager.getActiveCamera()->orbit(inputData.mouseDragR / 250.0f);
+			if (event.shiftDown)
+			{
+				manager->cameraManager.getActiveCamera()->rotateUp(inputData.mouseDragR.x / 100.0f);
+			}
+			else if (event.ctrlDown)
+			{
+				manager->cameraManager.getActiveCamera()->rotateRight(inputData.mouseDragR.y / 100.0f);
+			}
+			else
+			{
+				manager->cameraManager.getActiveCamera()->orbit(inputData.mouseDragR / 100.0f);
+			}
+
 		}
 		if(event.mouseMDown)
 		{

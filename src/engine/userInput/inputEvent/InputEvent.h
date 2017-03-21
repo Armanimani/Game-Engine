@@ -18,7 +18,7 @@ struct InputEvent
 
 	HWND hwnd;
 
-	unsigned short int posX = 0;
-	unsigned short int posY = 0;
+	short int posX = 0;
+	short int posY = 0;
 	short int wheelDelta = 0;
 };

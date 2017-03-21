@@ -13,6 +13,9 @@ public:
 	inline void moveForward(const GLfloat& value) override { position += direction * value; }
 	inline void moveRight(const GLfloat& value) override { position += right * value; }
 	inline void moveUp(const GLfloat& value) override { position += up * value; }
+	void rotateRight(const GLfloat& value) override;
+	void rotateUp(const GLfloat& value) override;
+	virtual void orbit(const glm::vec2& value) override;
 
 protected:
 	void updateViewMatrix() override;
