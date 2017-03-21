@@ -10,6 +10,8 @@
 #include "../database/TypeDatabase.h"
 #include "../camera/FreeCamera.h"
 #include "../camera/OrthoFreeCamera.h"
+#include "../camera/OrthoFreeCamera2D.h"
+#include "../camera/FPSCamera.h"
 
 const std::string SCENE("scene");
 const std::string MESHES("meshes");
@@ -172,6 +174,14 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 				else if (type == CameraType::orthoFree)
 				{
 					cam = std::make_shared<OrthoFreeCamera>(name, frustum, type, position, direction);
+				}
+				else if (type == CameraType::orthoFree2D)
+				{
+					cam = std::make_shared<OrthoFreeCamera2D>(name, frustum, type, position, direction);
+				}
+				else if (type == CameraType::FPS)
+				{
+					cam = std::make_shared<FPSCamera>(name, frustum, type, position, direction);
 				}
 				// NOTE: Other camera types
 				manager->cameraManager.addCamera(cam);
@@ -346,7 +356,7 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 
 		camera->append_node(dirSub);
 
-		if (m->getCameraType() == CameraType::orthoFree)
+		if (m->getCameraType() == CameraType::orthoFree || m->getCameraType() == CameraType::orthoFree2D)
 		{
 			rapidxml::xml_node<>* viewSub = doc.allocate_node(rapidxml::node_element, VIEW.c_str());
 			temp.emplace_back(std::make_shared<std::string>(std::to_string(m->getFrustum().viewLeft)));

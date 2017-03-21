@@ -15,11 +15,10 @@ public:
 
 	//TODO fix aspectRatio when the window changed!
 
-	virtual void moveForward(const GLfloat& value) override final;
+	virtual void moveForward(const GLfloat& value) override;
 
 protected:
 	GLfloat scale = 0.0;
-	virtual void updateProjectionMatrix() override;
-private:
 	GLfloat aspectRatio;
+	virtual void updateProjectionMatrix() override;
 };

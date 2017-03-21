@@ -21,6 +21,7 @@ CameraType TypeDatabase::getCameraType(const std::string & value)
 	if (value == "FPS") return CameraType::FPS;
 	if (value == "arcBall") return CameraType::arcBall;
 	if (value == "orthoFree") return CameraType::orthoFree;
+	if (value == "orthoFree2D") return CameraType::orthoFree2D;
 
 	Debug::print(value);
 	Debug::print("unable to recognize the camera Type!");
@@ -45,5 +46,6 @@ const std::string TypeDatabase::getCameraTypeName(const CameraType & value)
 	if (value == CameraType::FPS) return "FPS";
 	if (value == CameraType::arcBall) return "arcBall";
 	if (value == CameraType::orthoFree) return "orthoFree";
+	if (value == CameraType::orthoFree2D) return "orthoFree2D";
 	return "ERROR";
 }

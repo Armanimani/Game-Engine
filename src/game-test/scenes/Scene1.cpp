@@ -93,6 +93,16 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 			manager->cameraManager.activateCamera("orthoCam");
 			break;
 		}
+		case (KeyCode::K):
+		{
+			manager->cameraManager.activateCamera("orthoCam2D");
+			break;
+		}
+		case(KeyCode::L):
+		{
+			manager->cameraManager.activateCamera("FPSCam");
+			break;
+		}
 		}
 	}
 	else if (event.type == InputEventType::KEY_UP)

@@ -6,5 +6,6 @@ enum class CameraType
 	free,
 	FPS,
 	orthoFree,
+	orthoFree2D,
 	arcBall
 };

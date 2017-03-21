@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="src\engine\camera\Camera.cpp" />
     <ClCompile Include="src\engine\camera\CameraManager.cpp" />
+    <ClCompile Include="src\engine\camera\FPSCamera.cpp" />
     <ClCompile Include="src\engine\camera\FreeCamera.cpp" />
     <ClCompile Include="src\engine\camera\OrthoFreeCamera.cpp" />
     <ClCompile Include="src\engine\clock\Cock.cpp" />
@@ -189,7 +190,9 @@
     <ClInclude Include="src\engine\camera\CameraFrustum.h" />
     <ClInclude Include="src\engine\camera\CameraManager.h" />
     <ClInclude Include="src\engine\camera\CameraType.h" />
+    <ClInclude Include="src\engine\camera\FPSCamera.h" />
     <ClInclude Include="src\engine\camera\FreeCamera.h" />
+    <ClInclude Include="src\engine\camera\OrthoFreeCamera2D.h" />
     <ClInclude Include="src\engine\camera\OrthoFreeCamera.h" />
     <ClInclude Include="src\engine\clock\Cock.h" />
     <ClInclude Include="src\engine\database\TypeDatabase.h" />

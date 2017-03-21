@@ -69,9 +69,26 @@
       <view left="-2.0f" right="2.0f" top="2.0f" bottom="-2.0f" front="200.0f" back="-200.0f"/>
     </camera>
     <camera>
+      <name>orthoCam2D</name>
+      <type>orthoFree2D</type>
+      <active>false</active>
+      <frustum FOV ="60.0f" nearPlane="0.1f" farPlane="10.0f"/>
+      <position x="0.0f" y="0.0f" z="4.0f"/>
+      <direction x="0.0f" y="0.0f" z="-1.0f"/>
+      <view left="-2.0f" right="2.0f" top="2.0f" bottom="-2.0f" front="200.0f" back="-200.0f"/>
+    </camera>
+    <camera>
       <name>presCam</name>
       <type>free</type>
       <active>true</active>
+      <frustum FOV="60.0f" nearPlane="0.1f" farPlane="10.0f"/>
+      <position x="0.0f" y="0.0f" z="4.0f"/>
+      <direction x="0.0f" y="0.0f" z="-1.0f"/>
+    </camera>
+    <camera>
+      <name>FPSCam</name>
+      <type>FPS</type>
+      <active>false</active>
       <frustum FOV="60.0f" nearPlane="0.1f" farPlane="10.0f"/>
       <position x="0.0f" y="0.0f" z="4.0f"/>
       <direction x="0.0f" y="0.0f" z="-1.0f"/>
