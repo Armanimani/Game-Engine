@@ -103,6 +103,16 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 			manager->cameraManager.activateCamera("FPSCam");
 			break;
 		}
+		case(KeyCode::M):
+		{
+			manager->cameraManager.activateCamera("targetCam");
+			break;
+		}
+		case(KeyCode::N):
+		{
+			manager->cameraManager.activateCamera("arcBallCam");
+			break;
+		}
 		}
 	}
 	else if (event.type == InputEventType::KEY_UP)

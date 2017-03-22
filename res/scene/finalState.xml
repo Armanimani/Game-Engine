@@ -86,12 +86,28 @@
 			<direction x="0.000000" y="0.000000" z="-1.000000"/>
 		</camera>
 		<camera>
+			<name>targetCam</name>
+			<type>target</type>
+			<active>false</active>
+			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="10.000000"/>
+			<position x="2.015180" y="-0.908803" z="3.326319"/>
+			<target x="0.000000" y="0.000000" z="0.000000"/>
+		</camera>
+		<camera>
 			<name>FPSCam</name>
 			<type>FPS</type>
-			<active>true</active>
+			<active>false</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="10.000000"/>
 			<position x="0.000000" y="0.000000" z="4.000000"/>
-			<direction x="0.169134" y="-0.112194" z="-0.979134"/>
+			<direction x="0.000000" y="0.000000" z="-1.000000"/>
+		</camera>
+		<camera>
+			<name>arcBallCam</name>
+			<type>arcBall</type>
+			<active>true</active>
+			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="10.000000"/>
+			<position x="-1.398639" y="2.319770" z="2.936783"/>
+			<target x="0.000000" y="0.000000" z="0.000000"/>
 		</camera>
 	</cameras>
 </scene>

@@ -12,6 +12,8 @@
 #include "../camera/OrthoFreeCamera.h"
 #include "../camera/OrthoFreeCamera2D.h"
 #include "../camera/FPSCamera.h"
+#include "../camera/TargetCamera.h"
+#include "../camera/ArcBallCamera.h"
 
 const std::string SCENE("scene");
 const std::string MESHES("meshes");
@@ -48,6 +50,7 @@ const std::string TOP("top");
 const std::string BOTTOM("bottom");
 const std::string BACK("back");
 const std::string FRONT("front");
+const std::string TARGET("target");
 
 void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manager, const std::shared_ptr<WindowSettings> windowSettings, const std::string& file)
 {
@@ -128,6 +131,7 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 			CameraType type;
 			glm::vec3 position;
 			glm::vec3 direction;
+			glm::vec3 target;
 			GLboolean active;
 			CameraFrustum frustum;
 
@@ -162,6 +166,10 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 						frustum.viewFront = std::stof(props->first_attribute(FRONT.c_str())->value());
 						frustum.viewBack = std::stof(props->first_attribute(BACK.c_str())->value());
 					}
+					else if (props->name() == TARGET)
+					{
+						target = glm::vec3(std::stof(props->first_attribute(X.c_str())->value()), std::stof(props->first_attribute(Y.c_str())->value()), std::stof(props->first_attribute(Z.c_str())->value()));
+					}
 				}
 				std::shared_ptr<Camera> cam;
 				frustum.viewportWidth = std::make_shared<unsigned short int>(windowSettings->windowResolution.x);
@@ -182,6 +190,14 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 				else if (type == CameraType::FPS)
 				{
 					cam = std::make_shared<FPSCamera>(name, frustum, type, position, direction);
+				}
+				else if (type == CameraType::target)
+				{
+					cam = std::make_shared<TargetCamera>(name, frustum, type, position, target);
+				}
+				else if (type == CameraType::arcBall)
+				{
+					cam = std::make_shared<ArcBallCamera>(name, frustum, type, position, target);
 				}
 				// NOTE: Other camera types
 				manager->cameraManager.addCamera(cam);
@@ -341,20 +357,22 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 		camera->append_node(frustumSub);
 		camera->append_node(posSub);
 
-		std::shared_ptr<FreeCamera> c = std::static_pointer_cast<FreeCamera>(m);
-		glm::vec3 direction = c->getDirection();
-		rapidxml::xml_node<>* dirSub = doc.allocate_node(rapidxml::node_element, DIRECTION.c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.x)));
-		rapidxml::xml_attribute<> *dirX = doc.allocate_attribute(X.c_str(), temp[temp.size() - 1].get()->c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.y)));
-		rapidxml::xml_attribute<> *dirY = doc.allocate_attribute(Y.c_str(), temp[temp.size() - 1].get()->c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.z)));
-		rapidxml::xml_attribute<> *dirZ = doc.allocate_attribute(Z.c_str(), temp[temp.size() - 1].get()->c_str());
-		dirSub->append_attribute(dirX);
-		dirSub->append_attribute(dirY);
-		dirSub->append_attribute(dirZ);
+		if (m->getCameraType() != CameraType::target && m->getCameraType() != CameraType::arcBall)
+		{
+			glm::vec3 direction = m->getDirection();
+			rapidxml::xml_node<>* dirSub = doc.allocate_node(rapidxml::node_element, DIRECTION.c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.x)));
+			rapidxml::xml_attribute<> *dirX = doc.allocate_attribute(X.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.y)));
+			rapidxml::xml_attribute<> *dirY = doc.allocate_attribute(Y.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.z)));
+			rapidxml::xml_attribute<> *dirZ = doc.allocate_attribute(Z.c_str(), temp[temp.size() - 1].get()->c_str());
+			dirSub->append_attribute(dirX);
+			dirSub->append_attribute(dirY);
+			dirSub->append_attribute(dirZ);
 
-		camera->append_node(dirSub);
+			camera->append_node(dirSub);
+		}
 
 		if (m->getCameraType() == CameraType::orthoFree || m->getCameraType() == CameraType::orthoFree2D)
 		{
@@ -380,6 +398,24 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 			viewSub->append_attribute(back);
 
 			camera->append_node(viewSub);
+		}
+		if (m->getCameraType() == CameraType::target || m->getCameraType() == CameraType::arcBall)
+		{
+			std::shared_ptr<TargetCamera> c = std::static_pointer_cast<TargetCamera>(m);
+			glm::vec3 target = c->getTarget();
+			rapidxml::xml_node<>* targetSub = doc.allocate_node(rapidxml::node_element, TARGET.c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(target.x)));
+			rapidxml::xml_attribute<> *targetX = doc.allocate_attribute(X.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(target.y)));
+			rapidxml::xml_attribute<> *targetY = doc.allocate_attribute(Y.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(target.z)));
+			rapidxml::xml_attribute<> *targetZ = doc.allocate_attribute(Z.c_str(), temp[temp.size() - 1].get()->c_str());
+			targetSub->append_attribute(targetX);
+			targetSub->append_attribute(targetY);
+			targetSub->append_attribute(targetZ);
+
+			camera->append_node(targetSub);
+
 		}
 		cameras->append_node(camera);
 	}

@@ -93,5 +93,21 @@
       <position x="0.0f" y="0.0f" z="4.0f"/>
       <direction x="0.0f" y="0.0f" z="-1.0f"/>
     </camera>
+    <camera>
+      <name>targetCam</name>
+      <type>target</type>
+      <active>false</active>
+      <frustum FOV="60.0f" nearPlane="0.1f" farPlane="10.0f"/>
+      <position x="0.0f" y="0.0f" z="4.0f"/>
+      <target x="0.0f" y="0.0f" z="0.0f"/>
+    </camera>
+    <camera>
+      <name>arcBallCam</name>
+      <type>arcBall</type>
+      <active>false</active>
+      <frustum FOV="60.0f" nearPlane="0.1f" farPlane="10.0f"/>
+      <position x="0.0f" y="0.0f" z="4.0f"/>
+      <target x="0.0f" y="0.0f" z="0.0f"/>
+    </camera>
   </cameras>
 </scene>

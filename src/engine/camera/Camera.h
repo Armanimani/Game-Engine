@@ -14,6 +14,7 @@ class Camera
 public:
 	Camera(const std::string& name, const CameraFrustum& frustum, const CameraType& type, const glm::vec3& position, const glm::vec3& direction = glm::vec3(0.0f, 0.0f, 1.0f)) : name(name), frustum(frustum), type(type), position(position), direction(direction)
 	{
+		this->direction = glm::normalize(direction);
 		up = glm::vec3(0.0f, 1.0f, 0.0f);
 		right = glm::normalize(glm::cross(direction, up));
 		up = glm::normalize(glm::cross(right, direction));
@@ -52,6 +53,7 @@ public:
 	virtual void rotateRight(const GLfloat& value) {};
 	virtual void rotateUp(const GLfloat& value) {};
 	virtual void orbit(const glm::vec2& value) {};
+	virtual void zoom(const GLfloat& value) {};
 
 	//void translate(const glm::vec2& amount);
 	//void zoom(const GLfloat& amount);
@@ -77,7 +79,7 @@ protected:
 	glm::vec3 right;
 
 	virtual void updateProjectionMatrix();
-	virtual void updateViewMatrix() {};
+	virtual void updateViewMatrix();
 
 	//glm::vec3 upVector;
 	//glm::vec3 rightVector;

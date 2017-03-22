@@ -157,6 +157,7 @@
     <ClCompile Include="src\engine\camera\FPSCamera.cpp" />
     <ClCompile Include="src\engine\camera\FreeCamera.cpp" />
     <ClCompile Include="src\engine\camera\OrthoFreeCamera.cpp" />
+    <ClCompile Include="src\engine\camera\TargetCamera.cpp" />
     <ClCompile Include="src\engine\clock\Cock.cpp" />
     <ClCompile Include="src\engine\database\TypeDatabase.cpp" />
     <ClCompile Include="src\engine\debug\Debug.cpp" />
@@ -186,6 +187,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res\material\diffuseColor\simpleDiffuseRed.mat" />
+    <ClInclude Include="src\engine\camera\ArcBallCamera.h" />
+    <ClInclude Include="src\engine\camera\TargetCamera.h" />
     <ClInclude Include="src\engine\camera\Camera.h" />
     <ClInclude Include="src\engine\camera\CameraFrustum.h" />
     <ClInclude Include="src\engine\camera\CameraManager.h" />
@@ -264,7 +267,9 @@
     <None Include="src\engine\shader\glsl\SimplePosition.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="res\scene\finalState.xml" />
+    <Xml Include="res\scene\finalState.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="res\scene\test2.xml">
       <SubType>Designer</SubType>
     </Xml>

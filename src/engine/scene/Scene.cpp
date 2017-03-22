@@ -47,7 +47,14 @@ void Scene::defaultCameraInputHandler(const InputEvent & event, const InputHandl
 {
 	if (code == InputHandlerCode::onMouse_wheel)
 	{
-		manager->cameraManager.getActiveCamera()->moveForward(event.wheelDelta / 250.0f);
+		if (event.shiftDown)
+		{
+			manager->cameraManager.getActiveCamera()->moveForward(event.wheelDelta / 250.0f);
+		}
+		else
+		{
+			manager->cameraManager.getActiveCamera()->zoom(event.wheelDelta / 250.0f);
+		}
 	}
 	else if (code == InputHandlerCode::onMouse_move && (event.mouseLDown || event.mouseRDown || event.mouseMDown))
 	{

@@ -12,7 +12,5 @@ void FPSCamera::rotateRight(const GLfloat & value)
 	else v = value;
 
 	theta += v;
-	std::cout << value << " " << theta  << " " << v << std::endl;
-
 	FreeCamera::rotateRight(v);
 }

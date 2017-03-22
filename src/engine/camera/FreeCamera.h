@@ -14,7 +14,5 @@ public:
 	virtual void rotateRight(const GLfloat& value) override;
 	virtual void rotateUp(const GLfloat& value) override;
 	virtual void orbit(const glm::vec2& value) override;
-
-protected:
-	void updateViewMatrix() override;
+	inline virtual void zoom(const GLfloat& value) override { moveForward(value); }
 };

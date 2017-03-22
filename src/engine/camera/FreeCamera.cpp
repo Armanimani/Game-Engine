@@ -26,8 +26,3 @@ void FreeCamera::orbit(const glm::vec2 & value)
 	rotateUp(value.x);
 	rotateRight(value.y);
 }
-
-void FreeCamera::updateViewMatrix()
-{
-	viewMatrix = glm::lookAt(position, position + direction, up);
-}
