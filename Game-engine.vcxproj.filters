@@ -126,6 +126,9 @@
     <ClCompile Include="src\engine\shader\util\ShaderSharedData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\shader\SimpleFragmentADS2FaceShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -329,6 +332,12 @@
     <ClInclude Include="src\engine\shader\util\ShaderSharedData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleFragmentADSShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleFragmentADS2FaceShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -356,8 +365,15 @@
     <None Include="src\engine\shader\glsl\SimpleVertexADS.vert" />
     <None Include="src\engine\shader\glsl\SimpleVertexADS.frag" />
     <None Include="res\material\diffuseColor\simpleVertexADSRed.mat" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADS.vert" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADS.frag" />
+    <None Include="res\material\diffuseColor\simpleFragmentADSRed.mat" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADS2Face.vert" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADS2Face.frag" />
+    <None Include="res\material\diffuseColor\simpleFragmentADS2FaceRed.mat" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\test2.xml" />
+    <Xml Include="res\scene\finalState.xml" />
   </ItemGroup>
 </Project>

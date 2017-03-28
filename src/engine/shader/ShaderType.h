@@ -8,5 +8,7 @@ enum class ShaderType
 	SimpleDiffuseColorShader,
 	SimpleDiffuseReflectiveShader,
 	SimpleVertexADSShader,
+	SimpleFragmentADSShader,
+	SimpleFragmentADS2FaceShader,
 	noType
 };

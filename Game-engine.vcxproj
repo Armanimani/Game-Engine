@@ -182,6 +182,7 @@
     <ClCompile Include="src\engine\shader\SimpleDiffuseColorShader.cpp" />
     <ClCompile Include="src\engine\shader\SimpleDiffuseReflectiveShader.cpp" />
     <ClCompile Include="src\engine\shader\SimplePositionShader.cpp" />
+    <ClCompile Include="src\engine\shader\SimpleFragmentADS2FaceShader.cpp" />
     <ClCompile Include="src\engine\shader\SimpleVertexADSShader.cpp" />
     <ClCompile Include="src\engine\shader\util\ShaderSharedData.cpp" />
     <ClCompile Include="src\engine\userInput\inputMapper\InputMapper.cpp" />
@@ -239,8 +240,10 @@
     <ClInclude Include="src\engine\shader\SimpleColorShader.h" />
     <ClInclude Include="src\engine\shader\SimpleDiffuseColorShader.h" />
     <ClInclude Include="src\engine\shader\SimpleDiffuseReflectiveShader.h" />
+    <ClInclude Include="src\engine\shader\SimpleFragmentADSShader.h" />
     <ClInclude Include="src\engine\shader\SimplePositionShader.h" />
     <ClInclude Include="src\engine\shader\Shader.h" />
+    <ClInclude Include="src\engine\shader\SimpleFragmentADS2FaceShader.h" />
     <ClInclude Include="src\engine\shader\SimpleVertexADSShader.h" />
     <ClInclude Include="src\engine\shader\util\ShaderSharedData.h" />
     <ClInclude Include="src\engine\userInput\inputData\InputData.h" />
@@ -260,8 +263,10 @@
     <ClInclude Include="src\game-test\scenes\Scene1.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\material\diffuseColor\simpleFragmentADS2FaceRed.mat" />
     <None Include="res\material\diffuseColor\simpleDiffuseBlue.mat" />
     <None Include="res\material\diffuseColor\simpleDiffuseReflectiveRed.mat" />
+    <None Include="res\material\diffuseColor\simpleFragmentADSRed.mat" />
     <None Include="res\material\diffuseColor\simpleVertexADSRed.mat" />
     <None Include="res\material\simpleColor.mat" />
     <None Include="res\material\simplePosition.mat" />
@@ -281,12 +286,17 @@
     <None Include="src\engine\shader\glsl\SimpleDiffuseColor.vert" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.frag" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.vert" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADS.frag" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADS.vert" />
     <None Include="src\engine\shader\glsl\SimplePosition.frag" />
     <None Include="src\engine\shader\glsl\SimplePosition.vert" />
     <None Include="src\engine\shader\glsl\SimpleVertexADS.frag" />
     <None Include="src\engine\shader\glsl\SimpleVertexADS.vert" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADS2Face.frag" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADS2Face.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="res\scene\finalState.xml" />
     <Xml Include="res\scene\test2.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -16,8 +16,10 @@
 		<material>../res/material/simpleColor.mat</material>
 		<material>../res/material/diffuseColor/simpleDiffuseBlue.mat</material>
 		<material>../res/material/diffuseColor/simpleDiffuseRed.mat</material>
-    <material>../res/material/diffuseColor/simpleDiffuseReflectiveRed.mat</material>
-    <material>../res/material/diffuseColor/simpleVertexADSRed.mat</material>
+		<material>../res/material/diffuseColor/simpleDiffuseReflectiveRed.mat</material>
+		<material>../res/material/diffuseColor/simpleVertexADSRed.mat</material>
+		<material>../res/material/diffuseColor/simpleFragmentADSRed.mat</material>
+		<material>../res/material/diffuseColor/simpleFragmentADS2FaceRed.mat</material>
 	</materials>
 	<models>
 		<model>
@@ -50,51 +52,71 @@
 			<mesh>3DColorCube</mesh>
 			<material>simpleColorMaterial</material>
 		</model>
-    <model>
-      <name>colorCube2</name>
-      <mesh>3DColorCube2</mesh>
-      <material>simpleColorMaterial</material>
-    </model>
-    <model>
-      <name>sphere1</name>
-      <mesh>sphere32</mesh>
-      <material>simpleDiffuseBlue</material>
-    </model>
-    <model>
-      <name>sphere2</name>
-      <mesh>sphere32_2</mesh>
-      <material>simpleDiffuseBlue</material>
-    </model>
-    <model>
-      <name>torus</name>
-      <mesh>torus24</mesh>
-      <material>simpleDiffuseRed</material>
-    </model>
-    <model>
-      <name>teapot</name>
-      <mesh>teapot4</mesh>
-      <material>simpleDiffuseRed</material>
-    </model>
-    <model>
-      <name>ttest</name>
-      <mesh>test</mesh>
-      <material>simpleDiffuseRed</material>
-    </model>
-    <model>
-      <name>reflective</name>
-      <mesh>torus24</mesh>
-      <material>simpleDiffuseReflectiveRed</material>
-    </model>
-    <model>
-      <name>reflective2</name>
-      <mesh>sphere32</mesh>
-      <material>simpleVertexADSRed</material>
-    </model>
+		<model>
+		  <name>colorCube2</name>
+		  <mesh>3DColorCube2</mesh>
+		  <material>simpleColorMaterial</material>
+		</model>
+		<model>
+		  <name>sphere1</name>
+		  <mesh>sphere32</mesh>
+		  <material>simpleDiffuseBlue</material>
+		</model>
+		<model>
+		  <name>sphere2</name>
+		  <mesh>sphere32_2</mesh>
+		  <material>simpleDiffuseBlue</material>
+		</model>
+		<model>
+		  <name>torus</name>
+		  <mesh>torus24</mesh>
+		  <material>simpleDiffuseRed</material>
+		</model>
+		<model>
+		  <name>teapot</name>
+		  <mesh>teapot4</mesh>
+		  <material>simpleDiffuseRed</material>
+		</model>
+		<model>
+		  <name>ttest</name>
+		  <mesh>test</mesh>
+		  <material>simpleDiffuseRed</material>
+		</model>
+		<model>
+		  <name>reflective</name>
+		  <mesh>torus24</mesh>
+		  <material>simpleDiffuseReflectiveRed</material>
+		</model>
+		<model>
+		  <name>reflective2</name>
+		  <mesh>sphere32_2</mesh>
+		  <material>simpleVertexADSRed</material>
+		</model>
+		<model>
+			<name>reflective3</name>
+			<mesh>teapot4</mesh>
+			<material>simpleFragmentADSRed</material>
+		</model>
+		<model>
+			<name>reflective4</name>
+			<mesh>sphere32_2</mesh>
+			<material>simpleFragmentADSRed</material>
+		</model>
+		<model>
+			<name>reflective5</name>
+			<mesh>sphere32_2</mesh>
+			<material>simpleVertexADSRed</material>
+		</model>
+		<model>
+			<name>reflective2F1</name>
+			<mesh>teapot4</mesh>
+			<material>simpleFragmentADS2FaceRed</material>
+		</model>
 	</models>
 	<entities>
 		<entity>
 			<name>test</name>
-			<model>reflective2</model>
+			<model>reflective2F1</model>
 			<position x ="0.0f" y ="0.0f" z="0.0f"/>
 			<rotation x ="0.0f" y ="30.0f" z="0.0f"/>
 			<scale x ="1.0f" y ="1.0f" z="1.0f"/>

@@ -51,6 +51,12 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 			FileReaderHelper::readValues(color, value);
 			props.color = color;
 		}
+		if (key == "colorBack")
+		{
+			glm::vec4 color;
+			FileReaderHelper::readValues(color, value);
+			props.colorBack = color;
+		}
 		if (key == "diffuseReflectivity")
 		{
 			props.diffuseReflectivity = std::stof(value);

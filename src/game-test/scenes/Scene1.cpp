@@ -113,6 +113,31 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 			manager->cameraManager.activateCamera("arcBallCam");
 			break;
 		}
+		case(KeyCode::Z):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMaterial(manager->materialMap.getItem("simpleVertexADSRed"));
+			break;
+		}
+		case(KeyCode::X):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMaterial(manager->materialMap.getItem("simpleFragmentADSRed"));
+			break;
+		}
+		case(KeyCode::C):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMesh(manager->meshMap.getItem("sphere32"));
+			break;
+		}
+		case(KeyCode::V):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMesh(manager->meshMap.getItem("sphere32_2"));
+			break;
+		}
+		case(KeyCode::B):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMesh(manager->meshMap.getItem("torus24"));
+			break;
+		}
 		}
 	}
 	else if (event.type == InputEventType::KEY_UP)

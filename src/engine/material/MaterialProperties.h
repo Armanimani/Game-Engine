@@ -5,6 +5,7 @@
 struct MaterialProperties
 {
 	glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	glm::vec4 colorBack = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	GLfloat ambientReflectivity = 0.0f;
 	GLfloat diffuseReflectivity = 0.0f;
 	GLfloat specularReflectivity = 0.0f;

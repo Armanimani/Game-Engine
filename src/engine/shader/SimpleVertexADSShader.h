@@ -17,6 +17,6 @@ protected:
 	GLuint location_Kd;
 	GLuint location_Ks;
 	GLuint location_shininess;
-	GLuint location_normalMatrix;
+
 	virtual void getAllUniformLocations() override;
 };

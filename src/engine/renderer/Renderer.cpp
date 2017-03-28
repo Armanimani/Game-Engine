@@ -8,6 +8,8 @@
 #include "../database/TypeDatabase.h"
 #include "../shader/SimpleDiffuseReflectiveShader.h"
 #include "../shader/SimpleVertexADSShader.h"
+#include "../shader/SimpleFragmentADSShader.h"
+#include "../shader/SimpleFragmentADS2FaceShader.h"
 #include "../light/Light.h"
 #include "../light/AmbientLight.h"
 
@@ -24,6 +26,8 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	shaderMap.insert(std::make_pair(ShaderType::SimpleDiffuseColorShader, std::make_shared<SimpleDiffuseColorShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleDiffuseReflectiveShader, std::make_shared<SimpleDiffuseReflectiveShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleVertexADSShader, std::make_shared<SimpleVertexADSShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleFragmentADSShader, std::make_shared<SimpleFragmentADSShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleFragmentADS2FaceShader, std::make_shared<SimpleFragmentADS2FaceShader>()));
 
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{

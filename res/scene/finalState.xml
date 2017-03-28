@@ -16,8 +16,10 @@
 		<material>../res/material/diffuseColor/simpleDiffuseBlue.mat</material>
 		<material>../res/material/simpleColor.mat</material>
 		<material>../res/material/diffuseColor/simpleDiffuseRed.mat</material>
+		<material>../res/material/diffuseColor/simpleFragmentADS2FaceRed.mat</material>
 		<material>../res/material/diffuseColor/simpleDiffuseReflectiveRed.mat</material>
 		<material>../res/material/diffuseColor/simpleVertexADSRed.mat</material>
+		<material>../res/material/diffuseColor/simpleFragmentADSRed.mat</material>
 	</materials>
 	<models>
 		<model>
@@ -87,14 +89,34 @@
 		</model>
 		<model>
 			<name>reflective2</name>
-			<mesh>sphere32</mesh>
+			<mesh>sphere32_2</mesh>
 			<material>simpleVertexADSRed</material>
+		</model>
+		<model>
+			<name>reflective3</name>
+			<mesh>teapot4</mesh>
+			<material>simpleFragmentADSRed</material>
+		</model>
+		<model>
+			<name>reflective4</name>
+			<mesh>sphere32_2</mesh>
+			<material>simpleFragmentADSRed</material>
+		</model>
+		<model>
+			<name>reflective5</name>
+			<mesh>sphere32_2</mesh>
+			<material>simpleVertexADSRed</material>
+		</model>
+		<model>
+			<name>reflective2F1</name>
+			<mesh>teapot4</mesh>
+			<material>simpleFragmentADS2FaceRed</material>
 		</model>
 	</models>
 	<entities>
 		<entity>
 			<name>test</name>
-			<model>reflective2</model>
+			<model>reflective2F1</model>
 			<position x="0.000000" y="0.000000" z="0.000000"/>
 			<rotation x="0.000000" y="30.000000" z="0.000000"/>
 			<scale x="1.000000" y="1.000000" z="1.000000"/>
@@ -122,17 +144,17 @@
 		<camera>
 			<name>presCam</name>
 			<type>free</type>
-			<active>false</active>
+			<active>true</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="10.000000"/>
-			<position x="0.000000" y="0.000000" z="2.080000"/>
-			<direction x="0.161566" y="0.050620" z="-0.985563"/>
+			<position x="0.000000" y="0.000000" z="4.000000"/>
+			<direction x="0.000000" y="0.000000" z="-1.000000"/>
 		</camera>
 		<camera>
 			<name>targetCam</name>
 			<type>target</type>
-			<active>true</active>
+			<active>false</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="10.000000"/>
-			<position x="-2.727014" y="-0.282642" z="3.543193"/>
+			<position x="0.000000" y="0.000000" z="4.000000"/>
 			<target x="0.000000" y="0.000000" z="0.000000"/>
 		</camera>
 		<camera>
