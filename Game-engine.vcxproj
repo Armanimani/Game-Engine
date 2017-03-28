@@ -166,8 +166,10 @@
     <ClCompile Include="src\engine\fileController\FileReaderHelper.cpp" />
     <ClCompile Include="src\engine\fileController\MaterialFileController.cpp" />
     <ClCompile Include="src\engine\fileController\MeshFileController.cpp" />
+    <ClCompile Include="src\engine\fileController\OBJFileReader.cpp" />
     <ClCompile Include="src\engine\fileController\SceneFileController.cpp" />
     <ClCompile Include="src\engine\game\Game.cpp" />
+    <ClCompile Include="src\engine\light\LightManager.cpp" />
     <ClCompile Include="src\engine\math\GLMath.cpp" />
     <ClCompile Include="src\engine\loader\Loader.cpp" />
     <ClCompile Include="src\engine\mesh\Mesh.cpp" />
@@ -178,7 +180,9 @@
     <ClCompile Include="src\engine\shader\Shader.cpp" />
     <ClCompile Include="src\engine\shader\SimpleColorShader.cpp" />
     <ClCompile Include="src\engine\shader\SimpleDiffuseColorShader.cpp" />
+    <ClCompile Include="src\engine\shader\SimpleDiffuseReflectiveShader.cpp" />
     <ClCompile Include="src\engine\shader\SimplePositionShader.cpp" />
+    <ClCompile Include="src\engine\shader\SimpleVertexADSShader.cpp" />
     <ClCompile Include="src\engine\userInput\inputMapper\InputMapper.cpp" />
     <ClCompile Include="src\engine\window\win32\Win32Window.cpp" />
     <ClCompile Include="src\game-test\GameTest.cpp" />
@@ -209,8 +213,14 @@
     <ClInclude Include="src\engine\fileController\FileReaderHelper.h" />
     <ClInclude Include="src\engine\fileController\MaterialFileController.h" />
     <ClInclude Include="src\engine\fileController\MeshFileController.h" />
+    <ClInclude Include="src\engine\fileController\OBJFileReader.h" />
     <ClInclude Include="src\engine\fileController\SceneFileController.h" />
     <ClInclude Include="src\engine\game\Game.h" />
+    <ClInclude Include="src\engine\light\AmbientLight.h" />
+    <ClInclude Include="src\engine\light\SpotLight.h" />
+    <ClInclude Include="src\engine\light\Light.h" />
+    <ClInclude Include="src\engine\light\LightManager.h" />
+    <ClInclude Include="src\engine\light\LightType.h" />
     <ClInclude Include="src\engine\math\GLMath.h" />
     <ClInclude Include="src\engine\loader\Loader.h" />
     <ClInclude Include="src\engine\material\Material.h" />
@@ -227,8 +237,10 @@
     <ClInclude Include="src\engine\shader\ShaderType.h" />
     <ClInclude Include="src\engine\shader\SimpleColorShader.h" />
     <ClInclude Include="src\engine\shader\SimpleDiffuseColorShader.h" />
+    <ClInclude Include="src\engine\shader\SimpleDiffuseReflectiveShader.h" />
     <ClInclude Include="src\engine\shader\SimplePositionShader.h" />
     <ClInclude Include="src\engine\shader\Shader.h" />
+    <ClInclude Include="src\engine\shader\SimpleVertexADSShader.h" />
     <ClInclude Include="src\engine\userInput\inputData\InputData.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEventType.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEvent.h" />
@@ -247,6 +259,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\material\diffuseColor\simpleDiffuseBlue.mat" />
+    <None Include="res\material\diffuseColor\simpleDiffuseReflectiveRed.mat" />
+    <None Include="res\material\diffuseColor\simpleVertexADSRed.mat" />
     <None Include="res\material\simpleColor.mat" />
     <None Include="res\material\simplePosition.mat" />
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -263,8 +277,12 @@
     <None Include="src\engine\shader\glsl\SimpleColor.vert" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseColor.frag" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseColor.vert" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.frag" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.vert" />
     <None Include="src\engine\shader\glsl\SimplePosition.frag" />
     <None Include="src\engine\shader\glsl\SimplePosition.vert" />
+    <None Include="src\engine\shader\glsl\SimpleVertexADS.frag" />
+    <None Include="src\engine\shader\glsl\SimpleVertexADS.vert" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\finalState.xml">

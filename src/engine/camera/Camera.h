@@ -55,13 +55,6 @@ public:
 	virtual void orbit(const glm::vec2& value) {};
 	virtual void zoom(const GLfloat& value) {};
 
-	//void translate(const glm::vec2& amount);
-	//void zoom(const GLfloat& amount);
-	//void rotateX(const GLfloat& amount);
-	//void rotateY(const GLfloat& amount);
-	//void rotateZ(const GLfloat& amount);
-	//void orbit(const glm::vec2& amount);
-
 	virtual void update() {}; //TODO
 	void updateMatrix();
 
@@ -80,8 +73,4 @@ protected:
 
 	virtual void updateProjectionMatrix();
 	virtual void updateViewMatrix();
-
-	//glm::vec3 upVector;
-	//glm::vec3 rightVector;
-	//glm::vec3 viewVector;
 };

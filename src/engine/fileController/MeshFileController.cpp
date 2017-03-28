@@ -3,6 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include "FileReaderHelper.h"
+#include "OBJFileReader.h"
 
 std::shared_ptr<Mesh> MeshFileController::readFile(const std::string & path)
 {
@@ -66,8 +67,9 @@ std::shared_ptr<Mesh> MeshFileController::readFile(const std::string & path)
 	}
 	else if (extension == "obj")
 	{
-		Debug::print("obj file extension not yet implemented"); // TODO
-		return nullptr;
+		std::shared_ptr<Mesh> ret = OBJFileReader::readOBJFile(path, file);
+		ret->setPath(path);
+		return ret;
 	}
 
 	FileController::closeFile(file, path);

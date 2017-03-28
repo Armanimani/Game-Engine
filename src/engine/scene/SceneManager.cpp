@@ -12,4 +12,5 @@ void SceneManager::cleanUp()
 	modelMap.clearMap();
 	entityMap.clearMap();
 	cameraManager.cleanUp();
+	lightManager.cleanUp();
 }

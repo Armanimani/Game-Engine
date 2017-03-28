@@ -51,6 +51,22 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 			FileReaderHelper::readValues(color, value);
 			props.diffuseColor = color;
 		}
+		if (key == "diffuseReflectivity")
+		{
+			props.diffuseReflectivity = std::stof(value);
+		}
+		if (key == "ambientReflectivity")
+		{
+			props.ambientReflectivity = std::stof(value);
+		}
+		if (key == "specularReflectivity")
+		{
+			props.specularReflectivity = std::stof(value);
+		}
+		if (key == "shininessFactor")
+		{
+			props.shininessFactor = std::stof(value);
+		}
 	}
 
 	FileController::closeFile(file, path);
@@ -62,6 +78,8 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 
 void MaterialFileController::writeFile(const std::string & path, const std::shared_ptr<Material> mat)
 {
+
+	//TODO
 	if (path.substr(path.length() - 3, path.length()) != "mat")
 	{
 		Debug::print(path);

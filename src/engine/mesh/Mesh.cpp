@@ -26,8 +26,8 @@ void Mesh::load()
 		}
 		else if (attribs[i] == MeshAttribute::texture)
 		{
-			pos.push_back(2);
-			stride = stride + 2;
+			pos.push_back(3);
+			stride = stride + 3;
 		}
 		else
 		{

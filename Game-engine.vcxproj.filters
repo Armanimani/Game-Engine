@@ -111,6 +111,18 @@
     <ClCompile Include="src\engine\camera\TargetCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\fileController\OBJFileReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\light\LightManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\shader\SimpleDiffuseReflectiveShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\shader\SimpleVertexADSShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -287,6 +299,30 @@
     <ClInclude Include="src\engine\camera\ArcBallCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\light\LightType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\light\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\fileController\OBJFileReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\light\AmbientLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\light\LightManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\light\SpotLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleDiffuseReflectiveShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleVertexADSShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -308,6 +344,12 @@
     <None Include="res\mesh\2D\2DCircle18.msh" />
     <None Include="res\mesh\3D\3DColorCube.msh" />
     <None Include="res\mesh\3D\3DColorCube2.msh" />
+    <None Include="res\material\diffuseColor\simpleDiffuseReflectiveRed.mat" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.vert" />
+    <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.frag" />
+    <None Include="src\engine\shader\glsl\SimpleVertexADS.vert" />
+    <None Include="src\engine\shader\glsl\SimpleVertexADS.frag" />
+    <None Include="res\material\diffuseColor\simpleVertexADSRed.mat" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\finalState.xml" />

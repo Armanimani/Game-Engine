@@ -9,6 +9,9 @@
 #include "../mesh/Mesh.h"
 #include "../entity/Entity.h"
 #include "../math/GLMath.h"
+#include "../light/Light.h"
+#include "../light/AmbientLight.h"
+#include <vector>
 
 class Shader
 {
@@ -31,12 +34,21 @@ public:
 	inline const glm::mat4& getProjectionMatrix() { return projectionMatrix; }
 	inline void setProjectionMatrix(const glm::mat4& matrix) { projectionMatrix = matrix; }
 
+	inline const std::vector<std::shared_ptr<Light>>& getLights() { return lights; }
+	inline void setLights(const std::vector<std::shared_ptr<Light>>& vec) { lights = vec; }
+
+	inline const std::vector<std::shared_ptr<AmbientLight>>& getAmbientLights() { return ambientLights; }
+	inline void setAmbientLights(const std::vector<std::shared_ptr<AmbientLight>>& vec) { ambientLights = vec; }
+
 protected:
 	ShaderType type;
 	std::string name;
 
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
+
+	std::vector<std::shared_ptr<Light>> lights;
+	std::vector<std::shared_ptr<AmbientLight>> ambientLights;
 
 	std::string vertexShader;
 	std::string fragmentShader;
@@ -54,7 +66,7 @@ protected:
 	bool checkShaderStatus(GLuint ShaderID);
 	bool checkProgramStatus(GLuint programID);
 
-	void loadTransformationToUniform(const std::shared_ptr<Entity> entity);
+	virtual void loadTransformationToUniform(const std::shared_ptr<Entity> entity);
 
 	virtual void getAllUniformLocations();
 	GLint getUniformLocation(const std::string& uniformName);

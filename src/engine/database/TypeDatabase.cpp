@@ -51,3 +51,26 @@ const std::string TypeDatabase::getCameraTypeName(const CameraType & value)
 	if (value == CameraType::target) return "target";
 	return "ERROR";
 }
+
+LightType TypeDatabase::getLightType(const std::string & value)
+{
+	if (value == "noType") return LightType::noType;
+	if (value == "ambient") return LightType::ambient;
+	if (value == "target") return LightType::target;
+	if (value == "directional") return LightType::directional;
+	if (value == "spot") return LightType::spot;
+
+	Debug::print(value);
+	Debug::print("unable to recognize the light Type!");
+	return LightType::noType;
+}
+
+const std::string TypeDatabase::getLightTypeName(const LightType & value)
+{
+	if (value == LightType::noType) return "noType";
+	if (value == LightType::ambient) return "ambient";
+	if (value == LightType::target) return "target";
+	if (value == LightType::directional) return "directional";
+	if (value == LightType::spot) return "spot";
+	return "ERROR";
+}

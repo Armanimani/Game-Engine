@@ -6,5 +6,7 @@ enum class ShaderType
 	SimpleColorShader,
 	SimplePositionShader,
 	SimpleDiffuseColorShader,
+	SimpleDiffuseReflectiveShader,
+	SimpleVertexADSShader,
 	noType
 };

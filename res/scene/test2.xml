@@ -5,12 +5,19 @@
 		<mesh>../res/mesh/2D/2DCircle18.msh</mesh>
 		<mesh>../res/mesh/3D/3DColorCube.msh</mesh>
     <mesh>../res/mesh/3D/3DColorCube2.msh</mesh>
+    <mesh>../res/mesh/3D/sphere32.obj</mesh>
+    <mesh>../res/mesh/3D/sphere32_2.obj</mesh>
+    <mesh>../res/mesh/3D/torus24.obj</mesh>
+    <mesh>../res/mesh/3D/teapot4.obj</mesh>
+    <mesh>../res/mesh/3D/test.obj</mesh>
 	</meshes>
 	<materials>
 		<material>../res/material/simplePosition.mat</material>
 		<material>../res/material/simpleColor.mat</material>
 		<material>../res/material/diffuseColor/simpleDiffuseBlue.mat</material>
 		<material>../res/material/diffuseColor/simpleDiffuseRed.mat</material>
+    <material>../res/material/diffuseColor/simpleDiffuseReflectiveRed.mat</material>
+    <material>../res/material/diffuseColor/simpleVertexADSRed.mat</material>
 	</materials>
 	<models>
 		<model>
@@ -48,11 +55,46 @@
       <mesh>3DColorCube2</mesh>
       <material>simpleColorMaterial</material>
     </model>
+    <model>
+      <name>sphere1</name>
+      <mesh>sphere32</mesh>
+      <material>simpleDiffuseBlue</material>
+    </model>
+    <model>
+      <name>sphere2</name>
+      <mesh>sphere32_2</mesh>
+      <material>simpleDiffuseBlue</material>
+    </model>
+    <model>
+      <name>torus</name>
+      <mesh>torus24</mesh>
+      <material>simpleDiffuseRed</material>
+    </model>
+    <model>
+      <name>teapot</name>
+      <mesh>teapot4</mesh>
+      <material>simpleDiffuseRed</material>
+    </model>
+    <model>
+      <name>ttest</name>
+      <mesh>test</mesh>
+      <material>simpleDiffuseRed</material>
+    </model>
+    <model>
+      <name>reflective</name>
+      <mesh>torus24</mesh>
+      <material>simpleDiffuseReflectiveRed</material>
+    </model>
+    <model>
+      <name>reflective2</name>
+      <mesh>torus24</mesh>
+      <material>simpleVertexADSRed</material>
+    </model>
 	</models>
 	<entities>
 		<entity>
 			<name>test</name>
-			<model>colorCube2</model>
+			<model>reflective2</model>
 			<position x ="0.0f" y ="0.0f" z="0.0f"/>
 			<rotation x ="0.0f" y ="30.0f" z="0.0f"/>
 			<scale x ="1.0f" y ="1.0f" z="1.0f"/>
@@ -110,4 +152,29 @@
       <target x="0.0f" y="0.0f" z="0.0f"/>
     </camera>
   </cameras>
+  <lights>
+    <light>
+      <name>ambient1</name>
+      <type>ambient</type>
+      <position x="0.0" y="0.0" z="0.0"/>
+      <color r="1.0" g="1.0" b="1.0"></color>
+      <ambientIntensity>0.2</ambientIntensity>
+    </light>
+    <light>
+      <name>ambient2</name>
+      <type>ambient</type>
+      <position x="0.0" y="0.0" z="0.0"/>
+      <color r="0.0" g="1.0" b="0.0"></color>
+      <ambientIntensity>0.3</ambientIntensity>
+    </light>
+    <light>
+      <name>spotLight1</name>
+      <type>spot</type>
+      <position x="3.0" y="3.0" z="3.0"/>
+      <color r="0.0" g="1.0" b="0.0"></color>
+      <diffuseIntensity>1.0</diffuseIntensity>
+      <specularIntensity>1.0</specularIntensity>
+      <shadow>true</shadow>
+    </light>
+  </lights>
 </scene>

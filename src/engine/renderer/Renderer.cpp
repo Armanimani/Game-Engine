@@ -6,6 +6,10 @@
 #include "../shader/SimpleDiffuseColorShader.h"
 #include "../debug/Debug.h"
 #include "../database/TypeDatabase.h"
+#include "../shader/SimpleDiffuseReflectiveShader.h"
+#include "../shader/SimpleVertexADSShader.h"
+#include "../light/Light.h"
+#include "../light/AmbientLight.h"
 
 void Renderer::init(const std::shared_ptr<SceneManager> manager)
 {
@@ -14,6 +18,8 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	shaderMap.insert(std::make_pair(ShaderType::SimplePositionShader, std::make_shared<SimplePositionShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleColorShader, std::make_shared<SimpleColorShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleDiffuseColorShader, std::make_shared<SimpleDiffuseColorShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleDiffuseReflectiveShader, std::make_shared<SimpleDiffuseReflectiveShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleVertexADSShader, std::make_shared<SimpleVertexADSShader>()));
 
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{
@@ -68,10 +74,14 @@ void Renderer::update()
 	sceneManager->cameraManager.updateMatrix();
 	glm::mat4 projectionMatrix = sceneManager->cameraManager.getActiveCamera()->getProjectionMatrix();
 	glm::mat4 viewMatrix = sceneManager->cameraManager.getActiveCamera()->getViewMatrix();
+	std::vector<std::shared_ptr<Light>> lights = sceneManager->lightManager.getActiveLights();
+	std::vector<std::shared_ptr<AmbientLight>> ambientLights = sceneManager->lightManager.getActiveAmbientLights();
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{
 		(*i).second->setProjectionMatrix(projectionMatrix);
 		(*i).second->setViewMatrix(viewMatrix);
+		(*i).second->setLights(lights);
+		(*i).second->setAmbientLights(ambientLights);
 	}
 }
 
