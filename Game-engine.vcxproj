@@ -183,6 +183,7 @@
     <ClCompile Include="src\engine\shader\SimpleDiffuseReflectiveShader.cpp" />
     <ClCompile Include="src\engine\shader\SimplePositionShader.cpp" />
     <ClCompile Include="src\engine\shader\SimpleVertexADSShader.cpp" />
+    <ClCompile Include="src\engine\shader\util\ShaderSharedData.cpp" />
     <ClCompile Include="src\engine\userInput\inputMapper\InputMapper.cpp" />
     <ClCompile Include="src\engine\window\win32\Win32Window.cpp" />
     <ClCompile Include="src\game-test\GameTest.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="src\engine\shader\SimplePositionShader.h" />
     <ClInclude Include="src\engine\shader\Shader.h" />
     <ClInclude Include="src\engine\shader\SimpleVertexADSShader.h" />
+    <ClInclude Include="src\engine\shader\util\ShaderSharedData.h" />
     <ClInclude Include="src\engine\userInput\inputData\InputData.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEventType.h" />
     <ClInclude Include="src\engine\userInput\inputEvent\InputEvent.h" />
@@ -285,12 +287,7 @@
     <None Include="src\engine\shader\glsl\SimpleVertexADS.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="res\scene\finalState.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="res\scene\test2.xml">
-      <SubType>Designer</SubType>
-    </Xml>
+    <Xml Include="res\scene\test2.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

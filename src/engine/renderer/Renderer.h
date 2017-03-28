@@ -6,6 +6,7 @@
 #include "../scene/SceneManager.h"
 #include "../settings/EngineSettings.h"
 #include "../window/WindowSettings.h"
+#include "../shader/util/ShaderSharedData.h"
 
 class Renderer
 {
@@ -22,6 +23,7 @@ public:
 	std::shared_ptr<Shader> getShader(const ShaderType& type);
 
 protected:
+	std::shared_ptr<ShaderSharedData> sharedData;
 	std::shared_ptr<SceneManager> sceneManager;
 	std::unordered_map<ShaderType, std::shared_ptr<Shader>> shaderMap;
 	std::shared_ptr<EngineSettings> engineSettings;

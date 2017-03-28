@@ -6,9 +6,8 @@ void SimpleDiffuseReflectiveShader::render(const std::shared_ptr<Entity> entity)
 	start();
 
 	loadTransformationToUniform(entity);
-	loadLightsToUniform();
 
-	loadToUniform(location_color, entity->getModel()->getMaterial()->getProperties().diffuseColor);
+	loadToUniform(location_color, entity->getModel()->getMaterial()->getProperties().color);
 	loadToUniform(location_Kd, entity->getModel()->getMaterial()->getProperties().diffuseReflectivity);
 
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
@@ -36,12 +35,6 @@ void SimpleDiffuseReflectiveShader::getAllUniformLocations()
 	temp = "uKd";
 	location_Kd = getUniformLocation(temp);
 
-	temp = "uLight_position";
-	location_light = getUniformLocation(temp);
-
-	temp = "uLight_intensity";
-	location_lightIntensity = getUniformLocation(temp);
-
 	temp = "normalMatrix";
 	location_normalMatrix = getUniformLocation(temp);
 }
@@ -49,11 +42,5 @@ void SimpleDiffuseReflectiveShader::getAllUniformLocations()
 void SimpleDiffuseReflectiveShader::loadTransformationToUniform(const std::shared_ptr<Entity> entity)
 {
 	Shader::loadTransformationToUniform(entity);
-	loadToUniform(location_normalMatrix, glm::transpose(glm::inverse(viewMatrix * GLMath::createTransformationMatrix(entity->getPosition(), entity->getRotation(), entity->getScale()))));
-}
-
-void SimpleDiffuseReflectiveShader::loadLightsToUniform()
-{
-	loadToUniform(location_light, lights[0]->getPosition());
-	loadToUniform(location_lightIntensity, lights[0]->getDiffuseIntensity());
+	loadToUniform(location_normalMatrix, glm::transpose(glm::inverse(sharedData->getViewMatrix() * GLMath::createTransformationMatrix(entity->getPosition(), entity->getRotation(), entity->getScale()))));
 }

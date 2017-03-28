@@ -1,10 +1,10 @@
-#version 400
+#version 420
 
-in vec3 color;
-in float lightIntensity;
+in vec4 color;
+
 out vec4 fragColor;
 
 void main()
 {
-	fragColor = vec4(color * lightIntensity, 1.0);
+	fragColor = color;
 }

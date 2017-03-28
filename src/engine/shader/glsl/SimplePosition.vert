@@ -1,10 +1,14 @@
-#version 400
+#version 420
 
 in layout(location = 0) vec3 vertexPosition;
 
+layout(std140, binding = 0) uniform matricies
+{
+	mat4 projectionMatrix;
+	mat4 viewMatrix;
+};
+
 uniform mat4 transformationMatrix;
-uniform mat4 viewMatrix;
-uniform mat4 projectionMatrix;
 
 out vec3 color;
 

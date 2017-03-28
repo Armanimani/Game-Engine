@@ -12,6 +12,7 @@
 #include "../light/Light.h"
 #include "../light/AmbientLight.h"
 #include <vector>
+#include "util\ShaderSharedData.h"
 
 class Shader
 {
@@ -19,6 +20,7 @@ public:
 	Shader() {};
 	Shader(const std::string& name, const ShaderType& type, const std::string& vertexShader, const std::string& fragmentShader) : name(name), type(type), vertexShader(vertexShader), fragmentShader(fragmentShader) {}
 	void install();
+	virtual void prepare() {};
 	void start();
 	void stop();
 	void cleanUp();
@@ -28,38 +30,23 @@ public:
 	inline const std::string& getName() { return name; }
 	inline const ShaderType& getType() { return type; }
 
-	inline const glm::mat4& getViewMatrix() { return viewMatrix; }
-	inline void setViewMatrix(const glm::mat4& matrix) { viewMatrix = matrix; }
-
-	inline const glm::mat4& getProjectionMatrix() { return projectionMatrix; }
-	inline void setProjectionMatrix(const glm::mat4& matrix) { projectionMatrix = matrix; }
-
-	inline const std::vector<std::shared_ptr<Light>>& getLights() { return lights; }
-	inline void setLights(const std::vector<std::shared_ptr<Light>>& vec) { lights = vec; }
-
-	inline const std::vector<std::shared_ptr<AmbientLight>>& getAmbientLights() { return ambientLights; }
-	inline void setAmbientLights(const std::vector<std::shared_ptr<AmbientLight>>& vec) { ambientLights = vec; }
+	inline const std::shared_ptr<ShaderSharedData> getSharedData() { return sharedData; }
+	inline void setSharedData(const std::shared_ptr<ShaderSharedData> data) { sharedData = data; }
 
 protected:
 	ShaderType type;
 	std::string name;
 
-	glm::mat4 projectionMatrix;
-	glm::mat4 viewMatrix;
-
-	std::vector<std::shared_ptr<Light>> lights;
-	std::vector<std::shared_ptr<AmbientLight>> ambientLights;
-
 	std::string vertexShader;
 	std::string fragmentShader;
+
+	std::shared_ptr<ShaderSharedData> sharedData;
 
 	GLuint programID;
 	GLuint vertexShaderID;
 	GLuint fragmentShaderID;
 
 	GLuint location_transformationMatrix;
-	GLuint location_projectionMatrix;
-	GLuint location_viewMatrix;
 
 	std::string readShadercode(const std::string& file);
 	bool checkStatus(GLuint objectID, PFNGLGETSHADERIVPROC objectPropertyGetter, PFNGLGETSHADERINFOLOGPROC getInfoLogFun, GLenum statusType);
@@ -75,7 +62,7 @@ protected:
 	inline void loadToUniform(const GLuint &location, const GLfloat &data) { glUniform1f(location, data); }
 	inline void loadToUniform(const GLuint &location, const glm::vec2 &data) { glUniform2fv(location, 1, &data[0]); }
 	inline void loadToUniform(const GLuint &location, const glm::vec3 &data) { glUniform3fv(location, 1, &data[0]); }
-	inline void loadToUniform(const GLuint &location, const glm::vec4 &data) { glUniform3fv(location, 1, &data[0]); }
+	inline void loadToUniform(const GLuint &location, const glm::vec4 &data) { glUniform4fv(location, 1, &data[0]); }
 	inline void loadToUniform(const GLuint &location, const glm::mat3 &data) { glUniformMatrix3fv(location, 1, GL_FALSE, &data[0][0]); }
 	inline void loadToUniform(const GLuint &location, const glm::mat4 &data) { glUniformMatrix4fv(location, 1, GL_FALSE, &data[0][0]); }
 };

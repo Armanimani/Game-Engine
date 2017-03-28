@@ -14,6 +14,10 @@
 void Renderer::init(const std::shared_ptr<SceneManager> manager)
 {
 	sceneManager = manager;
+	
+	sharedData = std::make_shared<ShaderSharedData>();
+	sharedData->setSceneManager(manager);
+
 	shaderMap.insert(std::make_pair(ShaderType::BasicShader, std::make_shared<BasicShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimplePositionShader, std::make_shared<SimplePositionShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleColorShader, std::make_shared<SimpleColorShader>()));
@@ -24,6 +28,7 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{
 		TypeDatabase::registerShaderType((*i).second);
+		i->second->setSharedData(sharedData);
 	}
 }
 
@@ -38,6 +43,14 @@ void Renderer::prepare()
 void Renderer::render()
 {
 	prepare();
+
+	sharedData->prepare();
+
+	for (auto i = shaderMap.begin(); i != shaderMap.end(); ++i)
+	{
+		(*i).second->prepare();
+	}
+
 	for (auto it : sceneManager->entityMap.getMap())
 	{
 		std::shared_ptr<Entity> entity = it.second;
@@ -52,6 +65,7 @@ void Renderer::installShaders()
 	{
 		i->second->install();
 	}
+	sharedData->init();
 }
 
 void Renderer::clearShaders()
@@ -72,17 +86,6 @@ void Renderer::update()
 {
 	//NOTE: maybe only updating the cameraMatrix for the active camera is sufficient
 	sceneManager->cameraManager.updateMatrix();
-	glm::mat4 projectionMatrix = sceneManager->cameraManager.getActiveCamera()->getProjectionMatrix();
-	glm::mat4 viewMatrix = sceneManager->cameraManager.getActiveCamera()->getViewMatrix();
-	std::vector<std::shared_ptr<Light>> lights = sceneManager->lightManager.getActiveLights();
-	std::vector<std::shared_ptr<AmbientLight>> ambientLights = sceneManager->lightManager.getActiveAmbientLights();
-	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
-	{
-		(*i).second->setProjectionMatrix(projectionMatrix);
-		(*i).second->setViewMatrix(viewMatrix);
-		(*i).second->setLights(lights);
-		(*i).second->setAmbientLights(ambientLights);
-	}
 }
 
 std::shared_ptr<Shader> Renderer::getShader(const ShaderType & type)

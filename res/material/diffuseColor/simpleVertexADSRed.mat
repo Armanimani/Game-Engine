@@ -1,6 +1,6 @@
 name = simpleVertexADSRed;
 shader = SimpleVertexADSShader;
-diffuseColor = 1.0f,0.0f,0.0f;
+color = 1.0f,0.0f,0.0f,1.0f;
 ambientReflectivity = 1.0;
 diffuseReflectivity = 1.0;
 specularReflectivity = 1.0'

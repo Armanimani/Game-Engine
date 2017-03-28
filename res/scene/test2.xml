@@ -87,7 +87,7 @@
     </model>
     <model>
       <name>reflective2</name>
-      <mesh>torus24</mesh>
+      <mesh>sphere32</mesh>
       <material>simpleVertexADSRed</material>
     </model>
 	</models>
@@ -157,23 +157,24 @@
       <name>ambient1</name>
       <type>ambient</type>
       <position x="0.0" y="0.0" z="0.0"/>
-      <color r="1.0" g="1.0" b="1.0"></color>
-      <ambientIntensity>0.2</ambientIntensity>
+      <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+      <intensity>0.1</intensity>
     </light>
     <light>
       <name>ambient2</name>
       <type>ambient</type>
       <position x="0.0" y="0.0" z="0.0"/>
-      <color r="0.0" g="1.0" b="0.0"></color>
-      <ambientIntensity>0.3</ambientIntensity>
+      <color r="0.0" g="1.0" b="0.0" a="1.0"/>
+      <intensity>0.3</intensity>
     </light>
     <light>
       <name>spotLight1</name>
       <type>spot</type>
       <position x="3.0" y="3.0" z="3.0"/>
-      <color r="0.0" g="1.0" b="0.0"></color>
-      <diffuseIntensity>1.0</diffuseIntensity>
-      <specularIntensity>1.0</specularIntensity>
+      <diffuseColor r="1.0" g="1.0" b="0.0" a="1.0"/>
+      <diffuseIntensity>0.5</diffuseIntensity>
+      <specularColor r="1.0" g="1.0" b="1.0" a="1.0"/>
+      <specularIntensity>0.7</specularIntensity>
       <shadow>true</shadow>
     </light>
   </lights>

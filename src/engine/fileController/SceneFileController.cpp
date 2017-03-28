@@ -61,9 +61,11 @@ const std::string R("r");
 const std::string G("g");
 const std::string B("b");
 const std::string A("a");
-const std::string AMBIENT_INTENSITY("ambientIntensity");
+const std::string INTENSITY("intensity");
 const std::string DIFFUSE_INTENSITY("diffuseIntensity");
 const std::string SPECULAR_INTENSITY("specularIntensity");
+const std::string DIFFUSE_COLOR("diffuseColor");
+const std::string SPECULAR_COLOR("specularColor");
 const std::string SHADOW("shadow");
 
 void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manager, const std::shared_ptr<WindowSettings> windowSettings, const std::string& file)
@@ -223,10 +225,12 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 			std::string name;
 			LightType type;
 			glm::vec3 position;
-			glm::vec3 color;
-			GLfloat ambientIntensity;
+			glm::vec4 color;
+			GLfloat intensity;
 			GLfloat diffuseIntensity;
 			GLfloat specularIntensity;
+			glm::vec4 diffuseColor;
+			glm::vec4 specularColor;
 			GLboolean shadow;
 			for (rapidxml::xml_node<> *lights = cat->first_node(); lights; lights = lights->next_sibling())
 			{
@@ -240,10 +244,18 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 					}
 					else if (props->name() == COLOR)
 					{
-						color = glm::vec3(std::stof(props->first_attribute(R.c_str())->value()), std::stof(props->first_attribute(G.c_str())->value()), std::stof(props->first_attribute(B.c_str())->value()));
+						color = glm::vec4(std::stof(props->first_attribute(R.c_str())->value()), std::stof(props->first_attribute(G.c_str())->value()), std::stof(props->first_attribute(B.c_str())->value()), std::stof(props->first_attribute(A.c_str())->value()));
 					}
-					else if (props->name() == AMBIENT_INTENSITY)
-						ambientIntensity = std::stof(std::string(props->value()));
+					else if (props->name() == DIFFUSE_COLOR)
+					{
+						diffuseColor = glm::vec4(std::stof(props->first_attribute(R.c_str())->value()), std::stof(props->first_attribute(G.c_str())->value()), std::stof(props->first_attribute(B.c_str())->value()), std::stof(props->first_attribute(A.c_str())->value()));
+					}
+					else if (props->name() == SPECULAR_COLOR)
+					{
+						specularColor = glm::vec4(std::stof(props->first_attribute(R.c_str())->value()), std::stof(props->first_attribute(G.c_str())->value()), std::stof(props->first_attribute(B.c_str())->value()), std::stof(props->first_attribute(A.c_str())->value()));
+					}
+					else if (props->name() == INTENSITY)
+						intensity = std::stof(std::string(props->value()));
 					else if (props->name() == DIFFUSE_INTENSITY)
 						diffuseIntensity = std::stof(std::string(props->value()));
 					else if (props->name() == SPECULAR_INTENSITY)
@@ -256,11 +268,11 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 
 				if (type == LightType::ambient)
 				{
-					light = std::make_shared<AmbientLight>(name, position, color, ambientIntensity);
+					light = std::make_shared<AmbientLight>(name, position, intensity, color);
 				}
 				else if (type == LightType::spot)
 				{
-					light = std::make_shared<SpotLight>(name, position, color, diffuseIntensity, specularIntensity, shadow);
+					light = std::make_shared<SpotLight>(name, position, diffuseColor, specularColor, diffuseIntensity, specularIntensity, shadow);
 				}
 
 				manager->lightManager.addLight(light);
@@ -485,8 +497,8 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 	}
 	root->append_node(cameras);
 
-	const std::unordered_map<std::string, std::shared_ptr<Light>>* ambientMap = &(manager->lightManager.getMap());
-	for (auto i = ambientMap->cbegin(); i != ambientMap->cend(); ++i)
+	const std::unordered_map<std::string, std::shared_ptr<Light>>* lightMap = &(manager->lightManager.getMap());
+	for (auto i = lightMap->cbegin(); i != lightMap->cend(); ++i)
 	{
 		rapidxml::xml_node<>* light = doc.allocate_node(rapidxml::node_element, LIGHT.c_str());
 		std::shared_ptr<Light> m = (*i).second;
@@ -510,44 +522,94 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 		posSub->append_attribute(posZ);
 		light->append_node(posSub);
 
-		glm::vec3 color = m->getColor();
-		rapidxml::xml_node<>* colorSub = doc.allocate_node(rapidxml::node_element, COLOR.c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(color.x)));
-		rapidxml::xml_attribute<> *colorR = doc.allocate_attribute(R.c_str(), temp[temp.size() - 1].get()->c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(color.y)));
-		rapidxml::xml_attribute<> *colorG = doc.allocate_attribute(G.c_str(), temp[temp.size() - 1].get()->c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(color.z)));
-		rapidxml::xml_attribute<> *colorB = doc.allocate_attribute(B.c_str(), temp[temp.size() - 1].get()->c_str());
-		colorSub->append_attribute(colorR);
-		colorSub->append_attribute(colorG);
-		colorSub->append_attribute(colorB);
-		light->append_node(colorSub);
+		if (m->getType() == LightType::ambient)
+		{
+			std::shared_ptr<AmbientLight> c = std::static_pointer_cast<AmbientLight>(m);
+			glm::vec4 color = c->getColor();
+			rapidxml::xml_node<>* colorSub = doc.allocate_node(rapidxml::node_element, COLOR.c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.x)));
+			rapidxml::xml_attribute<> *colorR = doc.allocate_attribute(R.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.y)));
+			rapidxml::xml_attribute<> *colorG = doc.allocate_attribute(G.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.z)));
+			rapidxml::xml_attribute<> *colorB = doc.allocate_attribute(B.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.a)));
+			rapidxml::xml_attribute<> *colorA = doc.allocate_attribute(A.c_str(), temp[temp.size() - 1].get()->c_str());
+			colorSub->append_attribute(colorR);
+			colorSub->append_attribute(colorG);
+			colorSub->append_attribute(colorB);
+			colorSub->append_attribute(colorA);
+			light->append_node(colorSub);
+		}
 
 		if (m->getType() == LightType::ambient)
 		{
 			std::shared_ptr<AmbientLight> c = std::static_pointer_cast<AmbientLight>(m);
-			temp.emplace_back(std::make_shared<std::string>(std::to_string(c->getAmbientIntensity())));
-			rapidxml::xml_node<>* ambientIntensitySub = doc.allocate_node(rapidxml::node_element, AMBIENT_INTENSITY.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(c->getIntensity())));
+			rapidxml::xml_node<>* ambientIntensitySub = doc.allocate_node(rapidxml::node_element, INTENSITY.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(ambientIntensitySub);
 		}
 
 		if (m->getType() == LightType::spot)
 		{
-			temp.emplace_back(std::make_shared<std::string>(std::to_string(m->getDiffuseIntensity())));
+			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			glm::vec4 color = c->getDiffuseColor();
+			rapidxml::xml_node<>* diffuseColorSub = doc.allocate_node(rapidxml::node_element, DIFFUSE_COLOR.c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.x)));
+			rapidxml::xml_attribute<> *colorR = doc.allocate_attribute(R.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.y)));
+			rapidxml::xml_attribute<> *colorG = doc.allocate_attribute(G.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.z)));
+			rapidxml::xml_attribute<> *colorB = doc.allocate_attribute(B.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.a)));
+			rapidxml::xml_attribute<> *colorA = doc.allocate_attribute(A.c_str(), temp[temp.size() - 1].get()->c_str());
+			diffuseColorSub->append_attribute(colorR);
+			diffuseColorSub->append_attribute(colorG);
+			diffuseColorSub->append_attribute(colorB);
+			diffuseColorSub->append_attribute(colorA);
+			light->append_node(diffuseColorSub);
+		}
+
+		if (m->getType() == LightType::spot)
+		{
+			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(c->getDiffuseIntensity())));
 			rapidxml::xml_node<>* diffuseIntensitySub = doc.allocate_node(rapidxml::node_element, DIFFUSE_INTENSITY.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(diffuseIntensitySub);
 		}
 
 		if (m->getType() == LightType::spot)
 		{
-			temp.emplace_back(std::make_shared<std::string>(std::to_string(m->getSpecularIntensity())));
+			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			glm::vec4 color = c->getSpecularColor();
+			rapidxml::xml_node<>* specularColorSub = doc.allocate_node(rapidxml::node_element, SPECULAR_COLOR.c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.x)));
+			rapidxml::xml_attribute<> *colorR = doc.allocate_attribute(R.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.y)));
+			rapidxml::xml_attribute<> *colorG = doc.allocate_attribute(G.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.z)));
+			rapidxml::xml_attribute<> *colorB = doc.allocate_attribute(B.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.a)));
+			rapidxml::xml_attribute<> *colorA = doc.allocate_attribute(A.c_str(), temp[temp.size() - 1].get()->c_str());
+			specularColorSub->append_attribute(colorR);
+			specularColorSub->append_attribute(colorG);
+			specularColorSub->append_attribute(colorB);
+			specularColorSub->append_attribute(colorA);
+			light->append_node(specularColorSub);
+		}
+
+		if (m->getType() == LightType::spot)
+		{
+			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(c->getSpecularIntensity())));
 			rapidxml::xml_node<>* specularIntensitySub = doc.allocate_node(rapidxml::node_element, SPECULAR_INTENSITY.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(specularIntensitySub);
 		}
 
 		if (m->getType() == LightType::spot)
 		{
-			m->getShadow() ? temp.emplace_back(std::make_shared<std::string>("true")) : temp.emplace_back(std::make_shared<std::string>("false"));
+			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			c->getShadow() ? temp.emplace_back(std::make_shared<std::string>("true")) : temp.emplace_back(std::make_shared<std::string>("false"));
 			rapidxml::xml_node<>* shadowSub = doc.allocate_node(rapidxml::node_element, SHADOW.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(shadowSub);
 		}

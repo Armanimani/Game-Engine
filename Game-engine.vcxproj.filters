@@ -123,6 +123,9 @@
     <ClCompile Include="src\engine\shader\SimpleVertexADSShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\shader\util\ShaderSharedData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -323,6 +326,9 @@
     <ClInclude Include="src\engine\shader\SimpleVertexADSShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\shader\util\ShaderSharedData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -352,7 +358,6 @@
     <None Include="res\material\diffuseColor\simpleVertexADSRed.mat" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="res\scene\finalState.xml" />
     <Xml Include="res\scene\test2.xml" />
   </ItemGroup>
 </Project>

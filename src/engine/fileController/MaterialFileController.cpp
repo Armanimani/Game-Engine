@@ -45,11 +45,11 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 			shaderType = TypeDatabase::getShaderType(value);
 		}
 
-		if (key == "diffuseColor")
+		if (key == "color")
 		{
-			glm::vec3 color;
+			glm::vec4 color;
 			FileReaderHelper::readValues(color, value);
-			props.diffuseColor = color;
+			props.color = color;
 		}
 		if (key == "diffuseReflectivity")
 		{

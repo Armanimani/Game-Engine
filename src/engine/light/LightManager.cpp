@@ -21,14 +21,14 @@ void LightManager::removeLight(const std::string & name)
 	//TODO
 }
 
-const std::vector<std::shared_ptr<Light>> LightManager::getActiveLights()
+const std::vector<std::shared_ptr<SpotLight>> LightManager::getActiveSpotLights()
 {
-	std::vector<std::shared_ptr<Light>> ret;
+	std::vector<std::shared_ptr<SpotLight>> ret;
 	ret.reserve(16);
 
 	for (auto it = map.cbegin(); it != map.cend(); it++)
 	{
-		if ((*it).second->getOn() && (*it).second->getType() != LightType::ambient) ret.push_back((*it).second);
+		if ((*it).second->getOn() && (*it).second->getType() == LightType::spot) ret.push_back(std::static_pointer_cast<SpotLight>((*it).second));
 	}
 
 	return ret;

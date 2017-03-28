@@ -17,13 +17,6 @@ protected:
 	GLuint location_Kd;
 	GLuint location_Ks;
 	GLuint location_shininess;
-	GLuint location_lightPosition;
-	GLuint location_lightAmbientIntensity;
-	GLuint location_lightDiffuseIntensity;
-	GLuint location_lightSpecularIntensity;
 	GLuint location_normalMatrix;
 	virtual void getAllUniformLocations() override;
-	virtual void loadTransformationToUniform(const std::shared_ptr<Entity> entity) override;
-
-	void loadLightsToUniform();
 };
