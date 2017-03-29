@@ -44,11 +44,14 @@ protected:
 	GLuint gammaCorrectionBP = 5;
 	GLuint gammaCorrectionBuffer;
 
+	GLuint directionalLightBP = 6;
+	GLuint directionalLightBuffer;
+
 	struct LightSize
 	{
 		GLuint ambientLightSize = 0;
 		GLuint pointLightSize = 0;
-		GLfloat pad1 = 0.0f;
+		GLuint directionalLightSize = 0;
 		GLfloat pad2 = 0.0f;
 	};
 
@@ -70,6 +73,17 @@ protected:
 		GLfloat diffuseIntensity = 0.0f;
 		GLfloat specularIntensity = 0.0f;
 		GLfloat attenuation = 0.0f;
+		GLfloat pad2 = 0.0f;
+	};
+
+	struct DirectionalLights
+	{
+		glm::vec4 direction = glm::vec4(0.0f);
+		glm::vec4 diffuseColor = glm::vec4(0.0f);
+		glm::vec4 specularColor = glm::vec4(0.0f);
+		GLfloat diffuseIntensity = 0.0f;
+		GLfloat specularIntensity = 0.0f;
+		GLfloat pad1 = 0.0f;
 		GLfloat pad2 = 0.0f;
 	};
 };

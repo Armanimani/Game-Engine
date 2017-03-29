@@ -34,10 +34,20 @@ struct PointLight
 	float attenuation;
 };
 
+struct DirectionalLight
+{
+	vec4 direction;
+	vec4 diffuseColor;
+	vec4 specularColor;
+	float diffuseIntensity;
+	float specularIntensity;
+};
+
 layout(std140, binding = 1) uniform lightSizeBlock
 {
 	uint ambientLightSize;
 	uint pointLightSize;
+	uint directionalLightSize;
 };
 
 layout (std140, binding = 2) uniform ambientLightBlock 
@@ -58,6 +68,11 @@ layout (std140, binding = 4) uniform toCameraBlock
 layout (std140, binding = 5) uniform gammaCorrectionBlock
 {
 	float gammaCorrection;
+};
+
+layout (std140, binding = 6) uniform directionalLightBlock
+{
+	DirectionalLight directionalLight[MAX_LIGHTS];
 };
 
 vec4 calculateAmbient()
@@ -106,6 +121,15 @@ vec4 calculateDiffuse()
 		attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
 		diffuse += matColor * matKd * pointLight[i].diffuseColor * pointLight[i].diffuseIntensity  * sDotN * attenuationFactor ;
 	}
+
+	for (int i = 0; i < directionalLightSize; ++i)
+	{
+		toLightVector = directionalLight[i].direction.xyz;
+		toLightNormal = normalize(toLightVector);
+		sDotN = max(dot(normalize(surfaceNormal), toLightNormal), 0.0);
+		diffuse += matColor * matKd * directionalLight[i].diffuseColor * directionalLight[i].diffuseIntensity  * sDotN;
+	}
+
 	return diffuse;
 };
 
@@ -124,6 +148,14 @@ vec4 calculateDiffuseBack()
 		sDotN = max(dot(normalize(-surfaceNormal), toLightNormal), 0.0);
 		attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
 		diffuse += matColorBack * matKd * pointLight[i].diffuseColor * pointLight[i].diffuseIntensity  * sDotN * attenuationFactor ;
+	}
+
+	for (int i = 0; i < directionalLightSize; ++i)
+	{
+		toLightVector = directionalLight[i].direction.xyz;
+		toLightNormal = normalize(toLightVector);
+		sDotN = max(dot(normalize(-surfaceNormal), toLightNormal), 0.0);
+		diffuse += matColor * matKd * directionalLight[i].diffuseColor * directionalLight[i].diffuseIntensity  * sDotN;
 	}
 	return diffuse;
 };
@@ -151,6 +183,20 @@ vec4 calculateSpecular()
 			specular += matSpecularColor *  matKs * pointLight[i].specularColor * pointLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor;
 		}
 	}
+
+	for (int i = 0; i < directionalLightSize; ++i)
+	{	
+		toLightVector = directionalLight[i].direction.xyz;
+		toLightNormal = normalize(toLightVector);
+		reflectedLightDirection = reflect(-toLightNormal, normalize(surfaceNormal));
+		sDotN = max(dot(reflectedLightDirection, toCamera), 0.0);
+
+		if (sDotN > 0.0)
+		{
+			specular += matSpecularColor *  matKs * directionalLight[i].specularColor * directionalLight[i].specularIntensity * pow(sDotN, matShininess);
+		}
+	}
+
 	return specular;
 }
 
@@ -175,6 +221,19 @@ vec4 calculateSpecularBack()
 		{
 			attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
 			specular += matSpecularColorBack *  matKs * pointLight[i].specularColor * pointLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor;
+		}
+	}
+
+	for (int i = 0; i < directionalLightSize; ++i)
+	{	
+		toLightVector = directionalLight[i].direction.xyz;
+		toLightNormal = normalize(toLightVector);
+		reflectedLightDirection = reflect(-toLightNormal, normalize(-surfaceNormal));
+		sDotN = max(dot(reflectedLightDirection, toCamera), 0.0);
+
+		if (sDotN > 0.0)
+		{
+			specular += matSpecularColor *  matKs * directionalLight[i].specularColor * directionalLight[i].specularIntensity * pow(sDotN, matShininess);
 		}
 	}
 	return specular;

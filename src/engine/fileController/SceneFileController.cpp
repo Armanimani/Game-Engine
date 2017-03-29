@@ -17,6 +17,7 @@
 #include "../light/Light.h"
 #include "../light/AmbientLight.h"
 #include "../light/PointLight.h"
+#include "../light/DirectionalLight.h"
 
 const std::string SCENE("scene");
 const std::string MESHES("meshes");
@@ -227,6 +228,7 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 			LightType type;
 			glm::vec3 position;
 			glm::vec4 color;
+			glm::vec3 direction;
 			GLfloat intensity;
 			GLfloat diffuseIntensity;
 			GLfloat specularIntensity;
@@ -266,6 +268,8 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 						attenuation = std::stof(std::string(props->value()));
 					else if (props->name() == SHADOW)
 						props->value() == STRUE ? shadow = true : shadow = false;
+					else if (props->name() == DIRECTION)
+						direction = glm::vec3(std::stof(props->first_attribute(X.c_str())->value()), std::stof(props->first_attribute(Y.c_str())->value()), std::stof(props->first_attribute(Z.c_str())->value()));
 				}
 
 				std::shared_ptr<Light> light;
@@ -277,6 +281,10 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 				else if (type == LightType::point)
 				{
 					light = std::make_shared<PointLight>(name, position, diffuseColor, specularColor, diffuseIntensity, specularIntensity, attenuation, shadow);
+				}
+				else if (type == LightType::directional)
+				{
+					light = std::make_shared<DirectionalLight>(name, direction, diffuseColor, specularColor, diffuseIntensity, specularIntensity, shadow);
 				}
 
 				manager->lightManager.addLight(light);
@@ -513,22 +521,28 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 		rapidxml::xml_node<>* typeSub = doc.allocate_node(rapidxml::node_element, TYPE.c_str(), temp[temp.size() - 1].get()->c_str());
 		light->append_node(typeSub);
 
-		glm::vec3 pos = m->getPosition();
-		rapidxml::xml_node<>* posSub = doc.allocate_node(rapidxml::node_element, POSITION.c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(pos.x)));
-		rapidxml::xml_attribute<> *posX = doc.allocate_attribute(X.c_str(), temp[temp.size() - 1].get()->c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(pos.y)));
-		rapidxml::xml_attribute<> *posY = doc.allocate_attribute(Y.c_str(), temp[temp.size() - 1].get()->c_str());
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(pos.z)));
-		rapidxml::xml_attribute<> *posZ = doc.allocate_attribute(Z.c_str(), temp[temp.size() - 1].get()->c_str());
-		posSub->append_attribute(posX);
-		posSub->append_attribute(posY);
-		posSub->append_attribute(posZ);
-		light->append_node(posSub);
+		if (m->getType() != LightType::directional)
+		{
+			glm::vec3 pos = m->getPosition();
+			rapidxml::xml_node<>* posSub = doc.allocate_node(rapidxml::node_element, POSITION.c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(pos.x)));
+			rapidxml::xml_attribute<> *posX = doc.allocate_attribute(X.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(pos.y)));
+			rapidxml::xml_attribute<> *posY = doc.allocate_attribute(Y.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(pos.z)));
+			rapidxml::xml_attribute<> *posZ = doc.allocate_attribute(Z.c_str(), temp[temp.size() - 1].get()->c_str());
+			posSub->append_attribute(posX);
+			posSub->append_attribute(posY);
+			posSub->append_attribute(posZ);
+			light->append_node(posSub);
+		}
 
-		temp.emplace_back(std::make_shared<std::string>(std::to_string(m->getAttenuationFactor())));
-		rapidxml::xml_node<>* attenuationSub = doc.allocate_node(rapidxml::node_element, ATTENUATION.c_str(), temp[temp.size() - 1].get()->c_str());
-		light->append_node(attenuationSub);
+		if (m->getType() != LightType::directional)
+		{
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(m->getAttenuationFactor())));
+			rapidxml::xml_node<>* attenuationSub = doc.allocate_node(rapidxml::node_element, ATTENUATION.c_str(), temp[temp.size() - 1].get()->c_str());
+			light->append_node(attenuationSub);
+		}
 
 		if (m->getType() == LightType::ambient)
 		{
@@ -558,10 +572,37 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 			light->append_node(ambientIntensitySub);
 		}
 
-		if (m->getType() == LightType::point)
+		if (m->getType() == LightType::directional)
 		{
-			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
-			glm::vec4 color = c->getDiffuseColor();
+			std::shared_ptr<DirectionalLight> c = std::static_pointer_cast<DirectionalLight>(m);
+			glm::vec3 direction = c->getDirection();
+			rapidxml::xml_node<>* directionSub = doc.allocate_node(rapidxml::node_element, DIRECTION.c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.x)));
+			rapidxml::xml_attribute<> *directionX = doc.allocate_attribute(X.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.y)));
+			rapidxml::xml_attribute<> *directionY = doc.allocate_attribute(Y.c_str(), temp[temp.size() - 1].get()->c_str());
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(direction.z)));
+			rapidxml::xml_attribute<> *directionZ = doc.allocate_attribute(Z.c_str(), temp[temp.size() - 1].get()->c_str());
+			directionSub->append_attribute(directionX);
+			directionSub->append_attribute(directionY);
+			directionSub->append_attribute(directionZ);
+			light->append_node(directionSub);
+		}
+
+		if (m->getType() == LightType::point || m->getType() == LightType::directional)
+		{
+			glm::vec4 color;
+			if (m->getType() == LightType::point)
+			{
+				std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
+				color = c->getDiffuseColor();
+			}
+			else if (m->getType() == LightType::directional)
+			{
+				std::shared_ptr<DirectionalLight> c = std::static_pointer_cast<DirectionalLight>(m);
+				color = c->getDiffuseColor();
+			}
+
 			rapidxml::xml_node<>* diffuseColorSub = doc.allocate_node(rapidxml::node_element, DIFFUSE_COLOR.c_str());
 			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.x)));
 			rapidxml::xml_attribute<> *colorR = doc.allocate_attribute(R.c_str(), temp[temp.size() - 1].get()->c_str());
@@ -578,18 +619,39 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 			light->append_node(diffuseColorSub);
 		}
 
-		if (m->getType() == LightType::point)
+		if (m->getType() == LightType::point || m->getType() == LightType::directional)
 		{
-			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
-			temp.emplace_back(std::make_shared<std::string>(std::to_string(c->getDiffuseIntensity())));
+			GLfloat diffuseIntensity;
+			if (m->getType() == LightType::point)
+			{
+				std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
+				diffuseIntensity = c->getDiffuseIntensity();
+			}
+			else if (m->getType() == LightType::directional)
+			{
+				std::shared_ptr<DirectionalLight> c = std::static_pointer_cast<DirectionalLight>(m);
+				diffuseIntensity = c->getDiffuseIntensity();
+			}
+
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(diffuseIntensity)));
 			rapidxml::xml_node<>* diffuseIntensitySub = doc.allocate_node(rapidxml::node_element, DIFFUSE_INTENSITY.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(diffuseIntensitySub);
 		}
 
-		if (m->getType() == LightType::point)
+		if (m->getType() == LightType::point || m->getType() == LightType::directional)
 		{
-			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
-			glm::vec4 color = c->getSpecularColor();
+			glm::vec4 color;
+			if (m->getType() == LightType::point)
+			{
+				std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
+				color = c->getSpecularColor();
+			}
+			else if (m->getType() == LightType::directional)
+			{
+				std::shared_ptr<DirectionalLight> c = std::static_pointer_cast<DirectionalLight>(m);
+				color = c->getSpecularColor();
+			}
+
 			rapidxml::xml_node<>* specularColorSub = doc.allocate_node(rapidxml::node_element, SPECULAR_COLOR.c_str());
 			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.x)));
 			rapidxml::xml_attribute<> *colorR = doc.allocate_attribute(R.c_str(), temp[temp.size() - 1].get()->c_str());
@@ -606,18 +668,42 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 			light->append_node(specularColorSub);
 		}
 
-		if (m->getType() == LightType::point)
+
+		if (m->getType() == LightType::point || m->getType() == LightType::directional)
 		{
-			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
-			temp.emplace_back(std::make_shared<std::string>(std::to_string(c->getSpecularIntensity())));
+			GLfloat specularIntensity;
+			if (m->getType() == LightType::point)
+			{
+				std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
+				specularIntensity = c->getSpecularIntensity();
+			}
+			else if (m->getType() == LightType::directional)
+			{
+				std::shared_ptr<DirectionalLight> c = std::static_pointer_cast<DirectionalLight>(m);
+				specularIntensity = c->getSpecularIntensity();
+			}
+
+			temp.emplace_back(std::make_shared<std::string>(std::to_string(specularIntensity)));
 			rapidxml::xml_node<>* specularIntensitySub = doc.allocate_node(rapidxml::node_element, SPECULAR_INTENSITY.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(specularIntensitySub);
 		}
 
-		if (m->getType() == LightType::point)
+
+		if (m->getType() == LightType::point || m->getType() == LightType::directional)
 		{
-			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
-			c->getShadow() ? temp.emplace_back(std::make_shared<std::string>("true")) : temp.emplace_back(std::make_shared<std::string>("false"));
+			GLboolean shadow;
+			if (m->getType() == LightType::point)
+			{
+				std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
+				shadow = c->getShadow();
+			}
+			else if (m->getType() == LightType::directional)
+			{
+				std::shared_ptr<DirectionalLight> c = std::static_pointer_cast<DirectionalLight>(m);
+				shadow = c->getShadow();
+			}
+
+			shadow ? temp.emplace_back(std::make_shared<std::string>("true")) : temp.emplace_back(std::make_shared<std::string>("false"));
 			rapidxml::xml_node<>* shadowSub = doc.allocate_node(rapidxml::node_element, SHADOW.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(shadowSub);
 		}

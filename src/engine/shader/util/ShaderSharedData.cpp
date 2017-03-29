@@ -35,6 +35,11 @@ void ShaderSharedData::init()
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(GLfloat), NULL, GL_DYNAMIC_DRAW);
 	glBindBufferRange(GL_UNIFORM_BUFFER, gammaCorrectionBP, gammaCorrectionBuffer, 0, sizeof(GLfloat));
 
+	glGenBuffers(1, &directionalLightBuffer);
+	glBindBuffer(GL_UNIFORM_BUFFER, directionalLightBuffer);
+	glBufferData(GL_UNIFORM_BUFFER, MAX_LIGHTS * sizeof(DirectionalLights), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, directionalLightBP, directionalLightBuffer, 0, MAX_LIGHTS * sizeof(DirectionalLights));
+
 	glBindBuffer(GL_UNIFORM, 0);
 }
 
@@ -48,10 +53,12 @@ void ShaderSharedData::prepare()
 
 	std::vector<std::shared_ptr<PointLight>> pointLightList = manager->lightManager.getActivePointLights();
 	std::vector<std::shared_ptr<AmbientLight>> ambientLightList = manager->lightManager.getActiveAmbientLights();
+	std::vector<std::shared_ptr<DirectionalLight>> directionalLightList = manager->lightManager.getActiveDirectionalLights();
 
 	LightSize lightSize;
 	lightSize.ambientLightSize = min(MAX_LIGHTS, static_cast<GLuint>(ambientLightList.size()));
 	lightSize.pointLightSize = min(MAX_LIGHTS, static_cast<GLuint>(pointLightList.size()));
+	lightSize.directionalLightSize = min(MAX_LIGHTS, static_cast<GLuint>(directionalLightList.size()));
 	glBindBuffer(GL_UNIFORM_BUFFER, lightSizeBuffer);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(LightSize), &lightSize);
 
@@ -84,6 +91,18 @@ void ShaderSharedData::prepare()
 
 	glBindBuffer(GL_UNIFORM_BUFFER, gammaCorrectionBuffer);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(GLfloat), &gammaCorrection);
+
+	DirectionalLights directionalLights[MAX_LIGHTS];
+	glBindBuffer(GL_UNIFORM_BUFFER, directionalLightBuffer);
+	for (std::size_t i = 0; i != lightSize.directionalLightSize; ++i)
+	{
+		directionalLights[i].direction = glm::vec4(directionalLightList[i]->getDirection(), 0.0f);
+		directionalLights[i].diffuseColor = directionalLightList[i]->getDiffuseColor();
+		directionalLights[i].diffuseIntensity = directionalLightList[i]->getDiffuseIntensity();
+		directionalLights[i].specularColor = directionalLightList[i]->getSpecularColor();
+		directionalLights[i].specularIntensity = directionalLightList[i]->getSpecularIntensity();
+	}
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, lightSize.directionalLightSize * sizeof(DirectionalLight), &directionalLights);
 
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

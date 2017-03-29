@@ -2,10 +2,13 @@
 
 #include "Light.h"
 
-class PointLight : public Light
+class DirectionalLight : public Light
 {
 public:
-	PointLight(const std::string& name, const glm::vec3& position, const glm::vec4& diffuseColor, const glm::vec4& specularColor, const GLfloat& diffuseIntensity, const GLfloat& specularIntensity, const GLfloat& attenuationFactor, const GLboolean& shadow) : Light(name, position, attenuationFactor, LightType::point), diffuseIntensity(diffuseIntensity), specularIntensity(specularIntensity), shadow(shadow), diffuseColor(diffuseColor), specularColor(specularColor) {}
+	DirectionalLight(const std::string& name, const glm::vec3& direction, const glm::vec4& diffuseColor, const glm::vec4& specularColor, const GLfloat& diffuseIntensity, const GLfloat& specularIntensity, const GLboolean& shadow) : Light(name, glm::vec4(0.0), 0.0f, LightType::directional), diffuseIntensity(diffuseIntensity), specularIntensity(specularIntensity), shadow(shadow), diffuseColor(diffuseColor), specularColor(specularColor), direction(glm::normalize(direction)) {}
+
+	inline void setDirection(const glm::vec3& value) { direction = value; }
+	inline const glm::vec3& getDirection() { return direction; }
 
 	inline void setDiffuseColor(const glm::vec4& color) { diffuseColor = color; }
 	inline const glm::vec4& getDiffuseColor() { return diffuseColor; }
@@ -33,9 +36,10 @@ public:
 	inline const GLboolean& getShadow() { return shadow; }
 
 protected:
-	GLfloat diffuseIntensity;
-	GLfloat specularIntensity;
+	glm::vec3 direction;
 	glm::vec4 diffuseColor;
 	glm::vec4 specularColor;
+	GLfloat diffuseIntensity;
+	GLfloat specularIntensity;
 	GLboolean shadow = false;
 };

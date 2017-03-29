@@ -47,6 +47,19 @@ const std::vector<std::shared_ptr<AmbientLight>> LightManager::getActiveAmbientL
 	return ret;
 }
 
+const std::vector<std::shared_ptr<DirectionalLight>> LightManager::getActiveDirectionalLights()
+{
+	std::vector<std::shared_ptr<DirectionalLight>> ret;
+	ret.reserve(16);
+
+	for (auto it = map.cbegin(); it != map.cend(); it++)
+	{
+		if ((*it).second->getOn() && (*it).second->getType() == LightType::directional) ret.push_back(std::static_pointer_cast<DirectionalLight>((*it).second));
+	}
+
+	return ret;
+}
+
 void LightManager::cleanUp()
 {
 	map.clear();
