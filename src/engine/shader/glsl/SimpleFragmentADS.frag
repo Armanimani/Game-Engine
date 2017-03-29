@@ -53,6 +53,11 @@ layout (std140, binding = 4) uniform toCameraBlock
 	vec4 cameraPosition;
 };
 
+layout (std140, binding = 5) uniform gammaCorrectionBlock
+{
+	float gammaCorrection;
+};
+
 vec4 calculateAmbient()
 {
 	vec4 ambient = vec4(0.0);
@@ -115,5 +120,6 @@ vec4 calculateSpecular()
 
 void main()
 {
-	fragColor = calculateAmbient() + calculateDiffuse() + calculateSpecular();
+	vec4 linearColor = calculateAmbient() + calculateDiffuse() + calculateSpecular();
+	fragColor = vec4(pow(linearColor.xyz, vec3(gammaCorrection)), linearColor.a);
 }

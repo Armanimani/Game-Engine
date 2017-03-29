@@ -181,7 +181,7 @@
       <position x="0.0" y="0.0" z="0.0"/>
       <attenuation>0.0</attenuation>
       <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-      <intensity>0.1</intensity>
+      <intensity>0.05</intensity>
     </light>
     <light>
       <name>ambient2</name>
@@ -189,7 +189,7 @@
       <position x="0.0" y="0.0" z="0.0"/>
       <attenuation>0.0</attenuation>
       <color r="0.0" g="1.0" b="0.0" a="1.0"/>
-      <intensity>0.3</intensity>
+      <intensity>0.15</intensity>
     </light>
     <light>
       <name>pointLight1</name>
@@ -197,7 +197,7 @@
       <position x="3.0" y="3.0" z="3.0"/>
       <attenuation>0.0</attenuation>
       <diffuseColor r="1.0" g="1.0" b="0.0" a="1.0"/>
-      <diffuseIntensity>0.5</diffuseIntensity>
+      <diffuseIntensity>0.3</diffuseIntensity>
       <specularColor r="1.0" g="1.0" b="1.0" a="1.0"/>
       <specularIntensity>0.7</specularIntensity>
       <shadow>true</shadow>

@@ -16,11 +16,15 @@ public:
 
 	inline void setSceneManager(const std::shared_ptr<SceneManager> sceneManager) { manager = sceneManager; }
 
+	inline void setGammaCorrection(const GLfloat& value) { gammaCorrection = value; }
+	inline const GLfloat& getGammaCorrection() { return gammaCorrection; }
+
 protected:
 	std::shared_ptr<SceneManager> manager;
 
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
+	GLfloat gammaCorrection = 1.0f/ 2.2f;
 
 	GLuint matriciesBP = 0;
 	GLuint matriciesBuffer;
@@ -36,6 +40,9 @@ protected:
 
 	GLuint cameraBP = 4;
 	GLuint cameraBuffer;
+
+	GLuint gammaCorrectionBP = 5;
+	GLuint gammaCorrectionBuffer;
 
 	struct LightSize
 	{

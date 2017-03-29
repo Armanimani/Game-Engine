@@ -30,6 +30,11 @@ void ShaderSharedData::init()
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::vec4), NULL, GL_DYNAMIC_DRAW);
 	glBindBufferRange(GL_UNIFORM_BUFFER, cameraBP, cameraBuffer, 0, sizeof(glm::vec4));
 
+	glGenBuffers(1, &gammaCorrectionBuffer);
+	glBindBuffer(GL_UNIFORM_BUFFER, gammaCorrectionBuffer);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(GLfloat), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, gammaCorrectionBP, gammaCorrectionBuffer, 0, sizeof(GLfloat));
+
 	glBindBuffer(GL_UNIFORM, 0);
 }
 
@@ -76,6 +81,9 @@ void ShaderSharedData::prepare()
 	glm::vec4 cameraPosition = glm::vec4(manager->cameraManager.getActiveCamera()->getPosition(), 0.0);
 	glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::vec4), glm::value_ptr(cameraPosition));
+
+	glBindBuffer(GL_UNIFORM_BUFFER, gammaCorrectionBuffer);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(GLfloat), &gammaCorrection);
 
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
