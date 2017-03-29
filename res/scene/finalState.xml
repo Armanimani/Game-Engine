@@ -110,7 +110,7 @@
 		<model>
 			<name>reflective2F1</name>
 			<mesh>teapot4</mesh>
-			<material>simpleFragmentADS2FaceRed</material>
+			<material>simpleVertexADSRed</material>
 		</model>
 	</models>
 	<entities>
@@ -144,17 +144,17 @@
 		<camera>
 			<name>presCam</name>
 			<type>free</type>
-			<active>true</active>
+			<active>false</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="10.000000"/>
 			<position x="0.000000" y="0.000000" z="4.000000"/>
-			<direction x="0.000000" y="0.000000" z="-1.000000"/>
+			<direction x="0.017212" y="-0.092344" z="-0.995578"/>
 		</camera>
 		<camera>
 			<name>targetCam</name>
 			<type>target</type>
-			<active>false</active>
+			<active>true</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="10.000000"/>
-			<position x="0.000000" y="0.000000" z="4.000000"/>
+			<position x="-1.501173" y="1.125966" z="2.237412"/>
 			<target x="0.000000" y="0.000000" z="0.000000"/>
 		</camera>
 		<camera>
@@ -176,9 +176,21 @@
 	</cameras>
 	<lights>
 		<light>
+			<name>pointLight1</name>
+			<type>point</type>
+			<position x="3.000000" y="3.000000" z="3.000000"/>
+			<attenuation>0.000000</attenuation>
+			<diffuseColor r="1.000000" g="1.000000" b="0.000000" a="1.000000"/>
+			<diffuseIntensity>0.500000</diffuseIntensity>
+			<specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000"/>
+			<specularIntensity>0.700000</specularIntensity>
+			<shadow>true</shadow>
+		</light>
+		<light>
 			<name>ambient1</name>
 			<type>ambient</type>
 			<position x="0.000000" y="0.000000" z="0.000000"/>
+			<attenuation>0.000000</attenuation>
 			<color r="1.000000" g="1.000000" b="1.000000" a="1.000000"/>
 			<intensity>0.100000</intensity>
 		</light>
@@ -186,18 +198,9 @@
 			<name>ambient2</name>
 			<type>ambient</type>
 			<position x="0.000000" y="0.000000" z="0.000000"/>
+			<attenuation>0.000000</attenuation>
 			<color r="0.000000" g="1.000000" b="0.000000" a="1.000000"/>
 			<intensity>0.300000</intensity>
-		</light>
-		<light>
-			<name>spotLight1</name>
-			<type>spot</type>
-			<position x="3.000000" y="3.000000" z="3.000000"/>
-			<diffuseColor r="1.000000" g="1.000000" b="0.000000" a="1.000000"/>
-			<diffuseIntensity>0.500000</diffuseIntensity>
-			<specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000"/>
-			<specularIntensity>0.700000</specularIntensity>
-			<shadow>true</shadow>
 		</light>
 	</lights>
 </scene>

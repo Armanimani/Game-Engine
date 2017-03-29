@@ -2,10 +2,10 @@
 
 #include "Light.h"
 
-class SpotLight : public Light
+class PointLight : public Light
 {
 public:
-	SpotLight(const std::string& name, const glm::vec3& position, const glm::vec4& diffuseColor, const glm::vec4& specularColor, const GLfloat& diffuseIntensity = 0.0, const GLfloat& specularIntensity = 0.0f, const GLboolean& shadow = false) : Light(name, position, LightType::spot), diffuseIntensity(diffuseIntensity), specularIntensity(specularIntensity), shadow(shadow), diffuseColor(diffuseColor), specularColor(specularColor) {}
+	PointLight(const std::string& name, const glm::vec3& position, const glm::vec4& diffuseColor, const glm::vec4& specularColor, const GLfloat& diffuseIntensity, const GLfloat& specularIntensity, const GLfloat& attenuationFactor, const GLboolean& shadow) : Light(name, position, attenuationFactor, LightType::point), diffuseIntensity(diffuseIntensity), specularIntensity(specularIntensity), shadow(shadow), diffuseColor(diffuseColor), specularColor(specularColor) {}
 
 	inline void setDiffuseColor(const glm::vec4& color) { diffuseColor = color; }
 	inline const glm::vec4& getDiffuseColor() { return diffuseColor; }

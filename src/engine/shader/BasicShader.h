@@ -12,4 +12,7 @@ public:
 		"../src/engine/shader/glsl/Basic.frag") {}
 
 	virtual void render(const std::shared_ptr<Entity> entity) override;
+
+protected:
+	virtual void loadAllToUniform(const std::shared_ptr<Entity> entity) override;
 };

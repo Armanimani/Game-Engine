@@ -20,10 +20,10 @@ void ShaderSharedData::init()
 	glBufferData(GL_UNIFORM_BUFFER, MAX_LIGHTS * sizeof(AmbientLights), NULL, GL_DYNAMIC_DRAW);
 	glBindBufferRange(GL_UNIFORM_BUFFER, ambientLightBP, ambientLightBuffer, 0, MAX_LIGHTS * sizeof(AmbientLights));
 
-	glGenBuffers(1, &spotLightBuffer);
-	glBindBuffer(GL_UNIFORM_BUFFER, spotLightBuffer);
-	glBufferData(GL_UNIFORM_BUFFER, MAX_LIGHTS * sizeof(SpotLights), NULL, GL_DYNAMIC_DRAW);
-	glBindBufferRange(GL_UNIFORM_BUFFER, spotLightBP, spotLightBuffer, 0, MAX_LIGHTS * sizeof(SpotLights));
+	glGenBuffers(1, &pointLightBuffer);
+	glBindBuffer(GL_UNIFORM_BUFFER, pointLightBuffer);
+	glBufferData(GL_UNIFORM_BUFFER, MAX_LIGHTS * sizeof(PointLights), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, pointLightBP, pointLightBuffer, 0, MAX_LIGHTS * sizeof(PointLights));
 
 	glGenBuffers(1, &cameraBuffer);
 	glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
@@ -41,12 +41,12 @@ void ShaderSharedData::prepare()
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projectionMatrix));
 	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(viewMatrix));
 
-	std::vector<std::shared_ptr<SpotLight>> spotLightList = manager->lightManager.getActiveSpotLights();
+	std::vector<std::shared_ptr<PointLight>> pointLightList = manager->lightManager.getActivePointLights();
 	std::vector<std::shared_ptr<AmbientLight>> ambientLightList = manager->lightManager.getActiveAmbientLights();
 
 	LightSize lightSize;
 	lightSize.ambientLightSize = min(MAX_LIGHTS, static_cast<GLuint>(ambientLightList.size()));
-	lightSize.spotLightSize = min(MAX_LIGHTS, static_cast<GLuint>(spotLightList.size()));
+	lightSize.pointLightSize = min(MAX_LIGHTS, static_cast<GLuint>(pointLightList.size()));
 	glBindBuffer(GL_UNIFORM_BUFFER, lightSizeBuffer);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(LightSize), &lightSize);
 
@@ -56,20 +56,22 @@ void ShaderSharedData::prepare()
 	{
 		ambientLights[i].color = ambientLightList[i]->getColor();
 		ambientLights[i].intensity = ambientLightList[i]->getIntensity();
+		ambientLights[i].attenuation = ambientLightList[i]->getAttenuationFactor();
 	}
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, lightSize.ambientLightSize * sizeof(AmbientLights), &ambientLights);
 
-	SpotLights spotLights[MAX_LIGHTS];
-	glBindBuffer(GL_UNIFORM_BUFFER, spotLightBuffer);
-	for (std::size_t i = 0; i != lightSize.spotLightSize; ++i)
+	PointLights pointLights[MAX_LIGHTS];
+	glBindBuffer(GL_UNIFORM_BUFFER, pointLightBuffer);
+	for (std::size_t i = 0; i != lightSize.pointLightSize; ++i)
 	{
-		spotLights[i].position = glm::vec4(spotLightList[i]->getPosition(), 0.0f);
-		spotLights[i].diffuseColor = spotLightList[i]->getDiffuseColor();
-		spotLights[i].diffuseIntensity = spotLightList[i]->getDiffuseIntensity();
-		spotLights[i].specularColor = spotLightList[i]->getSpecularColor();
-		spotLights[i].specularIntensity = spotLightList[i]->getSpecularIntensity();
+		pointLights[i].position = glm::vec4(pointLightList[i]->getPosition(), 0.0f);
+		pointLights[i].diffuseColor = pointLightList[i]->getDiffuseColor();
+		pointLights[i].diffuseIntensity = pointLightList[i]->getDiffuseIntensity();
+		pointLights[i].specularColor = pointLightList[i]->getSpecularColor();
+		pointLights[i].specularIntensity = pointLightList[i]->getSpecularIntensity();
+		pointLights[i].attenuation = pointLightList[i]->getAttenuationFactor();
 	}
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, lightSize.spotLightSize * sizeof(SpotLight), &spotLights);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, lightSize.pointLightSize * sizeof(PointLight), &pointLights);
 
 	glm::vec4 cameraPosition = glm::vec4(manager->cameraManager.getActiveCamera()->getPosition(), 0.0);
 	glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);

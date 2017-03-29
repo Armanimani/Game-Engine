@@ -16,7 +16,7 @@
 #include "../camera/ArcBallCamera.h"
 #include "../light/Light.h"
 #include "../light/AmbientLight.h"
-#include "../light/SpotLight.h"
+#include "../light/PointLight.h"
 
 const std::string SCENE("scene");
 const std::string MESHES("meshes");
@@ -67,6 +67,7 @@ const std::string SPECULAR_INTENSITY("specularIntensity");
 const std::string DIFFUSE_COLOR("diffuseColor");
 const std::string SPECULAR_COLOR("specularColor");
 const std::string SHADOW("shadow");
+const std::string ATTENUATION("attenuation");
 
 void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manager, const std::shared_ptr<WindowSettings> windowSettings, const std::string& file)
 {
@@ -229,6 +230,7 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 			GLfloat intensity;
 			GLfloat diffuseIntensity;
 			GLfloat specularIntensity;
+			GLfloat attenuation;
 			glm::vec4 diffuseColor;
 			glm::vec4 specularColor;
 			GLboolean shadow;
@@ -260,6 +262,8 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 						diffuseIntensity = std::stof(std::string(props->value()));
 					else if (props->name() == SPECULAR_INTENSITY)
 						specularIntensity = std::stof(std::string(props->value()));
+					else if (props->name() == ATTENUATION)
+						attenuation = std::stof(std::string(props->value()));
 					else if (props->name() == SHADOW)
 						props->value() == STRUE ? shadow = true : shadow = false;
 				}
@@ -268,11 +272,11 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 
 				if (type == LightType::ambient)
 				{
-					light = std::make_shared<AmbientLight>(name, position, intensity, color);
+					light = std::make_shared<AmbientLight>(name, position, intensity, color, attenuation);
 				}
-				else if (type == LightType::spot)
+				else if (type == LightType::point)
 				{
-					light = std::make_shared<SpotLight>(name, position, diffuseColor, specularColor, diffuseIntensity, specularIntensity, shadow);
+					light = std::make_shared<PointLight>(name, position, diffuseColor, specularColor, diffuseIntensity, specularIntensity, attenuation, shadow);
 				}
 
 				manager->lightManager.addLight(light);
@@ -522,6 +526,10 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 		posSub->append_attribute(posZ);
 		light->append_node(posSub);
 
+		temp.emplace_back(std::make_shared<std::string>(std::to_string(m->getAttenuationFactor())));
+		rapidxml::xml_node<>* attenuationSub = doc.allocate_node(rapidxml::node_element, ATTENUATION.c_str(), temp[temp.size() - 1].get()->c_str());
+		light->append_node(attenuationSub);
+
 		if (m->getType() == LightType::ambient)
 		{
 			std::shared_ptr<AmbientLight> c = std::static_pointer_cast<AmbientLight>(m);
@@ -550,9 +558,9 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 			light->append_node(ambientIntensitySub);
 		}
 
-		if (m->getType() == LightType::spot)
+		if (m->getType() == LightType::point)
 		{
-			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
 			glm::vec4 color = c->getDiffuseColor();
 			rapidxml::xml_node<>* diffuseColorSub = doc.allocate_node(rapidxml::node_element, DIFFUSE_COLOR.c_str());
 			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.x)));
@@ -570,17 +578,17 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 			light->append_node(diffuseColorSub);
 		}
 
-		if (m->getType() == LightType::spot)
+		if (m->getType() == LightType::point)
 		{
-			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
 			temp.emplace_back(std::make_shared<std::string>(std::to_string(c->getDiffuseIntensity())));
 			rapidxml::xml_node<>* diffuseIntensitySub = doc.allocate_node(rapidxml::node_element, DIFFUSE_INTENSITY.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(diffuseIntensitySub);
 		}
 
-		if (m->getType() == LightType::spot)
+		if (m->getType() == LightType::point)
 		{
-			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
 			glm::vec4 color = c->getSpecularColor();
 			rapidxml::xml_node<>* specularColorSub = doc.allocate_node(rapidxml::node_element, SPECULAR_COLOR.c_str());
 			temp.emplace_back(std::make_shared<std::string>(std::to_string(color.x)));
@@ -598,17 +606,17 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 			light->append_node(specularColorSub);
 		}
 
-		if (m->getType() == LightType::spot)
+		if (m->getType() == LightType::point)
 		{
-			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
 			temp.emplace_back(std::make_shared<std::string>(std::to_string(c->getSpecularIntensity())));
 			rapidxml::xml_node<>* specularIntensitySub = doc.allocate_node(rapidxml::node_element, SPECULAR_INTENSITY.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(specularIntensitySub);
 		}
 
-		if (m->getType() == LightType::spot)
+		if (m->getType() == LightType::point)
 		{
-			std::shared_ptr<SpotLight> c = std::static_pointer_cast<SpotLight>(m);
+			std::shared_ptr<PointLight> c = std::static_pointer_cast<PointLight>(m);
 			c->getShadow() ? temp.emplace_back(std::make_shared<std::string>("true")) : temp.emplace_back(std::make_shared<std::string>("false"));
 			rapidxml::xml_node<>* shadowSub = doc.allocate_node(rapidxml::node_element, SHADOW.c_str(), temp[temp.size() - 1].get()->c_str());
 			light->append_node(shadowSub);

@@ -4,8 +4,7 @@ void SimpleColorShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
 
-	loadTransformationToUniform(entity);
-
+	loadAllToUniform(entity);
 
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);
@@ -18,4 +17,9 @@ void SimpleColorShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
+}
+
+void SimpleColorShader::loadAllToUniform(const std::shared_ptr<Entity> entity)
+{
+	Shader::loadAllToUniform(entity);
 }

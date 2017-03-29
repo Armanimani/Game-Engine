@@ -5,10 +5,7 @@ void SimpleDiffuseReflectiveShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
 
-	loadTransformationToUniform(entity);
-
-	loadToUniform(location_color, entity->getModel()->getMaterial()->getProperties().color);
-	loadToUniform(location_Kd, entity->getModel()->getMaterial()->getProperties().diffuseReflectivity);
+	loadAllToUniform(entity);
 
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);
@@ -21,6 +18,14 @@ void SimpleDiffuseReflectiveShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
+}
+
+void SimpleDiffuseReflectiveShader::loadAllToUniform(const std::shared_ptr<Entity> entity)
+{
+	loadTransformationToUniform(entity);
+
+	loadToUniform(location_color, entity->getModel()->getMaterial()->getProperties().color);
+	loadToUniform(location_Kd, entity->getModel()->getMaterial()->getProperties().diffuseReflectivity);
 }
 
 void SimpleDiffuseReflectiveShader::getAllUniformLocations()

@@ -51,11 +51,23 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 			FileReaderHelper::readValues(color, value);
 			props.color = color;
 		}
+		if (key == "specularColor")
+		{
+			glm::vec4 color;
+			FileReaderHelper::readValues(color, value);
+			props.specularColor = color;
+		}
 		if (key == "colorBack")
 		{
 			glm::vec4 color;
 			FileReaderHelper::readValues(color, value);
 			props.colorBack = color;
+		}
+		if (key == "specularColorBack")
+		{
+			glm::vec4 color;
+			FileReaderHelper::readValues(color, value);
+			props.specularColorBack = color;
 		}
 		if (key == "diffuseReflectivity")
 		{
@@ -69,7 +81,7 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 		{
 			props.specularReflectivity = std::stof(value);
 		}
-		if (key == "shininessFactor")
+		if (key == "shininess")
 		{
 			props.shininessFactor = std::stof(value);
 		}

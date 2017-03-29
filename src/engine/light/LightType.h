@@ -5,6 +5,6 @@ enum class LightType
 	noType,
 	ambient,
 	spot,
-	target,
+	point,
 	directional
 };

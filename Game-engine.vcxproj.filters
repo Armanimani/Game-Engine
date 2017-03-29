@@ -320,9 +320,6 @@
     <ClInclude Include="src\engine\light\LightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\light\SpotLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\shader\SimpleDiffuseReflectiveShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -336,6 +333,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\shader\SimpleFragmentADS2FaceShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\light\PointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,6 +17,7 @@ protected:
 	GLuint location_Kd;
 	GLuint location_normalMatrix;
 
+	virtual void loadAllToUniform(const std::shared_ptr<Entity> entity) override;
 	virtual void getAllUniformLocations() override;
 	virtual void loadTransformationToUniform(const std::shared_ptr<Entity> entity) override;
 };

@@ -14,5 +14,7 @@ public:
 
 protected:
 	GLuint location_color;
+
+	virtual void loadAllToUniform(const std::shared_ptr<Entity> entity) override;
 	virtual void getAllUniformLocations() override;
 };

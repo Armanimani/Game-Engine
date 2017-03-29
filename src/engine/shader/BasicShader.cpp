@@ -4,7 +4,7 @@ void BasicShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
 
-	loadTransformationToUniform(entity);
+	loadAllToUniform(entity);
 
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);
@@ -15,4 +15,9 @@ void BasicShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
+}
+
+void BasicShader::loadAllToUniform(const std::shared_ptr<Entity> entity)
+{
+	loadTransformationToUniform(entity);
 }

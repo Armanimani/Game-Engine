@@ -4,7 +4,7 @@
 class AmbientLight : public Light
 {
 public:
-	AmbientLight(const std::string& name, const glm::vec3& position, const GLfloat& intensity, const glm::vec4& color) : Light(name, position, LightType::ambient), intensity(intensity), color(color) {}
+	AmbientLight(const std::string& name, const glm::vec3& position, const GLfloat& intensity, const glm::vec4& color, const GLfloat& attenuationFactor ) : Light(name, position, attenuationFactor, LightType::ambient), intensity(intensity), color(color) {}
 
 	inline void setColor(const glm::vec4& value) { color = value; }
 	inline const glm::vec4& getColor() { return color; }

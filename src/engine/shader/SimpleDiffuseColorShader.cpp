@@ -4,9 +4,7 @@ void SimpleDiffuseColorShader::render(const std::shared_ptr<Entity> entity)
 {
 	start();
 
-	loadTransformationToUniform(entity);
-
-	loadToUniform(location_color, entity->getModel()->getMaterial()->getProperties().color);
+	loadAllToUniform(entity);
 
 	glBindVertexArray(entity->getModel()->getMesh()->getVAOID());
 	glEnableVertexAttribArray(0);
@@ -17,6 +15,12 @@ void SimpleDiffuseColorShader::render(const std::shared_ptr<Entity> entity)
 	glBindVertexArray(0);
 
 	stop();
+}
+
+void SimpleDiffuseColorShader::loadAllToUniform(const std::shared_ptr<Entity> entity)
+{	
+	loadTransformationToUniform(entity);
+	loadToUniform(location_color, entity->getModel()->getMaterial()->getProperties().color);
 }
 
 void SimpleDiffuseColorShader::getAllUniformLocations()

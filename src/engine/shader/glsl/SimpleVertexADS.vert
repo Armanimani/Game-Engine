@@ -2,23 +2,38 @@
 
 const int MAX_LIGHTS = 20;
 
+in layout(location = 0) vec3 vertexPosition;
+in layout(location = 1) vec3 vertexNormal;
+
+uniform mat4 transformationMatrix;
+uniform mat3 normalMatrix;
+
+uniform vec4 matColor;
+uniform vec4 matSpecularColor;
+uniform float matKd;
+uniform float matKa;
+uniform float matKs;
+uniform float matShininess;
+
+out vec4 color;
+
 struct AmbientLight
 {
 	vec4 color;
+	vec4 position;
 	float intensity;
+	float attenuation;
 };
 
-struct SpotLight
+struct PointLight
 {
 	vec4 position;
 	vec4 diffuseColor;
 	vec4 specularColor;
 	float diffuseIntensity;
 	float specularIntensity;
+	float attenuation;
 };
-
-in layout(location = 0) vec3 vertexPosition;
-in layout(location = 1) vec3 vertexNormal;
 
 layout(std140, binding = 0) uniform matricies
 {
@@ -29,7 +44,7 @@ layout(std140, binding = 0) uniform matricies
 layout(std140, binding = 1) uniform lightSize
 {
 	uint ambientLightSize;
-	uint spotLightSize;
+	uint pointLightSize;
 };
 
 layout (std140, binding = 2) uniform ambientLightBlock 
@@ -37,9 +52,9 @@ layout (std140, binding = 2) uniform ambientLightBlock
     AmbientLight ambientLight[MAX_LIGHTS];
 };
 
-layout (std140, binding = 3) uniform spotLightBlock
+layout (std140, binding = 3) uniform pointLightBlock
 {
-	SpotLight spotLight[MAX_LIGHTS];
+	PointLight pointLight[MAX_LIGHTS];
 };
 
 layout (std140, binding = 4) uniform toCameraBlock
@@ -47,38 +62,36 @@ layout (std140, binding = 4) uniform toCameraBlock
 	vec4 cameraPosition;
 };
 
-uniform mat4 transformationMatrix;
-//uniform mat4 normalMatrix;
-
-uniform vec4 matColor;
-uniform float matKd;
-uniform float matKa;
-uniform float matKs;
-uniform float matShininess;
-
-out vec4 color;
-
-vec4 calculateAmbient()
+vec4 calculateAmbient(vec4 worldPosition)
 {
 	vec4 ambient = vec4(0.0);
+	vec3 toLightVector;
+	float attenuationFactor;
+
 	for (int i = 0; i < ambientLightSize; ++i)
 	{
-		ambient += matColor * matKa * ambientLight[0].color * ambientLight[0].intensity;
+		toLightVector = ambientLight[i].position.xyz - worldPosition.xyz;
+		attenuationFactor = 1.0 / (1.0 + ambientLight[i].attenuation * pow(length(toLightVector), 2));
+		ambient += matColor * matKa * ambientLight[i].color * ambientLight[i].intensity * attenuationFactor;
 	}
-	ambient *= matKa;
 	return ambient;
 }
 
 vec4 calculateDiffuse(vec3 surfaceNormal, vec4 worldPosition)
 {
 	vec4 diffuse = vec4(0.0);
-	vec3 toLight;
+	vec3 toLightVector;
+	vec3 toLightNormal;
+	float attenuationFactor;
 	float sDotN;
-	for (int i = 0; i < spotLightSize; ++i)
+
+	for (int i = 0; i < pointLightSize; ++i)
 	{
-		toLight = normalize(spotLight[i].position.xyz - worldPosition.xyz);
-		sDotN = max(dot(surfaceNormal, toLight), 0.0);
-		diffuse += matColor * matKd * spotLight[i].diffuseColor * spotLight[i].diffuseIntensity  * sDotN ;
+		toLightVector = pointLight[i].position.xyz - worldPosition.xyz;
+		toLightNormal = normalize(toLightVector);
+		sDotN = max(dot(surfaceNormal, toLightNormal), 0.0);
+		attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
+		diffuse += matColor * matKd * pointLight[i].diffuseColor * pointLight[i].diffuseIntensity  * sDotN * attenuationFactor ;
 	}
 	return diffuse;
 };
@@ -87,17 +100,23 @@ vec4 calculateSpecular(vec3 surfaceNormal, vec4 worldPosition)
 {
 	vec4 specular = vec4(0.0);
 	vec3 toCamera = normalize((cameraPosition - worldPosition).xyz);
-	vec3 toLight;
+	vec3 toLightVector;
+	vec3 toLightNormal;
+	float attenuationFactor;
 	vec3 reflectedLightDirection;
 	float sDotN;
-	for (int i = 0; i < spotLightSize; ++i)
+
+	for (int i = 0; i < pointLightSize; ++i)
 	{	
-		toLight = normalize(spotLight[i].position.xyz - worldPosition.xyz);
-		reflectedLightDirection = reflect(-toLight, surfaceNormal);
+		toLightVector = pointLight[i].position.xyz - worldPosition.xyz;
+		toLightNormal = normalize(toLightVector);
+		reflectedLightDirection = reflect(-toLightNormal, surfaceNormal);
 		sDotN = max(dot(reflectedLightDirection, toCamera), 0.0);
+
 		if (sDotN > 0.0)
 		{
-			specular += matKs * spotLight[i].specularColor * spotLight[i].specularIntensity * pow(sDotN, 50.0);
+			attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
+			specular += matSpecularColor *  matKs * pointLight[i].specularColor * pointLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor;
 		}
 	}
 	return specular;
@@ -106,9 +125,7 @@ vec4 calculateSpecular(vec3 surfaceNormal, vec4 worldPosition)
 void main()
 {
 	vec4 worldPosition = transformationMatrix * vec4(vertexPosition, 1.0);
-	vec4 position = projectionMatrix * viewMatrix * worldPosition;
-	vec3 surfaceNormal = normalize((transformationMatrix * vec4(vertexNormal, 0.0)).xyz);
-	color = calculateAmbient() + calculateDiffuse(surfaceNormal , worldPosition) + calculateSpecular(surfaceNormal , worldPosition);
-	gl_Position = position;
-
+	vec3 surfaceNormal =  normalize(normalMatrix * vertexNormal);
+	color = calculateAmbient(worldPosition) + calculateDiffuse(surfaceNormal , worldPosition) + calculateSpecular(surfaceNormal , worldPosition);
+	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 }

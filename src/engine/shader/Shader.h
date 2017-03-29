@@ -47,12 +47,14 @@ protected:
 	GLuint fragmentShaderID;
 
 	GLuint location_transformationMatrix;
+	GLuint location_normalMatrix;
 
 	std::string readShadercode(const std::string& file);
 	bool checkStatus(GLuint objectID, PFNGLGETSHADERIVPROC objectPropertyGetter, PFNGLGETSHADERINFOLOGPROC getInfoLogFun, GLenum statusType);
 	bool checkShaderStatus(GLuint ShaderID);
 	bool checkProgramStatus(GLuint programID);
 
+	virtual void loadAllToUniform(const std::shared_ptr<Entity> entity);
 	virtual void loadTransformationToUniform(const std::shared_ptr<Entity> entity);
 
 	virtual void getAllUniformLocations();

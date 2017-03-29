@@ -56,7 +56,7 @@ LightType TypeDatabase::getLightType(const std::string & value)
 {
 	if (value == "noType") return LightType::noType;
 	if (value == "ambient") return LightType::ambient;
-	if (value == "target") return LightType::target;
+	if (value == "point") return LightType::point;
 	if (value == "directional") return LightType::directional;
 	if (value == "spot") return LightType::spot;
 
@@ -69,7 +69,7 @@ const std::string TypeDatabase::getLightTypeName(const LightType & value)
 {
 	if (value == LightType::noType) return "noType";
 	if (value == LightType::ambient) return "ambient";
-	if (value == LightType::target) return "target";
+	if (value == LightType::point) return "point";
 	if (value == LightType::directional) return "directional";
 	if (value == LightType::spot) return "spot";
 	return "ERROR";

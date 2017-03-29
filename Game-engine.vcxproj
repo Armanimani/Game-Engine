@@ -219,7 +219,7 @@
     <ClInclude Include="src\engine\fileController\SceneFileController.h" />
     <ClInclude Include="src\engine\game\Game.h" />
     <ClInclude Include="src\engine\light\AmbientLight.h" />
-    <ClInclude Include="src\engine\light\SpotLight.h" />
+    <ClInclude Include="src\engine\light\PointLight.h" />
     <ClInclude Include="src\engine\light\Light.h" />
     <ClInclude Include="src\engine\light\LightManager.h" />
     <ClInclude Include="src\engine\light\LightType.h" />

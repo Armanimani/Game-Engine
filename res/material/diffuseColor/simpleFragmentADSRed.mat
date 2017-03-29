@@ -1,7 +1,8 @@
 name = simpleFragmentADSRed;
 shader = SimpleFragmentADSShader;
-color = 1.0f,0.0f,0.0f,1.0f;
+color = 1.0f, 0.0f, 0.0f, 1.0f;
+specularColor = 1.0f, 1.0f, 1.0f, 1.0f;
 ambientReflectivity = 1.0;
 diffuseReflectivity = 1.0;
-specularReflectivity = 1.0'
-shininess = 1.0;
+specularReflectivity = 1.0;
+shininess = 50.0;
