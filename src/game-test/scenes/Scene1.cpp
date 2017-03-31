@@ -138,6 +138,68 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 			manager->entityMap.getItem("test")->getModel()->setMesh(manager->meshMap.getItem("torus24"));
 			break;
 		}
+		case(KeyCode::G):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMaterial(manager->materialMap.getItem("simpleVertexADSFlatRed"));
+			break;
+		}
+		case(KeyCode::H):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMesh(manager->meshMap.getItem("torusKnot120"));
+			break;
+		}
+		case(KeyCode::J):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMaterial(manager->materialMap.getItem("simpleDebug2FaceBlue"));
+			break;
+		}
+		case(KeyCode::R):
+		{
+			manager->entityMap.getItem("test")->getModel()->setMaterial(manager->materialMap.getItem("simpleFragmentDiscardRed"));
+			break;
+		}
+		case(KeyCode::T):
+		{
+			MaterialProperties prop = manager->entityMap.getItem("test")->getModel()->getMaterial()->getProperties();
+			if (event.shiftDown)
+			{
+				prop.discardScale = prop.discardScale + 1.0;
+				manager->entityMap.getItem("test")->getModel()->getMaterial()->setProperties(prop);
+			}
+			else
+			{
+				prop.discardScale = prop.discardScale - 1.0;
+				manager->entityMap.getItem("test")->getModel()->getMaterial()->setProperties(prop);
+			}
+			break;
+		}
+		case(KeyCode::Y):
+		{
+			MaterialProperties prop = manager->entityMap.getItem("test")->getModel()->getMaterial()->getProperties();
+			if (event.shiftDown)
+			{
+				prop.discardThickness = prop.discardThickness + 0.05;
+				manager->entityMap.getItem("test")->getModel()->getMaterial()->setProperties(prop);
+			}
+			else
+			{
+				prop.discardThickness = prop.discardThickness - 0.05;
+				manager->entityMap.getItem("test")->getModel()->getMaterial()->setProperties(prop);
+			}
+			break;
+		}
+		case(KeyCode::I):
+		{
+			if (event.shiftDown)
+			{
+				manager->entityMap.getItem("plane")->setHidden(false);
+			}
+			else
+			{
+				manager->entityMap.getItem("plane")->setHidden();
+			}
+			break;
+		}
 		}
 	}
 	else if (event.type == InputEventType::KEY_UP)

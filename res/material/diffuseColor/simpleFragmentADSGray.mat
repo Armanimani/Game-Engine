@@ -1,0 +1,8 @@
+name = simpleFragmentADSGray;
+shader = SimpleFragmentADSShader;
+color = 0.25f, 0.25f, 0.25f, 1.0f;
+specularColor = 1.0f, 1.0f, 1.0f, 1.0f;
+ambientReflectivity = 1.0;
+diffuseReflectivity = 1.0;
+specularReflectivity = 0.25;
+shininess = 50.0;

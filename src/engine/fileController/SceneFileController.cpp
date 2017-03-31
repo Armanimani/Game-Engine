@@ -69,6 +69,7 @@ const std::string DIFFUSE_COLOR("diffuseColor");
 const std::string SPECULAR_COLOR("specularColor");
 const std::string SHADOW("shadow");
 const std::string ATTENUATION("attenuation");
+const std::string HIDDEN("hidden");
 
 void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manager, const std::shared_ptr<WindowSettings> windowSettings, const std::string& file)
 {
@@ -121,6 +122,7 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 			glm::vec3 position;
 			glm::vec3 rotation;
 			glm::vec3 scale;
+			GLboolean hidden = false;
 			for (rapidxml::xml_node<> *entities = cat->first_node(); entities; entities = entities->next_sibling())
 			{
 				for (rapidxml::xml_node<> *props = entities->first_node(); props; props = props->next_sibling())
@@ -139,8 +141,14 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 					{
 						scale = glm::vec3(std::stof(props->first_attribute(X.c_str())->value()), std::stof(props->first_attribute(Y.c_str())->value()), std::stof(props->first_attribute(Z.c_str())->value()));
 					}
+					if (props->name() == HIDDEN)
+					{
+						props->value() == STRUE ? hidden = true : hidden = false;
+					}
 				}
-				manager->entityMap.addItem(std::make_shared<Entity>(name, manager->modelMap.getItem(model), position, rotation, scale));
+				std::shared_ptr<Entity> entity = std::make_shared<Entity>(name, manager->modelMap.getItem(model), position, rotation, scale);
+				entity->setHidden(hidden);
+				manager->entityMap.addItem(entity);
 			}
 		}
 		else if (cat->name() == CAMERAS)
@@ -396,11 +404,15 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 		scSub->append_attribute(scY);
 		scSub->append_attribute(scZ);
 
+		m->getHidden() ? temp.emplace_back(std::make_shared<std::string>("true")) : temp.emplace_back(std::make_shared<std::string>("false"));
+		rapidxml::xml_node<>* hiddenSub = doc.allocate_node(rapidxml::node_element, HIDDEN.c_str(), temp[temp.size() - 1].get()->c_str());
+
 		entity->append_node(nameSub);
 		entity->append_node(modelSub);
 		entity->append_node(posSub);
 		entity->append_node(rotSub);
 		entity->append_node(scSub);
+		entity->append_node(hiddenSub);
 		entities->append_node(entity);
 	}
 	root->append_node(entities);

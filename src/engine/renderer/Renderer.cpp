@@ -10,6 +10,9 @@
 #include "../shader/SimpleVertexADSShader.h"
 #include "../shader/SimpleFragmentADSShader.h"
 #include "../shader/SimpleFragmentADS2FaceShader.h"
+#include "../shader/SimpleVertexADSFlatShader.h"
+#include "../shader/SimpleDebug2FaceShader.h"
+#include "../shader/SimpleFragmentDiscardShader.h"
 #include "../light/Light.h"
 #include "../light/AmbientLight.h"
 
@@ -28,6 +31,9 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	shaderMap.insert(std::make_pair(ShaderType::SimpleVertexADSShader, std::make_shared<SimpleVertexADSShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleFragmentADSShader, std::make_shared<SimpleFragmentADSShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleFragmentADS2FaceShader, std::make_shared<SimpleFragmentADS2FaceShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleVertexADSFlatShader, std::make_shared<SimpleVertexADSFlatShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleDebug2FaceShader, std::make_shared<SimpleDebug2FaceShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleFragmentDiscardShader, std::make_shared<SimpleFragmentDiscardShader>()));
 
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{
@@ -58,8 +64,11 @@ void Renderer::render()
 	for (auto it : sceneManager->entityMap.getMap())
 	{
 		std::shared_ptr<Entity> entity = it.second;
-		std::shared_ptr<Shader> shader = shaderMap.find(entity->getModel()->getMaterial()->getShaderType())->second;
-		shader->render(entity);
+		if (!entity->getHidden())
+		{
+			std::shared_ptr<Shader> shader = shaderMap.find(entity->getModel()->getMaterial()->getShaderType())->second;
+			shader->render(entity);
+		}
 	}
 }
 

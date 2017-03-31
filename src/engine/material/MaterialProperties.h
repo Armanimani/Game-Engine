@@ -12,4 +12,6 @@ struct MaterialProperties
 	GLfloat diffuseReflectivity = 0.0f;
 	GLfloat specularReflectivity = 0.0f;
 	GLfloat shininessFactor = 0.0f;
+	GLfloat discardScale = 10.0f;
+	GLfloat discardThickness = 0.0f;
 };

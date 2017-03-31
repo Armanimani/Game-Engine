@@ -21,10 +21,14 @@ public:
 	inline void rotateEntity(const glm::vec3& amount) { rotation += amount; }
 	inline void scaleEntity (const glm::vec3& amount) { scale *= amount; }
 
+	inline void setHidden(const GLboolean& state = true) { hidden = state; }
+	inline const GLboolean& getHidden() { return hidden; }
+
 protected:
 	std::string name;
 	std::shared_ptr<Model> model;
 	glm::vec3 position {0.0f, 0.0f, 0.0f};
 	glm::vec3 rotation {0.0f, 0.0f, 0.0f};
 	glm::vec3 scale {0.0f, 0.0f, 0.0f};
+	GLboolean hidden = false;
 };

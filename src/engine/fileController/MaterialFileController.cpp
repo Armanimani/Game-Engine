@@ -39,51 +39,57 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 		{
 			name = value;
 		}
-
-		if (key == "shader")
+		else if (key == "shader")
 		{
 			shaderType = TypeDatabase::getShaderType(value);
 		}
-
-		if (key == "color")
+		else if (key == "color")
 		{
 			glm::vec4 color;
 			FileReaderHelper::readValues(color, value);
 			props.color = color;
 		}
-		if (key == "specularColor")
+		else if (key == "specularColor")
 		{
 			glm::vec4 color;
 			FileReaderHelper::readValues(color, value);
 			props.specularColor = color;
 		}
-		if (key == "colorBack")
+		else if (key == "colorBack")
 		{
 			glm::vec4 color;
 			FileReaderHelper::readValues(color, value);
 			props.colorBack = color;
 		}
-		if (key == "specularColorBack")
+		else if (key == "specularColorBack")
 		{
 			glm::vec4 color;
 			FileReaderHelper::readValues(color, value);
 			props.specularColorBack = color;
 		}
-		if (key == "diffuseReflectivity")
+		else if (key == "diffuseReflectivity")
 		{
 			props.diffuseReflectivity = std::stof(value);
 		}
-		if (key == "ambientReflectivity")
+		else if (key == "ambientReflectivity")
 		{
 			props.ambientReflectivity = std::stof(value);
 		}
-		if (key == "specularReflectivity")
+		else if (key == "specularReflectivity")
 		{
 			props.specularReflectivity = std::stof(value);
 		}
-		if (key == "shininess")
+		else if (key == "shininess")
 		{
 			props.shininessFactor = std::stof(value);
+		}
+		else if (key == "discardScale")
+		{
+			props.discardScale = std::stof(value);
+		}
+		else if (key == "discardThickness")
+		{
+			props.discardThickness = std::stof(value);
 		}
 	}
 

@@ -10,5 +10,8 @@ enum class ShaderType
 	SimpleVertexADSShader,
 	SimpleFragmentADSShader,
 	SimpleFragmentADS2FaceShader,
+	SimpleVertexADSFlatShader,
+	SimpleDebug2FaceShader,
+	SimpleFragmentDiscardShader,
 	noType
 };

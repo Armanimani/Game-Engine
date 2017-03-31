@@ -1,0 +1,10 @@
+name = simpleDebug2FaceBlue;
+shader = SimpleDebug2FaceShader;
+color = 0.0f,0.0f,1.0f,1.0f;
+specularColor = 1.0f, 1.0f, 1.0f, 1.0f;
+colorBack = 0.0f,0.0f,1.0f,1.0f;
+specularColorBack = 0.0f, 0.0f, 1.0f, 1.0f;
+ambientReflectivity = 1.0;
+diffuseReflectivity = 1.0;
+specularReflectivity = 1.0;
+shininess = 50.0;

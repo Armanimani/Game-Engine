@@ -1,6 +1,7 @@
 #version 420
 
 const int MAX_LIGHTS = 20;
+const vec4 RED = vec4(1.0, 0.0, 0.0, 1.0);
 
 uniform vec4 matColor;
 uniform vec4 matSpecularColor;
@@ -100,7 +101,7 @@ vec4 calculateAmbientBack()
 	{
 		toLightVector = ambientLight[i].position.xyz - worldPosition.xyz;
 		attenuationFactor = 1.0 / (1.0 + ambientLight[i].attenuation * pow(length(toLightVector), 2));
-		ambient += matColorBack * matKa * ambientLight[i].color * ambientLight[i].intensity * attenuationFactor;
+		ambient += mix(matColorBack, RED, 0.7) * matKa * ambientLight[i].color * ambientLight[i].intensity * attenuationFactor;
 	}
 	return ambient;
 }
@@ -147,7 +148,7 @@ vec4 calculateDiffuseBack()
 		toLightNormal = normalize(toLightVector);
 		sDotN = max(dot(normalize(-surfaceNormal), toLightNormal), 0.0);
 		attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
-		diffuse += matColorBack * matKd * pointLight[i].diffuseColor * pointLight[i].diffuseIntensity  * sDotN * attenuationFactor ;
+		diffuse += mix(matColorBack, RED, 0.7) * matKd * pointLight[i].diffuseColor * pointLight[i].diffuseIntensity  * sDotN * attenuationFactor ;
 	}
 
 	for (int i = 0; i < directionalLightSize; ++i)
@@ -220,7 +221,7 @@ vec4 calculateSpecularBack()
 		if (sDotN > 0.0)
 		{
 			attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
-			specular += matSpecularColorBack *  matKs * pointLight[i].specularColor * pointLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor;
+			specular += mix(matSpecularColorBack, RED, 0.7) *  matKs * pointLight[i].specularColor * pointLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor;
 		}
 	}
 
@@ -233,7 +234,7 @@ vec4 calculateSpecularBack()
 
 		if (sDotN > 0.0)
 		{
-			specular += matSpecularColorBack *  matKs * directionalLight[i].specularColor * directionalLight[i].specularIntensity * pow(sDotN, matShininess);
+			specular += mix(matSpecularColorBack, RED, 0.7) *  matKs * directionalLight[i].specularColor * directionalLight[i].specularIntensity * pow(sDotN, matShininess);
 		}
 	}
 	return specular;
