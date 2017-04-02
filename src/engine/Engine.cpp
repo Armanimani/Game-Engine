@@ -19,14 +19,15 @@ Engine::Engine()
 	renderer = std::make_unique<Renderer>();
 	sceneManager = std::make_shared<SceneManager>();
 	loader = std::make_shared<Loader>();
+	viewportManager = std::make_shared<ViewportManager>();
 
 	init();
-
 }
 
 void Engine::registerGame(const std::shared_ptr<Game> _game)
 {
 	game = _game;
+	window->updateWindowSettings(game->getSettings());
 	registerScene(game->getScene("begin"));
 }
 
@@ -101,6 +102,7 @@ void Engine::registerScene(std::shared_ptr<Scene> s)
 	scene->setDelayedEngineEventList(delayedEventList);
 	inMapper->registerScene(s);
 	scene->setSceneManager(sceneManager); // for now ! 
+	scene->setViewportManager(viewportManager);
 }
 
 void Engine::initGL()
@@ -113,7 +115,7 @@ void Engine::initGL()
 	}
 
 	glClearColor(settings->backgroundColor.r, settings->backgroundColor.g, settings->backgroundColor.b, settings->backgroundColor.a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Engine::initConsole()
@@ -131,10 +133,11 @@ void Engine::initConsole()
 void Engine::initWindow()
 {
 	window->init();
+	window->setInputMapper(inMapper);
+	window->setViewportManager(viewportManager);
 	window->createWindow();
 	hdc = &window->getHDC();
 	window->showWindow();
-	window->setInputMapper(inMapper);
 }
 
 void Engine::initClock()
@@ -152,6 +155,7 @@ void Engine::initRenderer()
 	renderer->installShaders();
 	renderer->setEngineSettings(settings);
 	renderer->setWindowSettings(window->getSettings());
+	renderer->setViewportManager(viewportManager);
 }
 
 void Engine::initLoader()
@@ -162,6 +166,7 @@ void Engine::initLoader()
 void Engine::load()
 {
 	SceneFileController::readSceneDataFile(sceneManager, window->getSettings(), scene->getDataFile());
+	scene->setViewports(window->getSettings()); // for now !
 	loader->load();
 }
 
@@ -207,6 +212,16 @@ void Engine::handleEvents()
 		{
 			std::shared_ptr<engine::ChangeMaterialEvent> e = std::static_pointer_cast<engine::ChangeMaterialEvent>(event);
 			(sceneManager->entityMap.getItem(e->entityName))->getModel()->setMaterial(sceneManager->materialMap.getItem(e->materialName));
+			break;
+		}
+		case (engine::EventCode::loadScene):
+		{
+			// FOR NOW!
+			// NOTE: i have some memory leak here which need to be fixed!
+			std::shared_ptr<engine::LoadSceneEvent> e = std::static_pointer_cast<engine::LoadSceneEvent>(event);
+			registerScene(game->getScene(e->name));
+			sceneManager->cleanUp();
+			load();
 			break;
 		}
 		}

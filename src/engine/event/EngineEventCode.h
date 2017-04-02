@@ -7,7 +7,8 @@ namespace engine
 		noCode,
 		shutdown,
 		changeBackground,
-		changeMaterial
+		changeMaterial,
+		loadScene
 	};
 }
 

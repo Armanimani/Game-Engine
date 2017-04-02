@@ -15,6 +15,8 @@ struct CameraFrustum
 	GLfloat viewFront = 1.0f;
 	GLfloat viewBack = -1.0f;
 
-	std::shared_ptr<unsigned short int> viewportWidth;
-	std::shared_ptr<unsigned short int> viewportHeight;
+	std::shared_ptr<unsigned short int> viewportWidth; // not reliable ! aspect ratio added!
+	std::shared_ptr<unsigned short int> viewportHeight; // not reliable!
+
+	GLfloat aspectRatio;
 };

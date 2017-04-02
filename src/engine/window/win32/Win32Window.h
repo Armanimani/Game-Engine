@@ -21,7 +21,7 @@ public:
 	void showMouse(const bool& state = true) override;
 	void lockMouse(const bool& state = true) override;
 
-	void setWindowResolution(const unsigned short int& resX, unsigned short int& resY) override;
+	void setWindowResolution(const GLuint& resX, const GLuint& resY) override;
 	const std::shared_ptr<USIVec2> getMonitorResolution() override;
 
 	void setFullscreen(const bool state = true) override;

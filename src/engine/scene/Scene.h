@@ -11,6 +11,8 @@
 #include "../event/DelayedEngineEvent.h"
 #include "../scene/SceneManager.h"
 #include "../userInput/inputData/InputData.h"
+#include "../viewport/ViewportManager.h"
+#include "../window/WindowSettings.h"
 
 class Scene
 {
@@ -27,12 +29,15 @@ public:
 	inline const std::string& getDataFile() { return settings.dataFile; }
 	inline void setDataFile(const std::string& path) { settings.dataFile = path; };
 
+	virtual void setViewports(const std::shared_ptr<WindowSettings> windowSettings);
+
 	inline void setEngineEventList(std::queue<std::shared_ptr<engine::Event>>& list) {engineEventList = &list;}
 	inline void setDelayedEngineEventList(std::unordered_set<std::shared_ptr<engine::DelayedEvent>>& list) {delayedEngineEventList = &list;};
 	inline void registerEngineEvent(const std::shared_ptr<engine::Event>& e) { engineEventList->push(e); }
 	inline void registerDelayedEngineEvent(const std::shared_ptr<engine::DelayedEvent>& e) { delayedEngineEventList->insert(e); }
 
 	inline void setSceneManager(const std::shared_ptr<SceneManager> manager) { this->manager = manager; }
+	inline void setViewportManager(std::shared_ptr<ViewportManager> manager) { viewportManager = manager; }
 
 	virtual void update() {};
 
@@ -47,6 +52,7 @@ protected:
 	std::unordered_set<std::shared_ptr<engine::DelayedEvent>>* delayedEngineEventList;
 
 	std::shared_ptr<SceneManager> manager; //TODO: need to be removed later! need to only have a pointer of the materials set!
+	std::shared_ptr<ViewportManager> viewportManager;
 
 	const bool& getKeyState(const KeyCode& code) { return inputData.keys[static_cast<int>(code)]; }
 	inline void setKeyState(const KeyCode& code, const bool& state = true) { inputData.keys[static_cast<int>(code)] = state; }
@@ -55,5 +61,8 @@ protected:
 	virtual void handleInputKeys() {};
 
 	void defaultCameraInputHandler(const InputEvent& event, const InputHandlerCode& code);
+
+private:
+	std::shared_ptr<Camera> cam;
 
 };

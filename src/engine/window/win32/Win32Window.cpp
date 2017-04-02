@@ -1,6 +1,7 @@
 #include "Win32Window.h"
 #include <windowsx.h>
 #include <Windows.h>
+#include "../WindowSettings.h"
 
 #include "../../debug/Debug.h"
 #include "../../userInput/inputEvent/InputHandlerCode.h"
@@ -8,6 +9,8 @@
 bool Win32Window::initialized = false;
 HINSTANCE Win32Window::hInstance = nullptr;
 std::shared_ptr<InputMapper> Window::inMapper;
+std::shared_ptr<WindowSettings> Window::settings;
+std::shared_ptr<ViewportManager> Window::viewportManager;
 
 void Win32Window::init()
 {
@@ -230,7 +233,7 @@ void Win32Window::lockMouse(const bool & state)
 	settings->mouseLocked = state;
 }
 
-void Win32Window::setWindowResolution(const unsigned short int & resX, unsigned short int & resY)
+void Win32Window::setWindowResolution(const GLuint & resX, const GLuint & resY)
 {
 	settings->windowResolution.x = resX;
 	settings->windowResolution.y = resY;
@@ -375,6 +378,13 @@ LRESULT CALLBACK Win32Window::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPA
 	case WM_DESTROY:
 	{
 		PostQuitMessage(0);
+		return 0;
+	}
+	case WM_SIZE:
+	{
+		settings->windowResolution.x = LOWORD(lparam);
+		settings->windowResolution.y = HIWORD(lparam);
+		if (viewportManager->getSize() != 0) viewportManager->updateLayout();
 		return 0;
 	}
 	}

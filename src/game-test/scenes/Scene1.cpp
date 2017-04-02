@@ -20,22 +20,22 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 		}
 		case (KeyCode::NUM1):
 		{
-			registerEngineEvent(std::make_shared<engine::ChangeBackgroundEvent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
+			registerEngineEvent(std::make_shared<engine::LoadSceneEvent>("begin"));
 			break;
 		}
 		case (KeyCode::NUM2):
 		{
-			registerEngineEvent(std::make_shared<engine::ChangeBackgroundEvent>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+			registerEngineEvent(std::make_shared<engine::LoadSceneEvent>("scene2"));
 			break;
 		}
 		case (KeyCode::NUM3):
 		{
-			registerEngineEvent(std::make_shared<engine::ChangeBackgroundEvent>(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)));
+			registerEngineEvent(std::make_shared<engine::LoadSceneEvent>("scene3"));
 			break;
 		}
 		case (KeyCode::NUM4):
 		{
-			registerEngineEvent(std::make_shared<engine::ChangeBackgroundEvent>(glm::vec4(1.0f, 1.0f, 0.0f, 0.5f)));
+			registerEngineEvent(std::make_shared<engine::LoadSceneEvent>("scene4"));
 			break;
 		}
 		case (KeyCode::NUM5):

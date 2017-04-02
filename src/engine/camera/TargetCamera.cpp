@@ -5,7 +5,6 @@ const GLfloat TOLERANCE = 1.0;
 
 void TargetCamera::moveForward(const GLfloat & value)
 {
-	std::cout << position.x << " " << position.y << " " << position.z << "    " << target.x << " " << target.y << " " << target.z << std::endl;
 	position += direction * value;
 	target += direction * value;
 }

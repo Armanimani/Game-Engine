@@ -1,9 +1,41 @@
 #include "Scene.h"
 #include "../debug/Debug.h"
+#include "../viewport/layout/ViewportLayoutDefault.h"
+#include "../viewport/layout/ViewportLayoutH2V1.h"
+#include "../viewport/layout/ViewportLayoutH1V2.h"
+#include "../viewport/layout/ViewportLayoutH2V2.h"
 
 void Scene::handleInputEvent(const InputEvent& event, const InputHandlerCode& code)
 {
 	Debug::print(event);
+}
+
+void Scene::setViewports(const std::shared_ptr<WindowSettings> windowSettings)
+{
+	std::shared_ptr<ViewportLayout> layout = std::make_shared<ViewportLayoutDefault>(windowSettings);
+	std::vector<std::shared_ptr<Camera>> cams;
+	cams.push_back(manager->cameraManager.getCamera("mainCamera"));
+	viewportManager->setLayout(layout, cams);
+
+	//std::shared_ptr<ViewportLayoutH2V1> layout = std::make_shared<ViewportLayoutH2V1>(windowSettings, 0.5);
+	//std::vector<std::shared_ptr<Camera>> cams;
+	//cams.push_back(manager->cameraManager.getCamera("mainCamera"));
+	//cams.push_back(manager->cameraManager.getCamera("orthoCam"));
+	//viewportManager->setLayout(layout, cams);
+
+	//std::shared_ptr<ViewportLayoutH1V2> layout = std::make_shared<ViewportLayoutH1V2>(windowSettings, 0.5);
+	//std::vector<std::shared_ptr<Camera>> cams;
+	//cams.push_back(manager->cameraManager.getCamera("mainCamera"));
+	//cams.push_back(manager->cameraManager.getCamera("orthoCam"));
+	//viewportManager->setLayout(layout, cams);
+
+	//std::shared_ptr<ViewportLayoutH2V2> layout = std::make_shared<ViewportLayoutH2V2>(windowSettings, 0.5, 0.5);
+	//std::vector<std::shared_ptr<Camera>> cams;
+	//cams.push_back(manager->cameraManager.getCamera("mainCamera"));
+	//cams.push_back(manager->cameraManager.getCamera("orthoCam"));
+	//cams.push_back(manager->cameraManager.getCamera("arcBallCam"));
+	//cams.push_back(manager->cameraManager.getCamera("orthoCam2D"));
+	//viewportManager->setLayout(layout, cams);
 }
 
 void Scene::defaultInputEventHandle(const InputEvent & event)
@@ -19,6 +51,7 @@ void Scene::defaultInputEventHandle(const InputEvent & event)
 	
 	if (event.type == InputEventType::MOUSE_DOWN)
 	{
+		cam = viewportManager->findCamera(event.posX, event.posY);
 		switch (event.key)
 		{
 		case(KeyCode::MOUSE_L):
@@ -39,21 +72,23 @@ void Scene::defaultInputEventHandle(const InputEvent & event)
 	}
 	else if (event.type == InputEventType::MOUSE_WHEEL)
 	{
+		cam = viewportManager->findCamera(event.posX, event.posY);
 		inputData.mouseWheelDelta = event.wheelDelta;
 	}
 }
 
 void Scene::defaultCameraInputHandler(const InputEvent & event, const InputHandlerCode& code)
 {
+	
 	if (code == InputHandlerCode::onMouse_wheel)
 	{
 		if (event.shiftDown)
 		{
-			manager->cameraManager.getActiveCamera()->moveForward(event.wheelDelta / 250.0f);
+			cam->moveForward(event.wheelDelta / 250.0f);
 		}
 		else
 		{
-			manager->cameraManager.getActiveCamera()->zoom(event.wheelDelta / 250.0f);
+			cam->zoom(event.wheelDelta / 250.0f);
 		}
 	}
 	else if (code == InputHandlerCode::onMouse_move && (event.mouseLDown || event.mouseRDown || event.mouseMDown))
@@ -62,7 +97,7 @@ void Scene::defaultCameraInputHandler(const InputEvent & event, const InputHandl
 		{
 			inputData.mouseDragL = glm::vec2(event.posX, event.posY) - inputData.mousePrevPosL;
 			inputData.mousePrevPosL = glm::vec2(event.posX, event.posY);
-			manager->cameraManager.getActiveCamera()->translate(glm::vec2(-inputData.mouseDragL.x, inputData.mouseDragL.y) / 250.0f);
+			cam->translate(glm::vec2(-inputData.mouseDragL.x, inputData.mouseDragL.y) / 250.0f);
 		}
 		if (event.mouseRDown)
 		{
@@ -70,15 +105,15 @@ void Scene::defaultCameraInputHandler(const InputEvent & event, const InputHandl
 			inputData.mousePrevPosR = glm::vec2(event.posX, event.posY);
 			if (event.shiftDown)
 			{
-				manager->cameraManager.getActiveCamera()->rotateUp(inputData.mouseDragR.x / 10.0f);
+				cam->rotateUp(inputData.mouseDragR.x / 10.0f);
 			}
 			else if (event.ctrlDown)
 			{
-				manager->cameraManager.getActiveCamera()->rotateRight(inputData.mouseDragR.y / 10.0f);
+				cam->rotateRight(inputData.mouseDragR.y / 10.0f);
 			}
 			else
 			{
-				manager->cameraManager.getActiveCamera()->orbit(inputData.mouseDragR / 10.0f);
+				cam->orbit(inputData.mouseDragR / 10.0f);
 			}
 
 		}
@@ -86,7 +121,7 @@ void Scene::defaultCameraInputHandler(const InputEvent & event, const InputHandl
 		{
 			inputData.mouseDragM = glm::vec2(event.posX, event.posY) - inputData.mousePrevPosM;
 			inputData.mousePrevPosM = glm::vec2(event.posX, event.posY);
-			manager->cameraManager.getActiveCamera()->rotateForward(inputData.mouseDragM.x / 10.0f);
+			cam->rotateForward(inputData.mouseDragM.x / 10.0f);
 		}
 	}
 }

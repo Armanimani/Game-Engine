@@ -187,9 +187,17 @@
     <ClCompile Include="src\engine\shader\SimpleVertexADSShader.cpp" />
     <ClCompile Include="src\engine\shader\util\ShaderSharedData.cpp" />
     <ClCompile Include="src\engine\userInput\inputMapper\InputMapper.cpp" />
+    <ClCompile Include="src\engine\viewport\layout\ViewportLayoutDefault.cpp" />
+    <ClCompile Include="src\engine\viewport\layout\ViewportLayoutH1V2.cpp" />
+    <ClCompile Include="src\engine\viewport\layout\ViewportLayoutH2V1.cpp" />
+    <ClCompile Include="src\engine\viewport\layout\ViewportLayoutH2V2.cpp" />
+    <ClCompile Include="src\engine\viewport\ViewportManager.cpp" />
     <ClCompile Include="src\engine\window\win32\Win32Window.cpp" />
     <ClCompile Include="src\game-test\GameTest.cpp" />
     <ClCompile Include="src\game-test\scenes\Scene1.cpp" />
+    <ClCompile Include="src\game-test\scenes\Scene2.cpp" />
+    <ClCompile Include="src\game-test\scenes\Scene3.cpp" />
+    <ClCompile Include="src\game-test\scenes\Scene4.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +244,7 @@
     <ClInclude Include="src\engine\scene\Scene.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\settings\EngineSettings.h" />
+    <ClInclude Include="src\engine\settings\GameSettings.h" />
     <ClInclude Include="src\engine\settings\SceneSettings.h" />
     <ClInclude Include="src\engine\shader\BasicShader.h" />
     <ClInclude Include="src\engine\shader\glsl\SimpleFragmentDiscard.vert" />
@@ -260,13 +269,27 @@
     <ClInclude Include="src\engine\userInput\keyCode\KeyCode.h" />
     <ClInclude Include="src\engine\util\maps\BiMap.h" />
     <ClInclude Include="src\engine\util\maps\UMap.h" />
+    <ClInclude Include="src\engine\util\shape\RectangleShape.h" />
+    <ClInclude Include="src\engine\util\shape\Shape.h" />
+    <ClInclude Include="src\engine\util\shape\ShapeType.h" />
     <ClInclude Include="src\engine\util\vector\FVec2.h" />
     <ClInclude Include="src\engine\util\vector\USIVec2.h" />
+    <ClInclude Include="src\engine\viewport\layout\ViewportLayoutH2V2.h" />
+    <ClInclude Include="src\engine\viewport\layout\ViewportLayoutH1V2.h" />
+    <ClInclude Include="src\engine\viewport\layout\ViewportLayoutH2V1.h" />
+    <ClInclude Include="src\engine\viewport\Viewport.h" />
+    <ClInclude Include="src\engine\viewport\layout\ViewportLayout.h" />
+    <ClInclude Include="src\engine\viewport\layout\ViewportLayoutDefault.h" />
+    <ClInclude Include="src\engine\viewport\layout\ViewportLayoutType.h" />
+    <ClInclude Include="src\engine\viewport\ViewportManager.h" />
     <ClInclude Include="src\engine\window\win32\Win32Window.h" />
     <ClInclude Include="src\engine\window\Window.h" />
     <ClInclude Include="src\engine\window\WindowSettings.h" />
     <ClInclude Include="src\game-test\GameTest.h" />
     <ClInclude Include="src\game-test\scenes\Scene1.h" />
+    <ClInclude Include="src\game-test\scenes\Scene2.h" />
+    <ClInclude Include="src\game-test\scenes\Scene3.h" />
+    <ClInclude Include="src\game-test\scenes\Scene4.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\material\diffuseColor\SimpleDebug2FaceBlue.mat" />

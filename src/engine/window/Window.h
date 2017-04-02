@@ -5,6 +5,8 @@
 #include "../util/vector/FVec2.h"
 #include "../userInput/inputMapper/InputMapper.h"
 #include <iostream>
+#include "../viewport/ViewportManager.h"
+#include "../settings/GameSettings.h"
 
 
 class Window
@@ -14,10 +16,13 @@ public:
 	virtual void init() = 0;
 
 	inline void setInputMapper(std::shared_ptr<InputMapper> mapper);
+	inline void setViewportManager(std::shared_ptr<ViewportManager> manager) { viewportManager = manager; }
 
 	virtual void createWindow() = 0;
 	virtual void showWindow() = 0;
 	virtual void killWindow() = 0;
+
+	inline virtual void updateWindowSettings(const std::shared_ptr<GameSettings> settings);
 
 	virtual void setWindowTitle(const std::string& title) = 0;
 	inline virtual const std::string& getWindowTitle() const;
@@ -29,7 +34,7 @@ public:
 	virtual void lockMouse(const bool& state = true) = 0;
 	inline virtual const bool mouseIsLocked() const;
 
-	virtual void setWindowResolution(const unsigned short int& resX, unsigned short int& resY) = 0;
+	virtual void setWindowResolution(const GLuint& resX, const GLuint& resY) = 0;
 	inline virtual const std::shared_ptr<USIVec2> getWindowResolution() const;
 
 	virtual const std::shared_ptr<USIVec2> getMonitorResolution() = 0;
@@ -43,8 +48,9 @@ public:
 	inline const std::shared_ptr<WindowSettings> getSettings() const;
 
 protected:
-	std::shared_ptr<WindowSettings> settings;
+	static std::shared_ptr<WindowSettings> settings;
 	static std::shared_ptr<InputMapper> inMapper;
+	static std::shared_ptr<ViewportManager> viewportManager;
 };
 
 void Window::setInputMapper(std::shared_ptr<InputMapper> mapper)
@@ -91,4 +97,10 @@ const bool Window::isFullscreen() const
 const std::shared_ptr<WindowSettings> Window::getSettings() const
 {
 	return settings;
+}
+
+void Window::updateWindowSettings(const std::shared_ptr<GameSettings> gameSettings)
+{
+	settings->windowResolution = USIVec2(gameSettings->resX, gameSettings->resy);
+	setWindowResolution(gameSettings->resX, gameSettings->resy);
 }

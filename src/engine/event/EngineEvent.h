@@ -27,4 +27,10 @@ namespace engine{
 		std::string entityName;
 		std::string materialName;
 	};
+	
+	struct LoadSceneEvent : Event
+	{
+		LoadSceneEvent(const std::string& sceneName) : Event(EventCode::loadScene), name(sceneName) {}
+		std::string name;
+	};
 }

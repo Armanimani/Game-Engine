@@ -16,6 +16,7 @@
 #include "event\EngineEvent.h"
 #include <unordered_set>
 #include "event\DelayedEngineEvent.h"
+#include "viewport\ViewportManager.h"
 
 class Engine
 {
@@ -34,6 +35,7 @@ protected:
 	std::unique_ptr<Renderer> renderer;
 	std::shared_ptr<SceneManager> sceneManager;
 	std::shared_ptr<Loader> loader;
+	std::shared_ptr<ViewportManager> viewportManager;
 
 	std::shared_ptr<Game> game;
 	std::shared_ptr<Scene> scene;

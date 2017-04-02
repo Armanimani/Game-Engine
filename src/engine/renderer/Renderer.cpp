@@ -53,23 +53,48 @@ void Renderer::prepare()
 void Renderer::render()
 {
 	prepare();
-
-	sharedData->prepare();
+	viewportManager->prepare(); // maybe not optimized!
 
 	for (auto i = shaderMap.begin(); i != shaderMap.end(); ++i)
 	{
 		(*i).second->prepare();
 	}
 
-	for (auto it : sceneManager->entityMap.getMap())
+	for (auto i = 0; i != viewportManager->getSize(); i++)
 	{
-		std::shared_ptr<Entity> entity = it.second;
-		if (!entity->getHidden())
+		viewportManager->getViewport(i)->prepare();
+		sceneManager->cameraManager.activateCamera(viewportManager->getViewport(i)->getCamera()->getName());
+		sharedData->prepare(); // TODO: can be optimized!
+
+		for (auto it : sceneManager->entityMap.getMap())
 		{
-			std::shared_ptr<Shader> shader = shaderMap.find(entity->getModel()->getMaterial()->getShaderType())->second;
-			shader->render(entity);
+			std::shared_ptr<Entity> entity = it.second;
+			if (!entity->getHidden())
+			{
+				std::shared_ptr<Shader> shader = shaderMap.find(entity->getModel()->getMaterial()->getShaderType())->second;
+				shader->render(entity);
+			}
 		}
 	}
+
+	//prepare();
+
+	//sharedData->prepare();
+
+	//for (auto i = shaderMap.begin(); i != shaderMap.end(); ++i)
+	//{
+	//	(*i).second->prepare();
+	//}
+
+	//for (auto it : sceneManager->entityMap.getMap())
+	//{
+	//	std::shared_ptr<Entity> entity = it.second;
+	//	if (!entity->getHidden())
+	//	{
+	//		std::shared_ptr<Shader> shader = shaderMap.find(entity->getModel()->getMaterial()->getShaderType())->second;
+	//		shader->render(entity);
+	//	}
+	//}
 }
 
 void Renderer::installShaders()
@@ -97,8 +122,10 @@ void Renderer::cleanUp()
 
 void Renderer::update()
 {
-	//NOTE: maybe only updating the cameraMatrix for the active camera is sufficient
-	sceneManager->cameraManager.updateMatrix();
+	for (std::size_t i = 0; i != viewportManager->getSize(); ++i)
+	{
+		viewportManager->getViewport(i)->getCamera()->updateMatrix();
+	}
 }
 
 std::shared_ptr<Shader> Renderer::getShader(const ShaderType & type)

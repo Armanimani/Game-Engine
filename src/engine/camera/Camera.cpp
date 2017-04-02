@@ -11,7 +11,7 @@ void Camera::updateMatrix()
 
 void Camera::updateProjectionMatrix()
 {
-	projectionMatrix = glm::perspective(glm::radians(frustum.FOV), static_cast<GLfloat>(*frustum.viewportWidth) / static_cast<GLfloat>(*frustum.viewportHeight) , frustum.nearPlane, frustum.farPlane);
+	projectionMatrix = glm::perspective(glm::radians(frustum.FOV), frustum.aspectRatio , frustum.nearPlane, frustum.farPlane);
 }
 
 void Camera::updateViewMatrix()
