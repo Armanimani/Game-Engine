@@ -13,4 +13,6 @@ void SceneManager::cleanUp()
 	entityMap.clearMap();
 	cameraManager.cleanUp();
 	lightManager.cleanUp();
+	fontManager.cleanUp();
+	GUITextManager.cleanUp();
 }

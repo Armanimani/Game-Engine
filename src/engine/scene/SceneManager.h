@@ -7,6 +7,8 @@
 #include "../util/maps/UMap.h"
 #include "../camera/CameraManager.h"
 #include "../light/LightManager.h"
+#include "../text/FontManager.h"
+#include "../text/GUITextManager.h"
 
 class SceneManager
 {
@@ -20,6 +22,9 @@ public:
 
 	CameraManager cameraManager;
 	LightManager lightManager;
+	FontManager fontManager;
+	GUITextManager GUITextManager;
+
 	void cleanUp();
 
 protected:

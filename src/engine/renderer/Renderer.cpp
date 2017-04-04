@@ -13,8 +13,10 @@
 #include "../shader/SimpleVertexADSFlatShader.h"
 #include "../shader/SimpleDebug2FaceShader.h"
 #include "../shader/SimpleFragmentDiscardShader.h"
+#include "../shader/text/SimpleTextShader.h"
 #include "../light/Light.h"
 #include "../light/AmbientLight.h"
+
 
 void Renderer::init(const std::shared_ptr<SceneManager> manager)
 {
@@ -34,6 +36,7 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	shaderMap.insert(std::make_pair(ShaderType::SimpleVertexADSFlatShader, std::make_shared<SimpleVertexADSFlatShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleDebug2FaceShader, std::make_shared<SimpleDebug2FaceShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleFragmentDiscardShader, std::make_shared<SimpleFragmentDiscardShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleTextShader, std::make_shared<SimpleTextShader>()));
 
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{
@@ -48,6 +51,13 @@ void Renderer::prepare()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
+}
+
+void Renderer::prepare_GUIText()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
 }
 
 void Renderer::render()
@@ -77,24 +87,23 @@ void Renderer::render()
 		}
 	}
 
-	//prepare();
+	prepare_GUIText();
+	for (auto it : sceneManager->GUITextManager.getMap())
+	{
+		std::shared_ptr<GUITextModel> model = it.second;
+		std::shared_ptr<TextShader> shader = std::static_pointer_cast<TextShader>(shaderMap.find(model->getMaterial()->getShaderType())->second);
+		shader->render(model);
+		model->getMesh()->cleanUp();
+		model.reset();
+	}
+	sceneManager->GUITextManager.cleanUp();
+	finilize_GUIText();
+}
 
-	//sharedData->prepare();
-
-	//for (auto i = shaderMap.begin(); i != shaderMap.end(); ++i)
-	//{
-	//	(*i).second->prepare();
-	//}
-
-	//for (auto it : sceneManager->entityMap.getMap())
-	//{
-	//	std::shared_ptr<Entity> entity = it.second;
-	//	if (!entity->getHidden())
-	//	{
-	//		std::shared_ptr<Shader> shader = shaderMap.find(entity->getModel()->getMaterial()->getShaderType())->second;
-	//		shader->render(entity);
-	//	}
-	//}
+void Renderer::finilize_GUIText()
+{
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::installShaders()
@@ -122,7 +131,7 @@ void Renderer::cleanUp()
 
 void Renderer::update()
 {
-	for (std::size_t i = 0; i != viewportManager->getSize(); ++i)
+	for (std::size_t i = static_cast<std::size_t>(0); i != viewportManager->getSize(); ++i)
 	{
 		viewportManager->getViewport(i)->getCamera()->updateMatrix();
 	}

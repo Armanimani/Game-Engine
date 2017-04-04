@@ -17,7 +17,9 @@ public:
 	inline void setEngineSettings(std::shared_ptr<EngineSettings> settings) { engineSettings = settings; }
 	inline void setViewportManager(std::shared_ptr<ViewportManager> manager) { viewportManager = manager; }
 	void prepare();
+	void prepare_GUIText();
 	void render();
+	void finilize_GUIText();
 	void installShaders();
 	void clearShaders();
 	void cleanUp();

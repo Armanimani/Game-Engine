@@ -61,7 +61,13 @@ void Mesh::load()
 		}
 		start = start + pos[i];
 	}
+}
 
+void Mesh::cleanUp()
+{
+	glDeleteVertexArrays(1, &vertexArrayObjectID);
+	glDeleteBuffers(1, &vertexBufferObjectID);
+	glDeleteBuffers(1, &indexBufferObjectID);
 }
 
 void Mesh::bind()

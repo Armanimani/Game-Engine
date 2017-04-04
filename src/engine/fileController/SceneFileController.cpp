@@ -18,6 +18,7 @@
 #include "../light/AmbientLight.h"
 #include "../light/PointLight.h"
 #include "../light/DirectionalLight.h"
+#include "FontFileController.h"
 
 const std::string SCENE("scene");
 const std::string MESHES("meshes");
@@ -70,6 +71,8 @@ const std::string SPECULAR_COLOR("specularColor");
 const std::string SHADOW("shadow");
 const std::string ATTENUATION("attenuation");
 const std::string HIDDEN("hidden");
+const std::string FONTS("fonts");
+const std::string FONT("font");
 
 void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manager, const std::shared_ptr<WindowSettings> windowSettings, const std::string& file)
 {
@@ -299,6 +302,14 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 				//TODO other light types
 			}
 		}
+		else if (cat->name() == FONTS)
+		{
+			for (rapidxml::xml_node<> *font = cat->first_node(); font; font = font->next_sibling())
+			{
+				std::string value = font->value();
+				manager->fontManager.addFont(FontFileController::readFile(value));
+			}
+		}
 
 	}
 }
@@ -342,6 +353,14 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 	}
 	root->append_node(materials);
 
+	const std::unordered_map<std::string, std::shared_ptr<Font>>* mapFont = &(manager->fontManager.getMap());
+	rapidxml::xml_node<>* fonts = doc.allocate_node(rapidxml::node_element, FONTS.c_str());
+	for (auto i = mapFont->cbegin(); i != mapFont->cend(); ++i)
+	{
+		rapidxml::xml_node<>* font = doc.allocate_node(rapidxml::node_element, FONT.c_str(), (*i).second->getPath().c_str());
+		fonts->append_node(font);
+	}
+	root->append_node(fonts);
 
 	const std::unordered_map<std::string, std::shared_ptr<Model>>* mapModel = &(manager->modelMap.getMap());
 	for (auto i = mapModel->cbegin(); i != mapModel->cend(); ++i)

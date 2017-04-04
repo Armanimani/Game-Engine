@@ -58,6 +58,8 @@ protected:
 	
 	void load();
 
+	void loadGUI();
+
 	void renderGL();
 
 	void calculateFPS(unsigned short int& FPS);

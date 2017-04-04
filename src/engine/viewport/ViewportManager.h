@@ -24,7 +24,7 @@ public:
 	}
 	inline const std::shared_ptr<ViewportLayout> getLayout() { return layout; }
 
-	inline const std::size_t& getSize() { return map.size(); }
+	inline const std::size_t getSize() { return map.size(); }
 
 	inline void cleanUp() { map.clear(); }
 	std::shared_ptr<Camera> findCamera(const GLuint& x, const GLuint& y);

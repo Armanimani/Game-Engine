@@ -1,6 +1,7 @@
 #include "Scene1.h"
 #include "../../engine/debug/Debug.h"
 #include "../../engine/camera/FreeCamera.h"
+#include "../../engine/text/GUITextGenerator.h"
 
 void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode & code)
 {
@@ -163,12 +164,12 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 			MaterialProperties prop = manager->entityMap.getItem("test")->getModel()->getMaterial()->getProperties();
 			if (event.shiftDown)
 			{
-				prop.discardScale = prop.discardScale + 1.0;
+				prop.discardScale = prop.discardScale + 1.0f;
 				manager->entityMap.getItem("test")->getModel()->getMaterial()->setProperties(prop);
 			}
 			else
 			{
-				prop.discardScale = prop.discardScale - 1.0;
+				prop.discardScale = prop.discardScale - 1.0f;
 				manager->entityMap.getItem("test")->getModel()->getMaterial()->setProperties(prop);
 			}
 			break;
@@ -178,12 +179,12 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 			MaterialProperties prop = manager->entityMap.getItem("test")->getModel()->getMaterial()->getProperties();
 			if (event.shiftDown)
 			{
-				prop.discardThickness = prop.discardThickness + 0.05;
+				prop.discardThickness = prop.discardThickness + 0.05f;
 				manager->entityMap.getItem("test")->getModel()->getMaterial()->setProperties(prop);
 			}
 			else
 			{
-				prop.discardThickness = prop.discardThickness - 0.05;
+				prop.discardThickness = prop.discardThickness - 0.05f;
 				manager->entityMap.getItem("test")->getModel()->getMaterial()->setProperties(prop);
 			}
 			break;
@@ -222,7 +223,13 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 
 void Scene1::update()
 {
+	
 	handleInputKeys();
+}
+
+void Scene1::loadGUIText()
+{
+	manager->GUITextManager.addText(GUITextGenerator::createText("Hello World", manager->fontManager.getFont("Source Code Pro Medium"), 100, 0.0f, 0.0f, 1.0f, "myText", manager->materialMap.getItem("SimpleText")));
 }
 
 void Scene1::handleInputKeys()

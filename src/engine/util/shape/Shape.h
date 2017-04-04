@@ -14,9 +14,7 @@ public:
 	inline void setType(const ShapeType& t) { type = t; }
 	inline const ShapeType& getType() { return type; }
 	
-	virtual const GLboolean isInside(const GLfloat& x, const GLfloat& y) { return false; }
-	virtual const GLboolean isInside(const FVec2& value) { return false; }
-	virtual const GLboolean isInside(const USIVec2& value) { return false; }
+	virtual const GLboolean isInside(const GLuint& x, const GLuint& y) { return false; }
 
 protected:
 	ShapeType type;

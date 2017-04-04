@@ -26,7 +26,11 @@
 		<material>../res/material/diffuseColor/simpleDebug2FaceBlue.mat</material>
 		<material>../res/material/diffuseColor/simpleFragmentDiscardRed.mat</material>
 		<material>../res/material/diffuseColor/simpleFragmentADSGray.mat</material>
+		<material>../res/material/font/simpleFont.mat</material>
 	</materials>
+	<fonts>
+		<font>../res/font/Source Code Pro Medium</font>
+	</fonts>
 	<models>
 		<model>
 			<name>colorTriangle</name>
@@ -179,8 +183,8 @@
 			<type>arcBall</type>
 			<active>true</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="50.000000"/>
-			<position x="0.000000" y="2.000000" z="10.000000"/>
-			<target x="0.000000" y="0.000000" z="0.000000"/>
+			<position x="0.016000" y="2.286326" z="9.942722"/>
+			<target x="0.016000" y="0.286330" z="-0.057266"/>
 		</camera>
 		<camera>
 			<name>targetCam</name>

@@ -11,6 +11,7 @@
 
 #include "fileController\SceneFileController.h"
 
+
 Engine::Engine()
 {
 	window = std::make_unique<Win32Window>();
@@ -61,6 +62,7 @@ void Engine::run()
 			update();
 			//Debug::print(window->getGLMousePosition());
 		}
+		loadGUI();
 		renderGL();
 		SwapBuffers(*hdc);
 		
@@ -167,7 +169,14 @@ void Engine::load()
 {
 	SceneFileController::readSceneDataFile(sceneManager, window->getSettings(), scene->getDataFile());
 	scene->setViewports(window->getSettings()); // for now !
+
 	loader->load();
+}
+
+void Engine::loadGUI()
+{
+	scene->loadGUIText();
+	loader->loadGUIText();
 }
 
 void Engine::renderGL()

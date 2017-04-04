@@ -41,6 +41,8 @@ public:
 
 	virtual void update() {};
 
+	virtual void loadGUIText() {};
+
 protected:
 	std::string name;
 	const HWND* hWnd;

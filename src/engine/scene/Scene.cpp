@@ -5,6 +5,8 @@
 #include "../viewport/layout/ViewportLayoutH1V2.h"
 #include "../viewport/layout/ViewportLayoutH2V2.h"
 
+// TODO add changelayout
+
 void Scene::handleInputEvent(const InputEvent& event, const InputHandlerCode& code)
 {
 	Debug::print(event);

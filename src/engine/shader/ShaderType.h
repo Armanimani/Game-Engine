@@ -13,5 +13,6 @@ enum class ShaderType
 	SimpleVertexADSFlatShader,
 	SimpleDebug2FaceShader,
 	SimpleFragmentDiscardShader,
+	SimpleTextShader,
 	noType
 };

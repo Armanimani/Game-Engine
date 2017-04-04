@@ -10,8 +10,10 @@ class Mesh
 public:
 	Mesh(const std::string& name, const std::vector<GLfloat>& verts, const std::vector<GLuint>& indices, const std::vector<MeshAttribute>& attribs) : name(name), verts(verts), indices(indices), attribs(attribs) {}
 
+	//~Mesh() { cleanUp(); }
+
 	virtual void load();
-	virtual void cleanUp() {};
+	virtual void cleanUp();
 
 	inline const std::vector<float>& getVerts() { return verts; }
 	inline const std::vector<GLuint>& getIndices() { return indices; }

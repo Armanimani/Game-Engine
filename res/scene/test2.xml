@@ -4,14 +4,14 @@
 		<mesh>../res/mesh/2D/2DRectangle.msh</mesh>
 		<mesh>../res/mesh/2D/2DCircle18.msh</mesh>
 		<mesh>../res/mesh/3D/3DColorCube.msh</mesh>
-    <mesh>../res/mesh/3D/3DColorCube2.msh</mesh>
-    <mesh>../res/mesh/3D/sphere32.obj</mesh>
-    <mesh>../res/mesh/3D/sphere32_2.obj</mesh>
-    <mesh>../res/mesh/3D/torus24.obj</mesh>
-    <mesh>../res/mesh/3D/teapot4.obj</mesh>
-    <mesh>../res/mesh/3D/test.obj</mesh>
-    <mesh>../res/mesh/3D/torusKnot120.obj</mesh>
-    <mesh>../res/mesh/3D/plane20x20.obj</mesh>
+		<mesh>../res/mesh/3D/3DColorCube2.msh</mesh>
+		<mesh>../res/mesh/3D/sphere32.obj</mesh>
+		<mesh>../res/mesh/3D/sphere32_2.obj</mesh>
+		<mesh>../res/mesh/3D/torus24.obj</mesh>
+		<mesh>../res/mesh/3D/teapot4.obj</mesh>
+		<mesh>../res/mesh/3D/test.obj</mesh>
+		<mesh>../res/mesh/3D/torusKnot120.obj</mesh>
+		<mesh>../res/mesh/3D/plane20x20.obj</mesh>
 	</meshes>
 	<materials>
 		<material>../res/material/simplePosition.mat</material>
@@ -22,11 +22,16 @@
 		<material>../res/material/diffuseColor/simpleVertexADSRed.mat</material>
 		<material>../res/material/diffuseColor/simpleFragmentADSRed.mat</material>
 		<material>../res/material/diffuseColor/simpleFragmentADS2FaceRed.mat</material>
-    <material>../res/material/diffuseColor/simpleVertexADSFlatRed.mat</material>
-    <material>../res/material/diffuseColor/simpleDebug2FaceBlue.mat</material>
-    <material>../res/material/diffuseColor/simpleFragmentDiscardRed.mat</material>
-    <material>../res/material/diffuseColor/simpleFragmentADSGray.mat</material>
+		<material>../res/material/diffuseColor/simpleVertexADSFlatRed.mat</material>
+		<material>../res/material/diffuseColor/simpleDebug2FaceBlue.mat</material>
+		<material>../res/material/diffuseColor/simpleFragmentDiscardRed.mat</material>
+		<material>../res/material/diffuseColor/simpleFragmentADSGray.mat</material>
+
+		<material>../res/material/font/simpleFont.mat</material>
 	</materials>
+	<fonts>
+		<font>../res/font/Source Code Pro Medium</font>
+	</fonts>
 	<models>
 		<model>
 			<name>colorTriangle</name>

@@ -25,7 +25,7 @@ public:
 	void stop();
 	void cleanUp();
 
-	virtual void render(const std::shared_ptr<Entity> entity) = 0;
+	virtual void render(const std::shared_ptr<Entity> entity) {};
 	
 	inline const std::string& getName() { return name; }
 	inline const ShaderType& getType() { return type; }

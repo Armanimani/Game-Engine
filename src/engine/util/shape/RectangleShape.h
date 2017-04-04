@@ -21,12 +21,10 @@ public:
 	inline const GLuint getHeight() { return yMax - yMin; }
 	inline const GLfloat getAspectRatio() { return static_cast<GLfloat>(getWidth()) / static_cast<GLfloat>(getHeight()); }
 
-	virtual inline const GLboolean isInside(const GLuint& x, const GLuint& y)
+	virtual inline const GLboolean isInside(const GLuint& x, const GLuint& y) override
 	{
 		return (x >= xMin && x <= xMax && y >= yMin && y <= yMax) ? true : false;
 	}
-	virtual inline const GLboolean isInside(const FVec2& value) { return isInside(value.x, value.y); }
-	virtual inline const GLboolean isInside(const USIVec2& value) { return isInside(value.x, value.y); }
 
 protected:
 	GLuint xMin;
