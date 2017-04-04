@@ -229,7 +229,7 @@ void Scene1::update()
 
 void Scene1::loadGUIText()
 {
-	manager->GUITextManager.addText(GUITextGenerator::createText("Hello World", manager->fontManager.getFont("Source Code Pro Medium"), 100, 0.0f, 0.0f, 1.0f, "myText", manager->materialMap.getItem("SimpleText")));
+	manager->GUITextManager.addText(GUITextGenerator::createText("Hello World", manager->fontManager.getFont("Source Code Pro Medium"), 60, 0.0f, 0.0f, 1.0f, "myText", manager->materialMap.getItem("SimpleText")));
 }
 
 void Scene1::handleInputKeys()

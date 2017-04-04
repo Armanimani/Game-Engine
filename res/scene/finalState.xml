@@ -183,8 +183,8 @@
 			<type>arcBall</type>
 			<active>true</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="50.000000"/>
-			<position x="0.016000" y="2.286326" z="9.942722"/>
-			<target x="0.016000" y="0.286330" z="-0.057266"/>
+			<position x="-3.899997" y="5.985076" z="9.202969"/>
+			<target x="-3.899997" y="3.985081" z="-0.797017"/>
 		</camera>
 		<camera>
 			<name>targetCam</name>
