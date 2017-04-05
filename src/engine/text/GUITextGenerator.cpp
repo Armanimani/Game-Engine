@@ -1,23 +1,22 @@
 #include "GUITextGenerator.h"
 #include "TextLine.h"
+#include "../Debug/Debug.h"
 
-std::shared_ptr<GUITextModel> GUITextGenerator::createText(const std::string& text, const std::shared_ptr<Font> font, const GLuint& fontSize, const GLfloat& posX, const GLfloat& posY, const GLfloat& length, const std::string& name, const std::shared_ptr<Material> mat)
+std::shared_ptr<GUITextModel> GUITextGenerator::createText(const std::string& text, const std::shared_ptr<Font> font, const GLuint& fontSize, const GLfloat& posX, const GLfloat& posY, const GLfloat& length, const GLfloat& lineSpace, const std::string& name, const std::shared_ptr<Material> mat)
 {
-	GLuint maxLength = length;
 	GLint viewportWidth = 1;
 	GLint viewportHeight = 1;
 
-	maxLength /= viewportWidth;
 	GLint viewport[4];
 	glGetIntegerv(GL_VIEWPORT, viewport);
 	viewportWidth = viewport[2];
 	viewportHeight = viewport[3];
-	maxLength *= viewportWidth;
 
+	GLfloat maxLength = length * viewportWidth * static_cast<GLfloat>(font->getSize()) / static_cast<GLfloat>(fontSize);
 
 	std::vector <std::shared_ptr<TextLine>> data;
-	std::shared_ptr<TextLine> line = std::make_shared<TextLine>(font->getSpaceWidth(), maxLength  * viewportWidth / fontSize * font->getSize());
-	std::shared_ptr<TextWord> word = std::make_shared<TextWord>(fontSize);
+	std::shared_ptr<TextLine> line = std::make_shared<TextLine>(font->getSpaceWidth(), maxLength);
+	std::shared_ptr<TextWord> word = std::make_shared<TextWord>();
 	GLboolean state;
 	for (std::size_t i = static_cast<std::size_t> (0); i != text.size(); ++i)
 	{
@@ -29,10 +28,15 @@ std::shared_ptr<GUITextModel> GUITextGenerator::createText(const std::string& te
 			if (!state)
 			{
 				data.push_back(line);
-				line = std::make_shared<TextLine>(font->getSpaceWidth(), maxLength / fontSize * font->getSize());
-				line->addWord(word);
+				line = std::make_shared<TextLine>(font->getSpaceWidth(), maxLength);
+				if (!line->addWord(word))
+				{
+					Debug::print("unable to create Text");
+					Debug::print(text);
+					return nullptr;
+				}
 			}
-			word = std::make_shared<TextWord>(fontSize);
+			word = std::make_shared<TextWord>();
 			continue;
 		}
 		std::shared_ptr<FontCharacter> character = font->getCharacter(static_cast<GLuint>(ascii));
@@ -42,11 +46,10 @@ std::shared_ptr<GUITextModel> GUITextGenerator::createText(const std::string& te
 	if (!state)
 	{
 		data.push_back(line);
-		line = std::make_shared<TextLine>(font->getSpaceWidth(), maxLength / fontSize * font->getSize());
+		line = std::make_shared<TextLine>(font->getSpaceWidth(), maxLength);
 		line->addWord(word);
 	}
 	data.push_back(line);
-
 
 	std::shared_ptr<Mesh> mesh;
 	std::vector<GLfloat> verts;
@@ -57,8 +60,8 @@ std::shared_ptr<GUITextModel> GUITextGenerator::createText(const std::string& te
 	verts.reserve(256);
 	verts.reserve(256);
 
-	GLuint currentX = posX;
-	GLuint currentY = posY;
+	GLuint currentX = (posX + 1) * viewportWidth * 0.5;
+	GLuint currentY = (posY + 1) * viewportHeight * 0.5;
 
 	GLfloat x1;
 	GLfloat x2;
@@ -72,8 +75,7 @@ std::shared_ptr<GUITextModel> GUITextGenerator::createText(const std::string& te
 
 	GLuint index = 0;
 
-	GLfloat scaleX = static_cast<GLfloat>(fontSize) / static_cast<GLfloat>(font->getSize()) / static_cast<GLfloat>(viewportWidth) * 2.0f;
-	GLfloat scaleY = static_cast<GLfloat>(fontSize) / static_cast<GLfloat>(font->getSize()) / static_cast<GLfloat>(viewportHeight) * 2.0f;
+	GLfloat scale = static_cast<GLfloat>(fontSize) / static_cast<GLfloat>(font->getSize());
 
 	GLfloat scaleTexX = 1.0f / font->getTexture()->getWidth();
 	GLfloat scaleTexY = 1.0f / font->getTexture()->getHeight();
@@ -91,38 +93,38 @@ std::shared_ptr<GUITextModel> GUITextGenerator::createText(const std::string& te
 			{
 				std::shared_ptr<FontCharacter> character = characters[k];
 
-				x1 = currentX + character->getOffsetX();
-				x2 = x1 + character->getWidth();
+				x1 = (currentX + character->getOffsetX() * scale) * 2.0f / viewportWidth - 1.0f;
+				x2 = (currentX + character->getOffsetX() * scale + character->getWidth() * scale) * 2.0f / viewportWidth - 1.0f;
 				x3 = x2;
 				x4 = x1;
 
-				y1 = currentY - character->getOffsetY() * scaleY;
+				y1 = (currentY - character->getOffsetY() * scale)  * 2.0f / viewportHeight - 1.0f;
 				y2 = y1;
-				y3 = y1 - character->getHeight() * scaleY;
+				y3 = (currentY - character->getOffsetY() * scale - character->getHeight() * scale) * 2.0f / viewportHeight - 1.0f;
 				y4 = y3;
 
-				verts.push_back(x1 * scaleX);
+				verts.push_back(x1);
 				verts.push_back(y1);
 				verts.push_back(0.0f);
 				verts.push_back(character->getX() * scaleTexX);
 				verts.push_back(character->getY() * scaleTexY);
 				verts.push_back(0.0f);
 
-				verts.push_back(x2 * scaleX);
+				verts.push_back(x2);
 				verts.push_back(y2);
 				verts.push_back(0.0f);
 				verts.push_back((character->getX() + character->getWidth()) * scaleTexX);
 				verts.push_back(character->getY() * scaleTexY);
 				verts.push_back(0.0f);
 
-				verts.push_back(x3 * scaleX);
+				verts.push_back(x3);
 				verts.push_back(y3);
 				verts.push_back(0.0f);
 				verts.push_back((character->getX() + character->getWidth()) * scaleTexX);
 				verts.push_back((character->getY() + character->getHeight()) * scaleTexY);
 				verts.push_back(0.0f);
 
-				verts.push_back(x4 * scaleX);
+				verts.push_back(x4);
 				verts.push_back(y4);
 				verts.push_back(0.0f);
 				verts.push_back(character->getX() * scaleTexX);
@@ -137,9 +139,11 @@ std::shared_ptr<GUITextModel> GUITextGenerator::createText(const std::string& te
 				indices.push_back(index + 3);
 				index = index + 4;
 
-				currentX += character->getAdvance();
+				currentX += character->getAdvance() * scale;
 			}
 		}
+		currentX = (posX + 1) * viewportWidth * 0.5;
+		currentY -= (1.0f + lineSpace) * font->getLineHeight() * scale;
 	}
 	mesh = std::make_shared<Mesh>("Text", verts, indices, attribs);
 	return std::make_shared<GUITextModel>(name, mesh, mat, font);

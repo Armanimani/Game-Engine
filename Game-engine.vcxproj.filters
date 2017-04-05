@@ -177,6 +177,12 @@
     <ClCompile Include="src\engine\shader\text\SimpleTextShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\shader\text\SingedDistanceTextShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\shader\text\SingnedDistanceOutlineTextShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -485,6 +491,15 @@
     <ClInclude Include="src\engine\shader\text\SimpleTextShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="res\material\font\signedDistanceFont.mat">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\text\SingedDistanceTextShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\text\SingnedDistanceOutlineTextShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -529,6 +544,12 @@
     <None Include="res\material\font\simpleFont.mat" />
     <None Include="src\engine\shader\text\glsl\SimpleText.frag" />
     <None Include="src\engine\shader\text\glsl\SimpleText.vert" />
+    <None Include="src\engine\shader\text\glsl\SignedDistanceText.vert" />
+    <None Include="src\engine\shader\text\glsl\SignedDistanceText.frag" />
+    <None Include="src\engine\shader\text\glsl\SignedDistanceOutlineText.vert" />
+    <None Include="src\engine\shader\text\glsl\SignedDistanceOutlineText.frag" />
+    <None Include="res\material\font\signedDistanceShadowFont.mat" />
+    <None Include="res\material\font\signedDistanceOutlineFont.mat" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\test2.xml" />

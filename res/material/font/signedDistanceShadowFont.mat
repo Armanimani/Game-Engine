@@ -1,0 +1,10 @@
+name = signedDistanceShadowFontMaterial;
+shader = SignedDistanceOutlineTextShader;
+color = 1.0f,1.0f,1.0f,1.0f;
+color2 = 1.0f, 0.0f, 0.0f, 1.0f;
+fontEdge = 0.5f;
+fontWidth = 0.3f;
+fontOutlineEdge = 0.2f;
+fontOutlineWidth = 0.6f;
+fontOutlineOffsetX = 0.003f;
+fontOutlineOffsetY = 0.003f;

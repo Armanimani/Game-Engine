@@ -49,6 +49,12 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 			FileReaderHelper::readValues(color, value);
 			props.color = color;
 		}
+		else if (key == "color2")
+		{
+			glm::vec4 color;
+			FileReaderHelper::readValues(color, value);
+			props.color2 = color;
+		}
 		else if (key == "specularColor")
 		{
 			glm::vec4 color;
@@ -90,6 +96,30 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 		else if (key == "discardThickness")
 		{
 			props.discardThickness = std::stof(value);
+		}
+		else if (key == "fontEdge")
+		{
+			props.fontEdge = std::stof(value);
+		}
+		else if (key == "fontWidth")
+		{
+			props.fontWidth = std::stof(value);
+		}
+		else if (key == "fontOutlineWidth")
+		{
+			props.fontOutlineWidth = std::stof(value);
+		}
+		else if (key == "fontOutlineEdge")
+		{
+			props.fontOutlineEdge = std::stof(value);
+		}
+		else if (key == "fontOutlineOffsetX")
+		{
+			props.fontOutlineOffsetX = std::stof(value);
+		}
+		else if (key == "fontOutlineOffsetY")
+		{
+			props.fontOutlineOffsetY = std::stof(value);
 		}
 	}
 

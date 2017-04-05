@@ -169,6 +169,8 @@
     <ClCompile Include="src\engine\fileController\MeshFileController.cpp" />
     <ClCompile Include="src\engine\fileController\OBJFileReader.cpp" />
     <ClCompile Include="src\engine\fileController\SceneFileController.cpp" />
+    <ClCompile Include="src\engine\shader\text\SingedDistanceTextShader.cpp" />
+    <ClCompile Include="src\engine\shader\text\SingnedDistanceOutlineTextShader.cpp" />
     <ClCompile Include="src\engine\text\Font.cpp" />
     <ClCompile Include="src\engine\text\FontManager.cpp" />
     <ClCompile Include="src\engine\text\GUITextGenerator.cpp" />
@@ -209,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res\material\diffuseColor\simpleDiffuseRed.mat" />
+    <ClInclude Include="res\material\font\signedDistanceFont.mat" />
     <ClInclude Include="src\engine\camera\ArcBallCamera.h" />
     <ClInclude Include="src\engine\camera\TargetCamera.h" />
     <ClInclude Include="src\engine\camera\Camera.h" />
@@ -234,6 +237,8 @@
     <ClInclude Include="src\engine\fileController\MeshFileController.h" />
     <ClInclude Include="src\engine\fileController\OBJFileReader.h" />
     <ClInclude Include="src\engine\fileController\SceneFileController.h" />
+    <ClInclude Include="src\engine\shader\text\SingedDistanceTextShader.h" />
+    <ClInclude Include="src\engine\shader\text\SingnedDistanceOutlineTextShader.h" />
     <ClInclude Include="src\engine\shader\text\TextShader.h" />
     <ClInclude Include="src\engine\text\FontCharacter.h" />
     <ClInclude Include="src\engine\text\Font.h" />
@@ -322,6 +327,8 @@
     <None Include="res\material\diffuseColor\simpleVertexADSFlatRed.mat" />
     <None Include="res\material\diffuseColor\simpleVertexADSRed.mat" />
     <None Include="res\material\font\simpleFont.mat" />
+    <None Include="res\material\font\signedDistanceOutlineFont.mat" />
+    <None Include="res\material\font\signedDistanceShadowFont.mat" />
     <None Include="res\material\simpleColor.mat" />
     <None Include="res\material\simplePosition.mat" />
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -341,6 +348,10 @@
     <None Include="src\engine\shader\glsl\SimpleDiffuseColor.vert" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.frag" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.vert" />
+    <None Include="src\engine\shader\text\glsl\SignedDistanceOutlineText.frag" />
+    <None Include="src\engine\shader\text\glsl\SignedDistanceOutlineText.vert" />
+    <None Include="src\engine\shader\text\glsl\SignedDistanceText.frag" />
+    <None Include="src\engine\shader\text\glsl\SignedDistanceText.vert" />
     <None Include="src\engine\shader\text\glsl\SimpleText.frag" />
     <None Include="src\engine\shader\text\glsl\SimpleText.vert" />
     <None Include="src\engine\shader\glsl\SimpleFragmentADS.frag" />

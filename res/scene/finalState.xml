@@ -27,6 +27,9 @@
 		<material>../res/material/diffuseColor/simpleFragmentDiscardRed.mat</material>
 		<material>../res/material/diffuseColor/simpleFragmentADSGray.mat</material>
 		<material>../res/material/font/simpleFont.mat</material>
+		<material>../res/material/font/signedDistanceFont.mat</material>
+		<material>../res/material/font/signedDistanceOutlineFont.mat</material>
+		<material>../res/material/font/signedDistanceShadowFont.mat</material>
 	</materials>
 	<fonts>
 		<font>../res/font/Source Code Pro Medium</font>
@@ -183,8 +186,8 @@
 			<type>arcBall</type>
 			<active>true</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="50.000000"/>
-			<position x="-3.899997" y="5.985076" z="9.202969"/>
-			<target x="-3.899997" y="3.985081" z="-0.797017"/>
+			<position x="0.000000" y="2.000000" z="10.000000"/>
+			<target x="0.000000" y="0.000000" z="0.000000"/>
 		</camera>
 		<camera>
 			<name>targetCam</name>

@@ -14,5 +14,7 @@ enum class ShaderType
 	SimpleDebug2FaceShader,
 	SimpleFragmentDiscardShader,
 	SimpleTextShader,
+	SignedDistanceTextShader,
+	SignedDistanceOutlineTextShader,
 	noType
 };

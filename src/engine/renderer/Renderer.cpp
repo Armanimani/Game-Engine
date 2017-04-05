@@ -14,6 +14,8 @@
 #include "../shader/SimpleDebug2FaceShader.h"
 #include "../shader/SimpleFragmentDiscardShader.h"
 #include "../shader/text/SimpleTextShader.h"
+#include "../shader/text/SingedDistanceTextShader.h"
+#include "../shader/text/SingnedDistanceOutlineTextShader.h"
 #include "../light/Light.h"
 #include "../light/AmbientLight.h"
 
@@ -37,6 +39,8 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	shaderMap.insert(std::make_pair(ShaderType::SimpleDebug2FaceShader, std::make_shared<SimpleDebug2FaceShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleFragmentDiscardShader, std::make_shared<SimpleFragmentDiscardShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleTextShader, std::make_shared<SimpleTextShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SignedDistanceTextShader, std::make_shared<SignedDistanceTextShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SignedDistanceOutlineTextShader, std::make_shared<SignedDistanceOutlineTextShader>()));
 
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{

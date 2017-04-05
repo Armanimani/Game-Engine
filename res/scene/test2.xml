@@ -28,6 +28,9 @@
 		<material>../res/material/diffuseColor/simpleFragmentADSGray.mat</material>
 
 		<material>../res/material/font/simpleFont.mat</material>
+		<material>../res/material/font/signedDistanceFont.mat</material>
+		<material>../res/material/font/signedDistanceOutlineFont.mat</material>
+		<material>../res/material/font/signedDistanceShadowFont.mat</material>
 	</materials>
 	<fonts>
 		<font>../res/font/Source Code Pro Medium</font>

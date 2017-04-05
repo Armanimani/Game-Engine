@@ -58,6 +58,8 @@ protected:
 	
 	void load();
 
+	void loadEngineGUIText();
+
 	void loadGUI();
 
 	void renderGL();

@@ -10,6 +10,7 @@
 #include <glew\GL\glew.h>
 
 #include "fileController\SceneFileController.h"
+#include "text\GUITextGenerator.h"
 
 
 Engine::Engine()
@@ -173,8 +174,16 @@ void Engine::load()
 	loader->load();
 }
 
+void Engine::loadEngineGUIText()
+{
+	std::string temp = "FPS = ";
+	temp.append(std::to_string(FPS));
+	sceneManager->GUITextManager.addText(GUITextGenerator::createText(temp, sceneManager->fontManager.getFont("Source Code Pro Medium"), 10.0f, -1.0f, 1.0f, 0.5f, 0.2f, "myText", sceneManager->materialMap.getItem("signedDistanceFontMaterial")));
+}
+
 void Engine::loadGUI()
 {
+	loadEngineGUIText(); // add a engine settings for it ! 
 	scene->loadGUIText();
 	loader->loadGUIText();
 }

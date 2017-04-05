@@ -1,0 +1,5 @@
+name = signedDistanceFontMaterial;
+shader = SignedDistanceTextShader;
+color = 1.0f,1.0f,1.0f,1.0f;
+fontEdge = 0.9f;
+fontWidth = 0.1f;

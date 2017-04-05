@@ -58,7 +58,7 @@ public:
 	inline const GLuint& getScaleX() { return scaleX; }
 	inline const GLuint& getScaleY() { return scaleY; }
 
-	inline void setLineHeight(const GLuint& value) { lineHeight = value; }
+	inline void setLineHeight(const GLuint& value) { lineHeight = value - paddingBottom - paddingTop; }
 	inline const GLuint& getLineHeight() { return lineHeight; }
 
 	inline const GLuint& getSpaceWidth() { return spaceWidth; }
