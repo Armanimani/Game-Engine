@@ -25,7 +25,7 @@ void main()
 	float alpha2 = 1.0 - smoothstep(matOutlineWidth, matOutlineWidth + matOutlineEdge, distance2);
 
 	float overallAlpha = alpha + (1.0 - alpha) * alpha2;
-	vec3 overallColor = mix(matOutlineColor.xyz, matColor.xyz, alpha / alpha2); 
+	vec3 overallColor = mix(matOutlineColor.xyz, matColor.xyz, alpha * matColor.a / alpha2 / matOutlineColor.a); 
 
 	fragColor = vec4(overallColor, overallAlpha);
 }

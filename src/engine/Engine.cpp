@@ -105,6 +105,7 @@ void Engine::registerScene(std::shared_ptr<Scene> s)
 	scene->setDelayedEngineEventList(delayedEventList);
 	inMapper->registerScene(s);
 	scene->setSceneManager(sceneManager); // for now ! 
+	scene->setWindowSettings(window->getSettings());
 	scene->setViewportManager(viewportManager);
 }
 
@@ -169,7 +170,7 @@ void Engine::initLoader()
 void Engine::load()
 {
 	SceneFileController::readSceneDataFile(sceneManager, window->getSettings(), scene->getDataFile());
-	scene->setViewports(window->getSettings()); // for now !
+	scene->setViewports(); // for now !
 
 	loader->load();
 }

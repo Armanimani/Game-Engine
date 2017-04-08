@@ -15,4 +15,5 @@ void SceneManager::cleanUp()
 	lightManager.cleanUp();
 	fontManager.cleanUp();
 	GUITextManager.cleanUp();
+	fogManager.cleanUp();
 }

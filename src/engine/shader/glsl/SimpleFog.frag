@@ -8,12 +8,9 @@ uniform float matKa;
 uniform float matKd;
 uniform float matKs;
 uniform float matShininess;
-uniform float matDiscardThickness;
-uniform float matDiscardScale;
 
 in vec3 surfaceNormal;
 in vec4 worldPosition;
-in vec3 texCoord;
 
 out vec4 fragColor;
 
@@ -93,6 +90,12 @@ layout (std140, binding = 6) uniform directionalLightBlock
 layout (std140, binding = 7) uniform spotLightBlock
 {
 	SpotLight spotLight[MAX_LIGHTS];
+};
+
+layout (std140, binding = 8) uniform fogBlock
+{
+	vec4 fogColor;
+	float fogDensity;
 };
 
 vec4 calculateAmbient()
@@ -212,12 +215,15 @@ vec4 calculateSpecular()
 	return specular;
 }
 
+float calculateFog()
+{
+	float distance = length(cameraPosition.xyz - worldPosition.xyz);
+	return exp(- pow((fogDensity * distance), 2));
+}
+
 void main()
 {
-	const float scale = 10.0;
-	bvec2 toDiscard = greaterThan(fract(texCoord.xy * matDiscardScale), vec2(matDiscardThickness)); 
-	if(all(toDiscard)) 
-		discard; 
 	vec4 linearColor = calculateAmbient() + calculateDiffuse() + calculateSpecular();
-	fragColor = vec4(pow(linearColor.xyz, vec3(gammaCorrection)), linearColor.a);
+	vec4 shadeColor = vec4(pow(linearColor.xyz, vec3(gammaCorrection)), linearColor.a);
+	fragColor = mix(fogColor, shadeColor, calculateFog());
 }

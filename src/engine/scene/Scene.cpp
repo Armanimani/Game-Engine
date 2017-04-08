@@ -12,7 +12,7 @@ void Scene::handleInputEvent(const InputEvent& event, const InputHandlerCode& co
 	Debug::print(event);
 }
 
-void Scene::setViewports(const std::shared_ptr<WindowSettings> windowSettings)
+void Scene::setViewports()
 {
 	std::shared_ptr<ViewportLayout> layout = std::make_shared<ViewportLayoutDefault>(windowSettings);
 	std::vector<std::shared_ptr<Camera>> cams;
@@ -126,4 +126,10 @@ void Scene::defaultCameraInputHandler(const InputEvent & event, const InputHandl
 			cam->rotateForward(inputData.mouseDragM.x / 10.0f);
 		}
 	}
+}
+
+void Scene::changeViewportLayout(const std::shared_ptr<ViewportLayout> layout, const std::vector<std::shared_ptr<Camera>> cams)
+{
+	viewportManager->cleanUp();
+	viewportManager->setLayout(layout, cams);
 }

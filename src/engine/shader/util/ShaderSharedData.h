@@ -47,12 +47,18 @@ protected:
 	GLuint directionalLightBP = 6;
 	GLuint directionalLightBuffer;
 
+	GLuint spotLightBp = 7;
+	GLuint spotLightBuffer;
+
+	GLuint fogBp = 8;
+	GLuint fogBuffer;
+
 	struct LightSize
 	{
 		GLuint ambientLightSize = 0;
 		GLuint pointLightSize = 0;
 		GLuint directionalLightSize = 0;
-		GLfloat pad2 = 0.0f;
+		GLuint spotLightSize = 0;
 	};
 
 	struct AmbientLights
@@ -85,5 +91,21 @@ protected:
 		GLfloat specularIntensity = 0.0f;
 		GLfloat pad1 = 0.0f;
 		GLfloat pad2 = 0.0f;
+	};
+
+	struct SpotLights
+	{
+		glm::vec4 position = glm::vec4(0.0f);
+		glm::vec4 direction = glm::vec4(0.0f);
+		glm::vec4 diffuseColor = glm::vec4(0.0f);
+		glm::vec4 specularColor = glm::vec4(0.0f);
+		GLfloat diffuseIntensity = 0.0f;
+		GLfloat specularIntensity = 0.0f;
+		GLfloat attenuation = 0.0f;
+		GLfloat exponent = 0.0f;
+		GLfloat cutoff = 0.0f;
+		GLfloat pad1 = 0.0f;
+		GLfloat pad2 = 0.0f;
+		GLfloat pad3 = 0.0f;
 	};
 };

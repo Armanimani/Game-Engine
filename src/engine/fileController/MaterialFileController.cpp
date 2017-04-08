@@ -121,6 +121,10 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 		{
 			props.fontOutlineOffsetY = std::stof(value);
 		}
+		else if (key == "toonLevel")
+		{
+			props.toonLevel = std::stof(value);
+		}
 	}
 
 	FileController::closeFile(file, path);

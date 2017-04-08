@@ -44,11 +44,25 @@ struct DirectionalLight
 	float specularIntensity;
 };
 
-layout(std140, binding = 1) uniform lightSizeBlock
+struct SpotLight
+{
+	vec4 position;
+	vec4 direction;
+	vec4 diffuseColor;
+	vec4 specularColor;
+	float diffuseIntensity;
+	float specularIntensity;
+	float attenuation;
+	float exponent;
+	float cutoff;
+};
+
+layout(std140, binding = 1) uniform lightSize
 {
 	uint ambientLightSize;
 	uint pointLightSize;
 	uint directionalLightSize;
+	uint spotLightSize;
 };
 
 layout (std140, binding = 2) uniform ambientLightBlock 
@@ -74,6 +88,11 @@ layout (std140, binding = 5) uniform gammaCorrectionBlock
 layout (std140, binding = 6) uniform directionalLightBlock
 {
 	DirectionalLight directionalLight[MAX_LIGHTS];
+};
+
+layout (std140, binding = 7) uniform spotLightBlock
+{
+	SpotLight spotLight[MAX_LIGHTS];
 };
 
 vec4 calculateAmbient()
@@ -131,6 +150,21 @@ vec4 calculateDiffuse()
 		diffuse += matColor * matKd * directionalLight[i].diffuseColor * directionalLight[i].diffuseIntensity  * sDotN;
 	}
 
+	for (int i = 0; i < spotLightSize; ++i)
+	{
+		toLightVector = spotLight[i].position.xyz - worldPosition.xyz;
+		toLightNormal = normalize(toLightVector);
+		float angle = acos(dot(-toLightNormal, spotLight[i].direction.xyz));
+		float cutoff = radians(clamp(spotLight[i].cutoff, 0.0, 90.0)); 
+		if( angle < cutoff)
+		{
+			sDotN = max(dot(surfaceNormal, toLightNormal), 0.0);
+			float spotFactor = pow(dot(-toLightNormal, spotLight[i].direction.xyz), spotLight[i].exponent);
+			attenuationFactor = 1.0 / (1.0 + spotLight[i].attenuation * pow(length(toLightVector), 2));
+			diffuse += matColor * matKd * spotLight[i].diffuseColor * spotLight[i].diffuseIntensity  * sDotN * spotFactor * attenuationFactor;
+		}
+	}
+
 	return diffuse;
 };
 
@@ -158,6 +192,22 @@ vec4 calculateDiffuseBack()
 		sDotN = max(dot(normalize(-surfaceNormal), toLightNormal), 0.0);
 		diffuse += matColorBack * matKd * directionalLight[i].diffuseColor * directionalLight[i].diffuseIntensity  * sDotN;
 	}
+
+	for (int i = 0; i < spotLightSize; ++i)
+	{
+		toLightVector = spotLight[i].position.xyz - worldPosition.xyz;
+		toLightNormal = normalize(toLightVector);
+		float angle = acos(dot(-toLightNormal, spotLight[i].direction.xyz));
+		float cutoff = radians(clamp(spotLight[i].cutoff, 0.0, 90.0)); 
+		if( angle < cutoff)
+		{
+			sDotN = max(dot(-surfaceNormal, toLightNormal), 0.0);
+			float spotFactor = pow(dot(-toLightNormal, spotLight[i].direction.xyz), spotLight[i].exponent);
+			attenuationFactor = 1.0 / (1.0 + spotLight[i].attenuation * pow(length(toLightVector), 2));
+			diffuse += matColor * matKd * spotLight[i].diffuseColor * spotLight[i].diffuseIntensity  * sDotN * spotFactor * attenuationFactor;
+		}
+	}
+
 	return diffuse;
 };
 
@@ -195,6 +245,25 @@ vec4 calculateSpecular()
 		if (sDotN > 0.0)
 		{
 			specular += matSpecularColor *  matKs * directionalLight[i].specularColor * directionalLight[i].specularIntensity * pow(sDotN, matShininess);
+		}
+	}
+
+	for (int i = 0; i < spotLightSize; ++i)
+	{
+		toLightVector = spotLight[i].position.xyz - worldPosition.xyz;
+		toLightNormal = normalize(toLightVector);
+		reflectedLightDirection = reflect(-toLightNormal, normalize(surfaceNormal));
+		float angle = acos(dot(-toLightNormal, spotLight[i].direction.xyz));
+		float cutoff = radians(clamp(spotLight[i].cutoff, 0.0, 90.0)); 
+		if( angle < cutoff)
+		{
+			sDotN = max(dot(surfaceNormal, toLightNormal), 0.0);
+			if (sDotN > 0.0)
+			{
+				float spotFactor = pow(dot(-toLightNormal, spotLight[i].direction.xyz), spotLight[i].exponent);
+				attenuationFactor = 1.0 / (1.0 + spotLight[i].attenuation * pow(length(toLightVector), 2));
+				specular += matSpecularColor *  matKs * spotLight[i].specularColor * spotLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor * spotFactor;
+			}
 		}
 	}
 
@@ -237,6 +306,26 @@ vec4 calculateSpecularBack()
 			specular += mix(matSpecularColorBack, RED, 0.7) *  matKs * directionalLight[i].specularColor * directionalLight[i].specularIntensity * pow(sDotN, matShininess);
 		}
 	}
+
+	for (int i = 0; i < spotLightSize; ++i)
+	{
+		toLightVector = spotLight[i].position.xyz - worldPosition.xyz;
+		toLightNormal = normalize(toLightVector);
+		reflectedLightDirection = reflect(-toLightNormal, normalize(-surfaceNormal));
+		float angle = acos(dot(-toLightNormal, spotLight[i].direction.xyz));
+		float cutoff = radians(clamp(spotLight[i].cutoff, 0.0, 90.0)); 
+		if( angle < cutoff)
+		{
+			sDotN = max(dot(surfaceNormal, toLightNormal), 0.0);
+			if (sDotN > 0.0)
+			{
+				float spotFactor = pow(dot(-toLightNormal, spotLight[i].direction.xyz), spotLight[i].exponent);
+				attenuationFactor = 1.0 / (1.0 + spotLight[i].attenuation * pow(length(toLightVector), 2));
+				specular += matSpecularColor *  matKs * spotLight[i].specularColor * spotLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor * spotFactor;
+			}
+		}
+	}
+
 	return specular;
 }
 

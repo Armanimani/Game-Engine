@@ -183,6 +183,12 @@
     <ClCompile Include="src\engine\shader\text\SingnedDistanceOutlineTextShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\shader\SimpleFragmentADSToonShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\fog\FogManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -500,6 +506,21 @@
     <ClInclude Include="src\engine\shader\text\SingnedDistanceOutlineTextShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\light\SpotLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleFragmentADSToonShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleFogShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\fog\Fog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\fog\FogManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -550,6 +571,12 @@
     <None Include="src\engine\shader\text\glsl\SignedDistanceOutlineText.frag" />
     <None Include="res\material\font\signedDistanceShadowFont.mat" />
     <None Include="res\material\font\signedDistanceOutlineFont.mat" />
+    <None Include="res\material\diffuseColor\simpleFragmentADSToonRed.mat" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADSToon.vert" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADSToon.frag" />
+    <None Include="src\engine\shader\glsl\SimpleFog.vert" />
+    <None Include="src\engine\shader\glsl\SimpleFog.frag" />
+    <None Include="res\material\diffuseColor\SimpleFragmentADSFogRed.mat" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\test2.xml" />

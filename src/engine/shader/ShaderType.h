@@ -13,8 +13,12 @@ enum class ShaderType
 	SimpleVertexADSFlatShader,
 	SimpleDebug2FaceShader,
 	SimpleFragmentDiscardShader,
+	
 	SimpleTextShader,
 	SignedDistanceTextShader,
 	SignedDistanceOutlineTextShader,
+
+	SimpleFragmentADSToonShader,
+	SimpleFogShader,
 	noType
 };

@@ -3,6 +3,7 @@
 #include "AmbientLight.h"
 #include "PointLight.h"
 #include "DirectionalLight.h"
+#include "SpotLight.h"
 #include <vector>
 #include <memory>
 #include <unordered_map>
@@ -16,6 +17,7 @@ public:
 	const std::vector<std::shared_ptr<PointLight>> getActivePointLights();
 	const std::vector<std::shared_ptr<AmbientLight>> getActiveAmbientLights();
 	const std::vector<std::shared_ptr<DirectionalLight>> getActiveDirectionalLights();
+	const std::vector<std::shared_ptr<SpotLight>> getActiveSpotLights();
 
 	inline const std::unordered_map<std::string, std::shared_ptr<Light>>& getMap() { return map; }
 

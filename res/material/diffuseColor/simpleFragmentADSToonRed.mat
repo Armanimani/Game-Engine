@@ -1,0 +1,9 @@
+name = simpleFragmentADSToonRed;
+shader = SimpleFragmentADSToonShader;
+color = 1.0f, 0.0f, 0.0f, 1.0f;
+specularColor = 1.0f, 1.0f, 1.0f, 1.0f;
+ambientReflectivity = 1.0;
+diffuseReflectivity = 0.3;
+specularReflectivity = 0.00;
+shininess = 50.0;
+toonLevel = 5.0;

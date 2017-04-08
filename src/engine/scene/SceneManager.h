@@ -9,6 +9,7 @@
 #include "../light/LightManager.h"
 #include "../text/FontManager.h"
 #include "../text/GUITextManager.h"
+#include "../fog/FogManager.h"
 
 class SceneManager
 {
@@ -24,6 +25,7 @@ public:
 	LightManager lightManager;
 	FontManager fontManager;
 	GUITextManager GUITextManager;
+	FogManager fogManager;
 
 	void cleanUp();
 

@@ -2,6 +2,8 @@
 #include "../../engine/debug/Debug.h"
 #include "../../engine/camera/FreeCamera.h"
 #include "../../engine/text/GUITextGenerator.h"
+#include "../../engine/viewport/layout/ViewportLayoutH2V2.h"
+#include "../../engine/viewport/layout/ViewportLayoutDefault.h"
 
 void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode & code)
 {
@@ -41,7 +43,6 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 		}
 		case (KeyCode::NUM5):
 		{
-			registerEngineEvent(std::make_shared<engine::ChangeBackgroundEvent>(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)));
 			break;
 		}
 		case (KeyCode::F5):
@@ -71,12 +72,21 @@ void Scene1::handleInputEvent(const InputEvent & event, const InputHandlerCode &
 		}
 		case (KeyCode::NUM8):
 		{
-			registerDelayedEngineEvent(std::make_shared<engine::DelayedChangeMaterialEvent>(2.0, "test", "simplePositionMaterial"));
+			std::vector<std::shared_ptr<Camera>> cams;
+			cams.push_back(manager->cameraManager.getCamera("mainCamera"));
+			cams.push_back(manager->cameraManager.getCamera("orthoCam"));
+			cams.push_back(manager->cameraManager.getCamera("arcBallCam"));
+			cams.push_back(manager->cameraManager.getCamera("orthoCam2D"));
+			std::shared_ptr<ViewportLayout> layout = std::make_shared<ViewportLayoutH2V2>(windowSettings, 0.5f, 0.5f);
+			changeViewportLayout(layout, cams);
 			break;
 		}
 		case (KeyCode::NUM9):
 		{
-			registerEngineEvent(std::make_shared<engine::ChangeMaterialEvent>("test", "simplePositionMaterial"));
+			std::shared_ptr<ViewportLayout> layout = std::make_shared<ViewportLayoutDefault>(windowSettings);
+			std::vector<std::shared_ptr<Camera>> cams;
+			cams.push_back(manager->cameraManager.getCamera("mainCamera"));
+			changeViewportLayout(layout, cams);
 			break;
 		}
 		case (KeyCode::W):
@@ -267,3 +277,4 @@ void Scene1::handleInputKeys()
 		cam->moveUp(5.0f * Clock::deltaTime);
 	}
 }
+

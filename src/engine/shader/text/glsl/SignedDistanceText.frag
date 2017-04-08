@@ -13,5 +13,5 @@ void main()
 {
 	float distance = 1.0 - texture(fontTexture, textureCoords).a;
 	float alpha = 1.0 - smoothstep(matFontWidth, matFontWidth + matFontEdge, distance);
-	fragColor = vec4(matColor.xyz, alpha);
+	fragColor = vec4(matColor.xyz, alpha * matColor.a);
 }

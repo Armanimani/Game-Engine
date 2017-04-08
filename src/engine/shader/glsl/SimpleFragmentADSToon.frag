@@ -8,12 +8,10 @@ uniform float matKa;
 uniform float matKd;
 uniform float matKs;
 uniform float matShininess;
-uniform float matDiscardThickness;
-uniform float matDiscardScale;
+uniform float matToonLevel;
 
 in vec3 surfaceNormal;
 in vec4 worldPosition;
-in vec3 texCoord;
 
 out vec4 fragColor;
 
@@ -117,14 +115,16 @@ vec4 calculateDiffuse()
 	vec3 toLightNormal;
 	float attenuationFactor;
 	float sDotN;
+	float toonFactor;
 
 	for (int i = 0; i < pointLightSize; ++i)
 	{
 		toLightVector = pointLight[i].position.xyz - worldPosition.xyz;
 		toLightNormal = normalize(toLightVector);
 		sDotN = max(dot(normalize(surfaceNormal), toLightNormal), 0.0);
+		toonFactor = floor ((max(0.0, sDotN)) * matToonLevel);
 		attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
-		diffuse += matColor * matKd * pointLight[i].diffuseColor * pointLight[i].diffuseIntensity  * sDotN * attenuationFactor ;
+		diffuse += matColor * matKd * pointLight[i].diffuseColor * pointLight[i].diffuseIntensity  * toonFactor * attenuationFactor ;
 	}
 
 	for (int i = 0; i < directionalLightSize; ++i)
@@ -132,7 +132,8 @@ vec4 calculateDiffuse()
 		toLightVector = directionalLight[i].direction.xyz;
 		toLightNormal = normalize(toLightVector);
 		sDotN = max(dot(normalize(surfaceNormal), toLightNormal), 0.0);
-		diffuse += matColor * matKd * directionalLight[i].diffuseColor * directionalLight[i].diffuseIntensity  * sDotN;
+		toonFactor = floor ((max(0.0, sDotN)) * matToonLevel);
+		diffuse += matColor * matKd * directionalLight[i].diffuseColor * directionalLight[i].diffuseIntensity  * toonFactor;
 	}
 
 	for (int i = 0; i < spotLightSize; ++i)
@@ -144,9 +145,10 @@ vec4 calculateDiffuse()
 		if( angle < cutoff)
 		{
 			sDotN = max(dot(surfaceNormal, toLightNormal), 0.0);
+			toonFactor = floor ((max(0.0, sDotN)) * matToonLevel);
 			float spotFactor = pow(dot(-toLightNormal, spotLight[i].direction.xyz), spotLight[i].exponent);
 			attenuationFactor = 1.0 / (1.0 + spotLight[i].attenuation * pow(length(toLightVector), 2));
-			diffuse += matColor * matKd * spotLight[i].diffuseColor * spotLight[i].diffuseIntensity  * sDotN * spotFactor * attenuationFactor;
+			diffuse += matColor * matKd * spotLight[i].diffuseColor * spotLight[i].diffuseIntensity  * toonFactor * spotFactor * attenuationFactor;
 		}
 	}
 
@@ -162,6 +164,7 @@ vec4 calculateSpecular()
 	float attenuationFactor;
 	vec3 reflectedLightDirection;
 	float sDotN;
+	float toonFactor;
 
 	for (int i = 0; i < pointLightSize; ++i)
 	{	
@@ -172,8 +175,9 @@ vec4 calculateSpecular()
 
 		if (sDotN > 0.0)
 		{
+			toonFactor = floor ((max(0.0, sDotN)) * matToonLevel);
 			attenuationFactor = 1.0 / (1.0 + pointLight[i].attenuation * pow(length(toLightVector), 2));
-			specular += matSpecularColor *  matKs * pointLight[i].specularColor * pointLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor;
+			specular += matSpecularColor *  matKs * pointLight[i].specularColor * pointLight[i].specularIntensity * toonFactor * attenuationFactor;
 		}
 	}
 
@@ -183,10 +187,11 @@ vec4 calculateSpecular()
 		toLightNormal = normalize(toLightVector);
 		reflectedLightDirection = reflect(-toLightNormal, normalize(surfaceNormal));
 		sDotN = max(dot(reflectedLightDirection, toCamera), 0.0);
+		toonFactor = floor ((max(0.0, sDotN)) * matToonLevel);
 
 		if (sDotN > 0.0)
 		{
-			specular += matSpecularColor *  matKs * directionalLight[i].specularColor * directionalLight[i].specularIntensity * pow(sDotN, matShininess);
+			specular += matSpecularColor *  matKs * directionalLight[i].specularColor * directionalLight[i].specularIntensity * toonFactor;
 		}
 	}
 
@@ -202,9 +207,10 @@ vec4 calculateSpecular()
 			sDotN = max(dot(surfaceNormal, toLightNormal), 0.0);
 			if (sDotN > 0.0)
 			{
+				toonFactor = floor ((max(0.0, sDotN)) * matToonLevel);
 				float spotFactor = pow(dot(-toLightNormal, spotLight[i].direction.xyz), spotLight[i].exponent);
 				attenuationFactor = 1.0 / (1.0 + spotLight[i].attenuation * pow(length(toLightVector), 2));
-				specular += matSpecularColor *  matKs * spotLight[i].specularColor * spotLight[i].specularIntensity * pow(sDotN, matShininess) * attenuationFactor * spotFactor;
+				specular += matSpecularColor *  matKs * spotLight[i].specularColor * spotLight[i].specularIntensity * toonFactor * attenuationFactor * spotFactor;
 			}
 		}
 	}
@@ -214,10 +220,6 @@ vec4 calculateSpecular()
 
 void main()
 {
-	const float scale = 10.0;
-	bvec2 toDiscard = greaterThan(fract(texCoord.xy * matDiscardScale), vec2(matDiscardThickness)); 
-	if(all(toDiscard)) 
-		discard; 
 	vec4 linearColor = calculateAmbient() + calculateDiffuse() + calculateSpecular();
 	fragColor = vec4(pow(linearColor.xyz, vec3(gammaCorrection)), linearColor.a);
 }

@@ -169,6 +169,8 @@
     <ClCompile Include="src\engine\fileController\MeshFileController.cpp" />
     <ClCompile Include="src\engine\fileController\OBJFileReader.cpp" />
     <ClCompile Include="src\engine\fileController\SceneFileController.cpp" />
+    <ClCompile Include="src\engine\fog\FogManager.cpp" />
+    <ClCompile Include="src\engine\shader\SimpleFragmentADSToonShader.cpp" />
     <ClCompile Include="src\engine\shader\text\SingedDistanceTextShader.cpp" />
     <ClCompile Include="src\engine\shader\text\SingnedDistanceOutlineTextShader.cpp" />
     <ClCompile Include="src\engine\text\Font.cpp" />
@@ -237,6 +239,11 @@
     <ClInclude Include="src\engine\fileController\MeshFileController.h" />
     <ClInclude Include="src\engine\fileController\OBJFileReader.h" />
     <ClInclude Include="src\engine\fileController\SceneFileController.h" />
+    <ClInclude Include="src\engine\fog\Fog.h" />
+    <ClInclude Include="src\engine\fog\FogManager.h" />
+    <ClInclude Include="src\engine\light\SpotLight.h" />
+    <ClInclude Include="src\engine\shader\SimpleFogShader.h" />
+    <ClInclude Include="src\engine\shader\SimpleFragmentADSToonShader.h" />
     <ClInclude Include="src\engine\shader\text\SingedDistanceTextShader.h" />
     <ClInclude Include="src\engine\shader\text\SingnedDistanceOutlineTextShader.h" />
     <ClInclude Include="src\engine\shader\text\TextShader.h" />
@@ -321,8 +328,10 @@
     <None Include="res\material\diffuseColor\simpleFragmentADS2FaceRed.mat" />
     <None Include="res\material\diffuseColor\simpleDiffuseBlue.mat" />
     <None Include="res\material\diffuseColor\simpleDiffuseReflectiveRed.mat" />
+    <None Include="res\material\diffuseColor\SimpleFragmentADSFogRed.mat" />
     <None Include="res\material\diffuseColor\simpleFragmentADSGray.mat" />
     <None Include="res\material\diffuseColor\simpleFragmentADSRed.mat" />
+    <None Include="res\material\diffuseColor\simpleFragmentADSToonRed.mat" />
     <None Include="res\material\diffuseColor\simpleFragmentDiscardRed.mat" />
     <None Include="res\material\diffuseColor\simpleVertexADSFlatRed.mat" />
     <None Include="res\material\diffuseColor\simpleVertexADSRed.mat" />
@@ -348,6 +357,10 @@
     <None Include="src\engine\shader\glsl\SimpleDiffuseColor.vert" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.frag" />
     <None Include="src\engine\shader\glsl\SimpleDiffuseReflective.vert" />
+    <None Include="src\engine\shader\glsl\SimpleFog.frag" />
+    <None Include="src\engine\shader\glsl\SimpleFog.vert" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADSToon.frag" />
+    <None Include="src\engine\shader\glsl\SimpleFragmentADSToon.vert" />
     <None Include="src\engine\shader\text\glsl\SignedDistanceOutlineText.frag" />
     <None Include="src\engine\shader\text\glsl\SignedDistanceOutlineText.vert" />
     <None Include="src\engine\shader\text\glsl\SignedDistanceText.frag" />

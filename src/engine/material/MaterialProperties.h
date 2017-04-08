@@ -22,4 +22,6 @@ struct MaterialProperties
 	GLfloat fontOutlineWidth = 0.0f;
 	GLfloat fontOutlineOffsetX = 0.0f;
 	GLfloat fontOutlineOffsetY = 0.0f;
+
+	GLfloat toonLevel = 1.0f;
 };
