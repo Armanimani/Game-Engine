@@ -1,6 +1,7 @@
 #pragma once
 #include <glm\glm.hpp>
 #include <glew\GL\glew.h>
+#include "../texture/ModelTexture.h"
 
 struct MaterialProperties
 {
@@ -24,4 +25,10 @@ struct MaterialProperties
 	GLfloat fontOutlineOffsetY = 0.0f;
 
 	GLfloat toonLevel = 1.0f;
+
+	std::shared_ptr<ModelTexture> texture0;
+	std::shared_ptr<ModelTexture> texture1;
+	std::shared_ptr<ModelTexture> texture2;
+	std::shared_ptr<ModelTexture> texture3;
+	std::shared_ptr<ModelTexture> texture4;
 };

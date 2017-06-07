@@ -4,7 +4,6 @@
 #include <memory>
 #include "MaterialProperties.h"
 
-
 class Material
 {
 public:

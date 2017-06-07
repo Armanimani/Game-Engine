@@ -18,6 +18,8 @@
 #include "../shader/text/SingnedDistanceOutlineTextShader.h"
 #include "../shader/SimpleFragmentADSToonShader.h"
 #include "../shader/SimpleFogShader.h"
+#include "../shader/SimpleTextureShader.h"
+#include "../shader/SimpleDoubleTextureShader.h"
 #include "../light/Light.h"
 #include "../light/AmbientLight.h"
 
@@ -44,6 +46,9 @@ void Renderer::init(const std::shared_ptr<SceneManager> manager)
 	shaderMap.insert(std::make_pair(ShaderType::SignedDistanceOutlineTextShader, std::make_shared<SignedDistanceOutlineTextShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleFragmentADSToonShader, std::make_shared<SimpleFragmentADSToonShader>()));
 	shaderMap.insert(std::make_pair(ShaderType::SimpleFogShader, std::make_shared<SimpleFogShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleTextureShader, std::make_shared<SimpleTextureShader>()));
+	shaderMap.insert(std::make_pair(ShaderType::SimpleDoubleTextureShader, std::make_shared<SimpleDoubleTextureShader>()));
+
 
 	for (auto i = shaderMap.cbegin(); i != shaderMap.cend(); ++i)
 	{

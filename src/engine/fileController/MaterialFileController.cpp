@@ -5,7 +5,7 @@
 #include "../database/TypeDatabase.h"
 #include "../fileController/FileReaderHelper.h"
 
-std::shared_ptr<Material> MaterialFileController::readFile(const std::string & path)
+std::shared_ptr<Material> MaterialFileController::readFile(const std::string & path, const std::shared_ptr<SceneManager> manager)
 {
 	if (path.substr(path.length() - 3, path.length()) != "mat")
 	{
@@ -124,6 +124,26 @@ std::shared_ptr<Material> MaterialFileController::readFile(const std::string & p
 		else if (key == "toonLevel")
 		{
 			props.toonLevel = std::stof(value);
+		}
+		else if (key == "texture0")
+		{
+			props.texture0 = manager->textureMap.getItem(value);
+		}
+		else if (key == "texture1")
+		{
+			props.texture1 = manager->textureMap.getItem(value);
+		}
+		else if (key == "texture2")
+		{
+			props.texture2 = manager->textureMap.getItem(value);
+		}
+		else if (key == "texture3")
+		{
+			props.texture3 = manager->textureMap.getItem(value);
+		}
+		else if (key == "texture4")
+		{
+			props.texture4 = manager->textureMap.getItem(value);
 		}
 	}
 

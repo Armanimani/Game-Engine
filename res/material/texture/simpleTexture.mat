@@ -1,0 +1,8 @@
+name = simpleTexture;
+shader = SimpleTextureShader;
+specularColor = 1.0f, 1.0f, 1.0f, 1.0f;
+ambientReflectivity = 0.1;
+diffuseReflectivity = 1.0;
+specularReflectivity = 1.0;
+shininess = 50.0;
+texture0 = brick;

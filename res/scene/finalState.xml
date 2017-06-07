@@ -13,6 +13,20 @@
 		<mesh>../res/mesh/3D/torusKnot120.obj</mesh>
 		<mesh>../res/mesh/3D/plane20x20.obj</mesh>
 	</meshes>
+	<textures>
+		<texture>
+			<name>brick</name>
+			<path>../res/texture/brick.jpg</path>
+			<dimension width="512" height="512"/>
+			<location>0</location>
+		</texture>
+		<texture>
+			<name>moss</name>
+			<path>../res/texture/moss.png</path>
+			<dimension width="512" height="512"/>
+			<location>1</location>
+		</texture>
+	</textures>
 	<materials>
 		<material>../res/material/simplePosition.mat</material>
 		<material>../res/material/diffuseColor/simpleDiffuseBlue.mat</material>
@@ -28,6 +42,8 @@
 		<material>../res/material/diffuseColor/simpleFragmentDiscardRed.mat</material>
 		<material>../res/material/diffuseColor/simpleFragmentADSGray.mat</material>
 		<material>../res/material/diffuseColor/simpleFragmentADSFogRed.mat</material>
+		<material>../res/material/texture/simpleTexture.mat</material>
+		<material>../res/material/texture/simpleDoubleTexture.mat</material>
 		<material>../res/material/font/simpleFont.mat</material>
 		<material>../res/material/font/signedDistanceFont.mat</material>
 		<material>../res/material/font/signedDistanceOutlineFont.mat</material>
@@ -125,7 +141,7 @@
 		<model>
 			<name>reflective2F1</name>
 			<mesh>teapot4</mesh>
-			<material>simpleFragmentADSFogRed</material>
+			<material>simpleFragmentADSRed</material>
 		</model>
 		<model>
 			<name>reflectiveFlat</name>
@@ -137,21 +153,26 @@
 			<mesh>plane20x20</mesh>
 			<material>simpleFragmentADSGray</material>
 		</model>
+		<model>
+			<name>texturedSphere</name>
+			<mesh>sphere32</mesh>
+			<material>simpleDoubleTexture</material>
+		</model>
 	</models>
 	<entities>
+		<entity>
+			<name>test</name>
+			<model>texturedSphere</model>
+			<position x="0.000000" y="0.000000" z="0.000000"/>
+			<rotation x="0.000000" y="0.000000" z="0.000000"/>
+			<scale x="1.000000" y="1.000000" z="1.000000"/>
+			<hidden>false</hidden>
+		</entity>
 		<entity>
 			<name>plane</name>
 			<model>plane01</model>
 			<position x="0.000000" y="0.000000" z="0.000000"/>
 			<rotation x="-90.000000" y="0.000000" z="0.000000"/>
-			<scale x="1.000000" y="1.000000" z="1.000000"/>
-			<hidden>false</hidden>
-		</entity>
-		<entity>
-			<name>test</name>
-			<model>reflective2F1</model>
-			<position x="0.000000" y="0.000000" z="0.000000"/>
-			<rotation x="0.000000" y="0.000000" z="0.000000"/>
 			<scale x="1.000000" y="1.000000" z="1.000000"/>
 			<hidden>false</hidden>
 		</entity>
@@ -188,7 +209,7 @@
 			<type>arcBall</type>
 			<active>true</active>
 			<frustum FOV="60.000000" nearPlane="0.100000" farPlane="50.000000"/>
-			<position x="-15.080061" y="6.484342" z="-22.039606"/>
+			<position x="-0.246131" y="0.641173" z="1.918870"/>
 			<target x="0.000000" y="0.000000" z="0.000000"/>
 		</camera>
 		<camera>

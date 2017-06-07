@@ -6,7 +6,7 @@
 struct WindowSettings
 {	
 	std::string title = "Game";
-	USIVec2 windowResolution {1920, 1080};
+	USIVec2 windowResolution {800, 600};
 	USIVec2 monitorResolution {0, 0};
 	USIVec2 windowPosition {0, 0};
 	

@@ -19,6 +19,7 @@
 #include "../light/PointLight.h"
 #include "../light/DirectionalLight.h"
 #include "FontFileController.h"
+#include "../texture/ModelTexture.h"
 
 const std::string SCENE("scene");
 const std::string MESHES("meshes");
@@ -78,6 +79,14 @@ const std::string FONT("font");
 const std::string FOGS("fogs");
 const std::string FOG("fog");
 const std::string DENSITY("density");
+const std::string TEXTURES("textures");
+const std::string TEXTURE("texture");
+const std::string DIMENSION("dimension");
+const std::string WIDTH("width");
+const std::string HEIGHT("height");
+const std::string PATH("path");
+const std::string ID("ID");
+const std::string LOCATION("location");
 
 void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manager, const std::shared_ptr<WindowSettings> windowSettings, const std::string& file)
 {
@@ -99,12 +108,36 @@ void SceneFileController::readSceneDataFile(std::shared_ptr<SceneManager> manage
 				manager->meshMap.addItem(MeshFileController::readFile(value));
 			}
 		}
+		else if (cat->name() == TEXTURES)
+		{
+			std::string name;
+			std::string path;
+			GLuint height;
+			GLuint width;
+			GLuint loc;
+
+			for (rapidxml::xml_node<> *textures = cat->first_node(); textures; textures = textures->next_sibling())
+			{
+				for (rapidxml::xml_node<> *props = textures->first_node(); props; props = props->next_sibling())
+				{
+					if (props->name() == NAME) name = props->value();
+					if (props->name() == PATH) path = props->value();
+					if (props->name() == DIMENSION)
+					{
+						width = std::stof(props->first_attribute(WIDTH.c_str())->value());
+						height = std::stof(props->first_attribute(HEIGHT.c_str())->value());
+					}
+					if (props->name() == LOCATION) loc = std::stoi(props->value());
+				}
+				manager->textureMap.addItem(std::make_shared<ModelTexture>(name, path, width, height, loc));
+			}
+		}
 		else if (cat->name() == MATERIALS)
 		{
 			for (rapidxml::xml_node<> *m = cat->first_node(); m; m = m->next_sibling())
 			{
 				std::string value = m->value();
-				manager->materialMap.addItem(MaterialFileController::readFile(value));
+				manager->materialMap.addItem(MaterialFileController::readFile(value, manager));
 			}
 		}
 		else if (cat->name() == MODELS)
@@ -378,6 +411,39 @@ void SceneFileController::writeSceneDataFile(std::shared_ptr<SceneManager> manag
 		meshes->append_node(mesh);
 	}
 	root->append_node(meshes);
+
+	const std::unordered_map<std::string, std::shared_ptr<ModelTexture>>* mapTexture = &(manager->textureMap.getMap());
+	rapidxml::xml_node<>* textures = doc.allocate_node(rapidxml::node_element, TEXTURES.c_str());
+	for (auto i = mapTexture->cbegin(); i != mapTexture->cend(); ++i)
+	{
+		rapidxml::xml_node<>* texture = doc.allocate_node(rapidxml::node_element, TEXTURE.c_str());
+		std::shared_ptr<ModelTexture> m = (*i).second;
+		rapidxml::xml_node<>* nameSub = doc.allocate_node(rapidxml::node_element, NAME.c_str(), m->getName().c_str());
+		rapidxml::xml_node<>* pathSub = doc.allocate_node(rapidxml::node_element, PATH.c_str(), m->getPath().c_str());
+		
+		rapidxml::xml_node<>* dimensionSub = doc.allocate_node(rapidxml::node_element, DIMENSION.c_str());
+		const unsigned int width = static_cast<const unsigned int>(m->getWidth());
+		const unsigned int height = static_cast<const unsigned int>(m->getHeight());
+		temp.emplace_back(std::make_shared<std::string>(std::to_string(width)));
+		rapidxml::xml_attribute<> *widthAt = doc.allocate_attribute(WIDTH.c_str(), temp[temp.size() - 1].get()->c_str());
+		temp.emplace_back(std::make_shared<std::string>(std::to_string(width)));
+		rapidxml::xml_attribute<> *heightAt = doc.allocate_attribute(HEIGHT.c_str(), temp[temp.size() - 1].get()->c_str());
+		dimensionSub->append_attribute(widthAt);
+		dimensionSub->append_attribute(heightAt);
+
+		const unsigned int loc = static_cast<const unsigned int>(m->getLocation());
+		temp.emplace_back(std::make_shared<std::string>(std::to_string(loc)));
+		rapidxml::xml_node<>* IDSub = doc.allocate_node(rapidxml::node_element, LOCATION.c_str(), temp[temp.size() - 1].get()->c_str());
+		
+
+		texture->append_node(nameSub);
+		texture->append_node(pathSub);
+		texture->append_node(dimensionSub);
+		texture->append_node(IDSub);
+
+		textures->append_node(texture);
+	}
+	root->append_node(textures);
 
 	const std::unordered_map<std::string, std::shared_ptr<Material>>* mapMaterial = &(manager->materialMap.getMap());
 	rapidxml::xml_node<>* materials = doc.allocate_node(rapidxml::node_element, MATERIALS.c_str());

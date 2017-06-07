@@ -20,5 +20,9 @@ enum class ShaderType
 
 	SimpleFragmentADSToonShader,
 	SimpleFogShader,
+
+	SimpleTextureShader,
+	SimpleDoubleTextureShader,
+
 	noType
 };

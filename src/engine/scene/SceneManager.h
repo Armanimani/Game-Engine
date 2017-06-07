@@ -10,6 +10,7 @@
 #include "../text/FontManager.h"
 #include "../text/GUITextManager.h"
 #include "../fog/FogManager.h"
+#include "../texture/TextureManager.h"
 
 class SceneManager
 {
@@ -18,6 +19,7 @@ public:
 
 	UMap<Material> materialMap;
 	UMap<Mesh> meshMap;
+	UMap<ModelTexture> textureMap;
 	UMap<Model> modelMap;
 	UMap<Entity> entityMap;
 
@@ -26,6 +28,7 @@ public:
 	FontManager fontManager;
 	GUITextManager GUITextManager;
 	FogManager fogManager;
+	//TextureManager textureManager; \\maybe need to remove texturemanager later!
 
 	void cleanUp();
 

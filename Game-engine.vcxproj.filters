@@ -189,6 +189,21 @@
     <ClCompile Include="src\engine\fog\FogManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\texture\ModelTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\texture\TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\shader\SimpleTextureShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\shader\SimpleDoubleTextureShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\texture\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window\Window.h">
@@ -521,6 +536,18 @@
     <ClInclude Include="src\engine\fog\FogManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\texture\ModelTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\texture\TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleTextureShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\shader\SimpleDoubleTextureShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mesh\2DColorTriangle.msh" />
@@ -577,6 +604,12 @@
     <None Include="src\engine\shader\glsl\SimpleFog.vert" />
     <None Include="src\engine\shader\glsl\SimpleFog.frag" />
     <None Include="res\material\diffuseColor\SimpleFragmentADSFogRed.mat" />
+    <None Include="res\material\texture\simpleTexture.mat" />
+    <None Include="src\engine\shader\glsl\SimpleTexture.frag" />
+    <None Include="src\engine\shader\glsl\SimpleTexture.vert" />
+    <None Include="res\material\texture\simpleDoubleTexture.mat" />
+    <None Include="src\engine\shader\glsl\SimpleDoubleTexture.vert" />
+    <None Include="src\engine\shader\glsl\SimpleDoubleTexture.frag" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\scene\test2.xml" />

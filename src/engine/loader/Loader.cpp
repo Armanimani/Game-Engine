@@ -12,6 +12,11 @@ void Loader::load()
 		it.second->getTexture()->load();
 	}
 
+	for (auto it : sceneManager->textureMap.getMap())
+	{
+		it.second->load();
+	}
+
 	for (auto it : sceneManager->meshMap.getMap())
 	{
 		it.second->load();

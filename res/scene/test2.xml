@@ -13,6 +13,20 @@
 		<mesh>../res/mesh/3D/torusKnot120.obj</mesh>
 		<mesh>../res/mesh/3D/plane20x20.obj</mesh>
 	</meshes>
+  <textures>
+    <texture>
+      <name>brick</name>
+      <path>../res/texture/brick.jpg</path>
+      <dimension width="512" height="512"/>
+      <location>0</location>
+    </texture>
+    <texture>
+      <name>moss</name>
+      <path>../res/texture/moss.png</path>
+      <dimension width="512" height="512"/>
+      <location>1</location>
+    </texture>
+  </textures>
 	<materials>
 		<material>../res/material/simplePosition.mat</material>
 		<material>../res/material/simpleColor.mat</material>
@@ -29,13 +43,13 @@
 		<material>../res/material/diffuseColor/simpleFragmentADSToonRed.mat</material>
 		<material>../res/material/diffuseColor/simpleFragmentADSFogRed.mat</material>
 
+    <material>../res/material/texture/simpleTexture.mat</material>
+    <material>../res/material/texture/simpleDoubleTexture.mat</material>
 
 		<material>../res/material/font/simpleFont.mat</material>
 		<material>../res/material/font/signedDistanceFont.mat</material>
 		<material>../res/material/font/signedDistanceOutlineFont.mat</material>
 		<material>../res/material/font/signedDistanceShadowFont.mat</material>
-		
-		
 	</materials>
 	<fonts>
 		<font>../res/font/Source Code Pro Medium</font>
@@ -129,7 +143,7 @@
 		<model>
 			<name>reflective2F1</name>
 			<mesh>teapot4</mesh>
-			<material>simpleFragmentADSFogRed</material>
+			<material>simpleFragmentADSRed</material>
 		</model>
     <model>
       <name>reflectiveFlat</name>
@@ -141,22 +155,28 @@
       <mesh>plane20x20</mesh>
       <material>simpleFragmentADSGray</material>
     </model>
+    <model>
+      <name>texturedSphere</name>
+      <mesh>sphere32</mesh>
+      <material>simpleDoubleTexture</material>
+    </model>
 	</models>
 	<entities>
-	<entity>
-		<name>test</name>
-		<model>reflective2F1</model>
-		<position x ="0.0f" y ="0.0f" z="0.0f"/>
-		<rotation x ="0.0f" y ="0.0f" z="0.0f"/>
-		<scale x ="1.0f" y ="1.0f" z="1.0f"/>
-	</entity>
-		<entity>
-		  <name>plane</name>
-		  <model>plane01</model>
+    <entity>
+      <name>plane</name>
+      <model>plane01</model>
+      <position x ="0.0f" y ="0.0f" z="0.0f"/>
+      <rotation x ="-90.0f" y ="0.0f" z="0.0f"/>
+      <scale x ="1.0f" y ="1.0f" z="1.0f"/>
+    </entity>
+	  <entity>
+		  <name>test</name>
+		  <model>texturedSphere</model>
 		  <position x ="0.0f" y ="0.0f" z="0.0f"/>
-		  <rotation x ="-90.0f" y ="0.0f" z="0.0f"/>
+		  <rotation x ="0.0f" y ="0.0f" z="0.0f"/>
 		  <scale x ="1.0f" y ="1.0f" z="1.0f"/>
-		</entity>
+	  </entity>
+		
 	</entities>
   <cameras>
     <camera>
